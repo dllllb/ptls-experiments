@@ -1,6 +1,6 @@
 
 export SC_SUFFIX="bt_tuning_lambd_0.020-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.02 \
     params.rnn.hidden_size=800 \
@@ -11,12 +11,12 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.080-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.08 \
     params.rnn.hidden_size=800 \
@@ -27,13 +27,13 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0600-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=600 \
@@ -44,12 +44,12 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_1000-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=1000 \
@@ -60,13 +60,13 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -77,12 +77,12 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_256-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -93,13 +93,13 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0003-weight_decay_0.000-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -110,12 +110,12 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0030-weight_decay_0.000-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -126,13 +126,13 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.001-step_size_30-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -143,13 +143,13 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_20-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -160,12 +160,12 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_40-step_gamma_0.9025"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -176,13 +176,13 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.7"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -193,12 +193,12 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.7 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.97"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -209,7 +209,7 @@ python ../../pl_train_module.py \
     params.lr_scheduler.step_gamma=0.97 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
@@ -217,7 +217,7 @@ python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
 
 #####
 export SC_SUFFIX="bt_tuning_ep600_lr0.0003"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=800 \
@@ -232,7 +232,7 @@ python ../../pl_train_module.py \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_ep600_prj256_lr0.0008_hs1600"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
     params.rnn.hidden_size=1600 \
@@ -252,85 +252,85 @@ export SC_SUFFIX="bt_tuning_ep600_lr0.0003"
 export SC_SUFFIX="bt_tuning_ep600_prj256"
 export SC_SUFFIX="bt_tuning_ep600_prj256_lr0.0008_hs1600"
 export SC_VERSION=1
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=9-step\=3489.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_009" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=19-step\=6979.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_019" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=29-step\=10469.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_029" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=39-step\=13959.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_039" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=49-step\=17449.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_049" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=59-step\=20939.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_059" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=69-step\=24429.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_069" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=79-step\=27919.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_079" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=89-step\=31409.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_089" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=99-step\=34899.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_099" \
     --conf "conf/barlow_twins_params.hocon"
 
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=109-step\=38389.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_109" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=119-step\=41879.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_119" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=129-step\=45369.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_129" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=139-step\=48859.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_139" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=149-step\=52349.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_149" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=199-step\=69799.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_199" \
     --conf "conf/barlow_twins_params.hocon"
 
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=249-step\=87249.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_249" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=299-step\=104699.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_299" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=349-step\=122149.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_349" \
     --conf "conf/barlow_twins_params.hocon"
-python ../../pl_inference.py     inference_dataloader.loader.batch_size=500 \
+python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=399-step\=139599.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_399" \
     --conf "conf/barlow_twins_params.hocon"

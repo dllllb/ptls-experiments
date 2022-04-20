@@ -1,29 +1,29 @@
 # GRU encoder
 export SC_SUFFIX="encoder_gru"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="gru" \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf conf/mles_params.hocon
 
 # LSTM encoder
 export SC_SUFFIX="encoder_lstm"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="lstm" \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf conf/mles_params.hocon
 
 export SC_SUFFIX="encoder_transf"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.encoder_type="transf" \
     params.train.batch_size=128 \
@@ -40,7 +40,7 @@ python ../../pl_train_module.py \
     params.transf.use_src_key_padding_mask=false \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     inference_dataloader.loader.batch_size=64 \
     output.path="data/emb_mles__$SC_SUFFIX" \

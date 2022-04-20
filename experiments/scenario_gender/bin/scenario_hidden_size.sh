@@ -2,7 +2,7 @@
 for SC_HIDDEN_SIZE in 3072 2048 1024 0512 0256 0128 0064 0032
 do
   export SC_SUFFIX="hidden_size_bs_0128_hs_${SC_HIDDEN_SIZE}"
-  python ../../pl_train_module.py \
+  python -m dltranz.pl_train_module \
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
       model_path="models/gender_mlm__$SC_SUFFIX.p" \
@@ -13,7 +13,7 @@ done
 for SC_HIDDEN_SIZE in 1024 0512 0256 0128 0064 0032
 do
   export SC_SUFFIX="hidden_size_bs_0128_hs_${SC_HIDDEN_SIZE}"
-  python ../../pl_inference.py \
+  python -m dltranz.pl_inference \
       model_path="models/gender_mlm__$SC_SUFFIX.p" \
       output.path="data/emb__$SC_SUFFIX" \
       --conf "conf/mles_params.hocon"
@@ -22,7 +22,7 @@ done
 for SC_HIDDEN_SIZE in 3072 2048
 do
     export SC_SUFFIX="hidden_size_bs_0128_hs_${SC_HIDDEN_SIZE}"
-    python ../../pl_inference.py \
+    python -m dltranz.pl_inference \
         inference_dataloader.loader.batch_size=128 \
         model_path="models/gender_mlm__$SC_SUFFIX.p" \
         output.path="data/emb__$SC_SUFFIX" \

@@ -1,23 +1,23 @@
 # LSTM encoder
 export SC_SUFFIX="encoder_lstm"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="lstm" \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf conf/mles_params.hocon
 
 # Transformer encoder
 export SC_SUFFIX="encoder_transf"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.model_type="transf" \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf conf/mles_params.hocon

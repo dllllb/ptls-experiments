@@ -1,14 +1,14 @@
 
 # train special model for fine-tunnig in semi-supervised setup 
 # it is quite smaller, than one which is used in supervised setup, due to insufficiency labeled data to train a big model. 
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     params.rnn.hidden_size=160 \
 	model_path="models/age_pred_ml_model_ss_ft.p" \
     --conf "conf/mles_params.hocon"
 
 for SC_AMOUNT in 00337 00675 01350 02700 05400 10800 21600
 do
-    python ../../pl_fit_target.py \
+    python -m dltranz.pl_fit_target \
         logger_name="fit_target_${SC_AMOUNT}" \
         trainer.max_epochs=20 \
         data_module.train.drop_last=true \
@@ -17,7 +17,7 @@ do
         embedding_validation_results.output_path="results/fit_target_${SC_AMOUNT}_results.json" \
         --conf conf/pl_fit_target.hocon
 
-    python ../../pl_fit_target.py \
+    python -m dltranz.pl_fit_target \
         logger_name="mles_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         params.rnn.hidden_size=160 \
@@ -26,7 +26,7 @@ do
         embedding_validation_results.output_path="results/mles_finetuning_${SC_AMOUNT}_results.json" \
         --conf conf/pl_fit_finetuning_mles.hocon
 
-    python ../../pl_fit_target.py \
+    python -m dltranz.pl_fit_target \
         logger_name="cpc_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         params.pretrained_model_path="models/cpc_model.p" \

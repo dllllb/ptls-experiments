@@ -2,6 +2,6 @@
 
 mkdir data
 
-curl -OL https://storage.googleapis.com/di-datasets/trans-gender-2019.zip
+curl -OL https://storage.yandexcloud.net/di-datasets/trans-gender-2019.zip
 unzip trans-gender-2019.zip -d data
 mv trans-gender-2019.zip data/

@@ -1,12 +1,12 @@
 export SC_SUFFIX="subseq_smpl_SampleRandom"
 export SC_STRATEGY="SampleRandom"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     data_module.train.split_strategy.split_strategy=$SC_STRATEGY \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
@@ -14,7 +14,7 @@ python ../../pl_inference.py \
 
 export SC_SUFFIX="subseq_smpl_SplitRandom"
 export SC_STRATEGY="SplitRandom"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     data_module.train.split_strategy.cnt_max=300 \
     data_module.valid.split_strategy.cnt_max=300 \
@@ -23,7 +23,7 @@ python ../../pl_train_module.py \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"

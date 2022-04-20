@@ -1,19 +1,19 @@
 # ReduceLROnPlateau
 export SC_SUFFIX="lr_reduce_on_plateau"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.lr_scheduler.ReduceLROnPlateau=true \
     params.lr_scheduler.patience=3 \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
 # ReduceLROnPlateau x2 epochs
 export SC_SUFFIX="lr_reduce_on_plateau_x2epochs"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.lr_scheduler.ReduceLROnPlateau=true \
     params.lr_scheduler.threshold=0.0001 \
@@ -21,20 +21,20 @@ python ../../pl_train_module.py \
     params.train.n_epoch=60 \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
 # CosineAnnealing
 export SC_SUFFIX="lr_cosine_annealing"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.lr_scheduler.CosineAnnealing=true \
     params.train.lr_scheduler.n_epoch=30 \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"

@@ -1,25 +1,25 @@
 export SC_SUFFIX="subseq_SampleRandom"
 export SC_STRATEGY="SampleRandom"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     data_module.train.split_strategy.split_strategy=$SC_STRATEGY \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
 export SC_SUFFIX="subseq_SplitRandom"
 export SC_STRATEGY="SplitRandom"
-python ../../pl_train_module.py \
+python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     data_module.train.split_strategy.split_strategy=$SC_STRATEGY \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     model_path="models/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python ../../pl_inference.py \
+python -m dltranz.pl_inference \
     model_path="models/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
