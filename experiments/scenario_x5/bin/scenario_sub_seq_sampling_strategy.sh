@@ -6,10 +6,10 @@ python -m dltranz.pl_train_module \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     params.train.batch_size=128 \
     params.valid.batch_size=128 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -22,10 +22,10 @@ python -m dltranz.pl_train_module \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     params.train.batch_size=128 \
     params.valid.batch_size=128 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 

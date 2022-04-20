@@ -8,10 +8,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -25,10 +25,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -42,10 +42,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -59,10 +59,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -82,7 +82,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v02"
@@ -98,7 +98,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v03"
@@ -114,7 +114,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v04"
@@ -130,7 +130,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=400 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v05"
@@ -146,7 +146,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.7 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v06"
@@ -162,7 +162,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.7 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v07"
@@ -178,7 +178,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v08"
@@ -194,7 +194,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v09"
@@ -210,7 +210,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v10"
@@ -226,7 +226,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 
@@ -242,7 +242,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v12"
@@ -257,7 +257,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v13"
@@ -272,7 +272,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 
@@ -285,7 +285,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_size=10 \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none \
-    model_path="models/mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v15"
@@ -297,7 +297,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_size=50 \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none \
-    model_path="models/mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v16"
@@ -309,7 +309,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_size=50 \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none \
-    model_path="models/mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v18"
@@ -321,7 +321,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_size=40 \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none \
-    model_path="models/mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_rosbank/mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 

@@ -13,11 +13,11 @@ python -m dltranz.pl_fit_target --conf conf/pl_fit_finetuning_cpc.hocon
 python -m dltranz.pl_fit_target --conf conf/pl_fit_finetuning_rtd.hocon
 
 
-# cp "models/barlow_twins_model.p" "models/barlow_twins_model_for_finetuning.p"
+# cp "../../artifacts/scenario_age_pred/barlow_twins_model.p" "../../artifacts/scenario_age_pred/barlow_twins_model_for_finetuning.p"
 python -m dltranz.pl_train_module \
   params.rnn.hidden_size=160 \
   trainer.max_epochs=100 \
-  model_path="models/barlow_twins_model_for_finetuning.p" \
+  model_path="../../artifacts/scenario_age_pred/barlow_twins_model_for_finetuning.p" \
   --conf conf/barlow_twins_params.hocon
 python -m dltranz.pl_fit_target --conf conf/pl_fit_finetuning_barlow_twins.hocon
 

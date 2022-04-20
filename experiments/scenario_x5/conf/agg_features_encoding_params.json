@@ -52,8 +52,8 @@
 
   "save_model": true,
   "model_path": {
-    "model": "models/agg_features_encoder.p",
-    "agg_model": "models/agg_features_ts_model.p"
+    "model": "../../artifacts/scenario_x5/agg_features_encoder.p",
+    "agg_model": "../../artifacts/scenario_x5/agg_features_ts_model.p"
   },
 
   "output": {

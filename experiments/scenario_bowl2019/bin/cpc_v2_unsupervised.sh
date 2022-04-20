@@ -16,11 +16,11 @@ for i in 20 30 40 50; do
         \
         data_module.valid.min_seq_len=$min_seq_len \
         data_module.valid.split_strategy.split_count=$split_count \
-        model_path="models/$SC_SUFFIX.p" \
+        model_path="../../artifacts/scenario_bowl2019/$SC_SUFFIX.p" \
         --conf "conf/cpc_v2_params.hocon"
 
     python -m dltranz.pl_inference \
-        model_path="models/$SC_SUFFIX.p" \
+        model_path="../../artifacts/scenario_bowl2019/$SC_SUFFIX.p" \
         output.path="data/emb__$SC_SUFFIX" \
         --conf "conf/cpc_v2_params.hocon"
 done

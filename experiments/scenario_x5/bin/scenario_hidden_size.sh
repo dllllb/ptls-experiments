@@ -4,10 +4,10 @@ do
   python -m dltranz.pl_train_module \
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
-      model_path="models/x5_mlm__$SC_SUFFIX.p" \
+      model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       --conf conf/mles_params.hocon
   python -m dltranz.pl_inference \
-      model_path="models/x5_mlm__$SC_SUFFIX.p" \
+      model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       output.path="data/emb_mles__$SC_SUFFIX" \
       --conf conf/mles_params.hocon
 done
@@ -19,10 +19,10 @@ do
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
       data_module.train.batch_size=128 \
-      model_path="models/x5_mlm__$SC_SUFFIX.p" \
+      model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       --conf conf/mles_params.hocon
   python -m dltranz.pl_inference \
-      model_path="models/x5_mlm__$SC_SUFFIX.p" \
+      model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       output.path="data/emb_mles__$SC_SUFFIX" \
       --conf conf/mles_params.hocon
 done

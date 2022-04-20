@@ -7,10 +7,10 @@ do
             logger_name=${SC_SUFFIX} \
             params.rnn.hidden_size=${RNN_SIZE} \
             "params.head_layers=[[Linear, {in_features: ${RNN_SIZE}, out_features: ${PRJ_SIZE}}], [BatchNorm1d, {num_features: ${PRJ_SIZE}}], [ReLU, {}], [Linear, {in_features: ${PRJ_SIZE}, out_features: ${PRJ_SIZE}}], [NormEncoder, {}]]" \
-            model_path="models/age_pred_mlm__$SC_SUFFIX.p" \
+            model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
             --conf conf/mles_proj_head_params.hocon
         python -m dltranz.pl_inference \
-            model_path="models/age_pred_mlm__$SC_SUFFIX.p" \
+            model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
             output.path="data/emb__$SC_SUFFIX" \
             --conf conf/mles_proj_head_params.hocon
     done

@@ -88,7 +88,7 @@
     }
   }
 
-  model_path: "models/rtd_model.p"
+  model_path: "../../artifacts/scenario_age_pred/rtd_model.p"
 
   include "dataset_inference_file.hocon"
 

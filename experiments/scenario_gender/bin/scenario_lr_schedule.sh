@@ -3,10 +3,10 @@ export SC_SUFFIX="lr_reduce_on_plateau"
 python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.lr_scheduler.ReduceLROnPlateau=true \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -17,10 +17,10 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.ReduceLROnPlateau=true \
     params.lr_scheduler.threshold=0.0001 \
     trainer.max_epochs=300 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -30,10 +30,10 @@ python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.lr_scheduler.CosineAnnealing=true \
     params.train.lr_scheduler.n_epoch=150 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 

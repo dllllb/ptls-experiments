@@ -6,10 +6,10 @@ do
         logger_name=${SC_SUFFIX} \
         params.train.sampling_strategy="HardNegativePair" \
         params.train.neg_count=${SC_NEG_COUNT} \
-        model_path="models/mles__$SC_SUFFIX.p" \
+        model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
         --conf "conf/mles_params.hocon"
     python -m dltranz.pl_inference \
-        model_path="models/mles__$SC_SUFFIX.p" \
+        model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
         output.path="data/emb__$SC_SUFFIX" \
         --conf "conf/mles_params.hocon"
 done  
@@ -19,11 +19,11 @@ export SC_SUFFIX="smpl_strategy_AllPositivePair"
 python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.sampling_strategy="AllPositivePair" \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -34,10 +34,10 @@ python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.sampling_strategy="DistanceWeightedPair" \
     params.train.n_samples_from_class=5 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 

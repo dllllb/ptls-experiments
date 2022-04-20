@@ -31,7 +31,7 @@ do
         params.train.lr_scheduler.step_gamma=0.1 \
         params.train.lr_scheduler.step_size=10 \
         params.train.lr=0.001 \
-        params.pretrained_model_path="models/cpc_model.p" \
+        params.pretrained_model_path="../../artifacts/scenario_bowl2019/cpc_model.p" \
         embedding_validation_results.feature_name="cpc_finetuning_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/cpc_finetuning_${SC_AMOUNT}_results.json" \
         --conf conf/pl_fit_finetuning_cpc.hocon

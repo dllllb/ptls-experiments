@@ -93,7 +93,7 @@
     }
   }
 
-  model_path: "models/cpc_model.p"
+  model_path: "../../artifacts/scenario_alpha_battle/cpc_model.p"
 
   include "dataset_inference_file.hocon"
 

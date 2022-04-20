@@ -7,7 +7,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_size=3 \
     trainer.max_epochs=100 \
     params.train.checkpoints_every_n_val_epochs=1 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v01"
@@ -19,7 +19,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_size=5 \
     trainer.max_epochs=150 \
     params.train.checkpoints_every_n_val_epochs=1 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v02"
@@ -31,7 +31,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_size=5 \
     trainer.max_epochs=150 \
     params.train.checkpoints_every_n_val_epochs=1 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_v03"
@@ -43,7 +43,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_size=3 \
     trainer.max_epochs=100 \
     params.train.checkpoints_every_n_val_epochs=1 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 

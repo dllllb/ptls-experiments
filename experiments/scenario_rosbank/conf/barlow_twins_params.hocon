@@ -105,7 +105,7 @@
     }
   }
 
-  model_path: "models/barlow_twins_model.p"
+  model_path: "../../artifacts/scenario_rosbank/barlow_twins_model.p"
 
   include "dataset_inference_file.hocon"
 

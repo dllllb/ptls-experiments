@@ -3,10 +3,10 @@ export SC_SUFFIX="encoder_lstm"
 python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="lstm" \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf conf/mles_params.hocon
 
@@ -15,10 +15,10 @@ export SC_SUFFIX="encoder_transf"
 python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.model_type="transf" \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf conf/mles_params.hocon
 

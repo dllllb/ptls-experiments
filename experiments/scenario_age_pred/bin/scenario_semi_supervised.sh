@@ -3,7 +3,7 @@
 # it is quite smaller, than one which is used in supervised setup, due to insufficiency labeled data to train a big model. 
 python -m dltranz.pl_train_module \
     params.rnn.hidden_size=160 \
-	model_path="models/age_pred_ml_model_ss_ft.p" \
+	model_path="../../artifacts/scenario_age_pred/age_pred_ml_model_ss_ft.p" \
     --conf "conf/mles_params.hocon"
 
 for SC_AMOUNT in 00337 00675 01350 02700 05400 10800 21600
@@ -21,7 +21,7 @@ do
         logger_name="mles_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         params.rnn.hidden_size=160 \
-        params.pretrained_model_path="models/age_pred_ml_model_ss_ft.p" \
+        params.pretrained_model_path="../../artifacts/scenario_age_pred/age_pred_ml_model_ss_ft.p" \
         embedding_validation_results.feature_name="mles_finetuning_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/mles_finetuning_${SC_AMOUNT}_results.json" \
         --conf conf/pl_fit_finetuning_mles.hocon
@@ -29,7 +29,7 @@ do
     python -m dltranz.pl_fit_target \
         logger_name="cpc_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
-        params.pretrained_model_path="models/cpc_model.p" \
+        params.pretrained_model_path="../../artifacts/scenario_age_pred/cpc_model.p" \
         embedding_validation_results.feature_name="cpc_finetuning_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/cpc_finetuning_${SC_AMOUNT}_results.json" \
         --conf conf/pl_fit_finetuning_cpc.hocon

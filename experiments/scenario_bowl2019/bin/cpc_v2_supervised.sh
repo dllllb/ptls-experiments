@@ -8,7 +8,7 @@ for i in 20 30 40 50; do
     echo "${SC_SUFFIX}"
     python -m dltranz.pl_fit_target \
         logger_name=${SC_SUFFIX} \
-        params.pretrained.model_path="models/$SC_SUFFIX.p" \
+        params.pretrained.model_path="../../artifacts/scenario_bowl2019/$SC_SUFFIX.p" \
         embedding_validation_results.output_path="results/$SC_SUFFIX.json" \
         embedding_validation_results.feature_name="cpc_v2_finetuning_split_count_$split_count" \
         --conf conf/cpc_v2_pl_fit_finetuning.hocon

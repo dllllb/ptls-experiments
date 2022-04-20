@@ -4,10 +4,10 @@ python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="ContrastiveLoss" \
     params.train.margin=0.5 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -17,10 +17,10 @@ python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="ContrastiveLoss" \
     params.train.margin=1.0 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -32,10 +32,10 @@ python -m dltranz.pl_train_module \
     params.train.C=1.0 \
     params.train.alpha=1.0 \
     params.train.beta=0.3 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -47,10 +47,10 @@ python -m dltranz.pl_train_module \
     params.train.margin=0.3 \
     params.train.sampling_strategy="HardTriplets" \
     params.train.neg_count=5 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -60,10 +60,10 @@ python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="HistogramLoss" \
     params.train.num_steps=25 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -74,10 +74,10 @@ python -m dltranz.pl_train_module \
     params.train.loss="MarginLoss" \
     params.train.margin=0.2 \
     params.train.beta=0.4 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
@@ -88,10 +88,10 @@ python -m dltranz.pl_train_module \
     params.train.loss="MarginLoss" \
     params.train.margin=0.3 \
     params.train.beta=0.6 \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 python -m dltranz.pl_inference \
-    model_path="models/mles__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 

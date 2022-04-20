@@ -45,7 +45,7 @@
 
   "save_model": true,
   "model_path": {
-    "model": "models/agg_features_ts_model.p"
+    "model": "../../artifacts/scenario_x5/agg_features_ts_model.p"
   },
 
   "dataset_output": {

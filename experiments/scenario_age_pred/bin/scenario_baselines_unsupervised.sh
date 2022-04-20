@@ -33,11 +33,11 @@ python -m dltranz.pl_train_module \
     params.validation_metric_params.K=1 \
     trainer.max_epochs=300 \
     params.lr_scheduler.step_size=60 \
-    model_path="models/mles_model2.p" \
+    model_path="../../artifacts/scenario_age_pred/mles_model2.p" \
     logger_name="mles_model2" \
     --conf conf/mles_params.hocon
 python -m dltranz.pl_inference    \
-    model_path="models/mles_model2.p" \
+    model_path="../../artifacts/scenario_age_pred/mles_model2.p" \
     output.path="data/mles2_embeddings" \
     --conf conf/mles_params.hocon
 

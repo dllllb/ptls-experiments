@@ -9,10 +9,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.080-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
@@ -25,10 +25,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -42,10 +42,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_1000-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
@@ -58,10 +58,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -75,10 +75,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_256-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
@@ -91,10 +91,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -108,10 +108,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0030-weight_decay_0.000-step_size_30-step_gamma_0.9025"
@@ -124,10 +124,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -141,10 +141,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0.001 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -158,10 +158,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=20 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_40-step_gamma_0.9025"
@@ -174,10 +174,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=40 \
     params.lr_scheduler.step_gamma=0.9025 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -191,10 +191,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.7 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.97"
@@ -207,10 +207,10 @@ python -m dltranz.pl_train_module \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
     params.lr_scheduler.step_gamma=0.97 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 python -m dltranz.pl_inference     inference_dataloader.loader.batch_size=500 \
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
     --conf "conf/barlow_twins_params.hocon"
 
@@ -228,7 +228,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.97 \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 export SC_SUFFIX="bt_tuning_ep600_prj256_lr0.0008_hs1600"
@@ -244,7 +244,7 @@ python -m dltranz.pl_train_module \
     params.lr_scheduler.step_gamma=0.97 \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
-    model_path="models/gender_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --conf "conf/barlow_twins_params.hocon"
 
 

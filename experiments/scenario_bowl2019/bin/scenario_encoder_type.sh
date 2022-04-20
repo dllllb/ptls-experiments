@@ -3,11 +3,11 @@ export SC_SUFFIX="encoder_gru"
 python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="gru" \
-    model_path="models/bowl2019_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
 
 python -m dltranz.pl_inference \
-    model_path="models/bowl2019_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf conf/mles_params.hocon
 
@@ -16,11 +16,11 @@ export SC_SUFFIX="encoder_lstm"
 python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="lstm" \
-    model_path="models/bowl2019_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
 
 python -m dltranz.pl_inference \
-    model_path="models/bowl2019_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf conf/mles_params.hocon
 
@@ -38,11 +38,11 @@ python -m dltranz.pl_train_module \
     params.train.split_strategy.cnt_max=200 \
     params.valid.split_strategy.cnt_min=50 \
     params.valid.split_strategy.cnt_max=200 \
-    model_path="models/bowl2019_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
 
 python -m dltranz.pl_inference \
-    model_path="models/bowl2019_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     inference_dataloader.loader.batch_size=128 \
     output.path="data/emb__$SC_SUFFIX" \
     --conf conf/mles_params.hocon
@@ -60,11 +60,11 @@ python -m dltranz.pl_train_module \
     params.train.split_strategy.cnt_max=200 \
     params.valid.split_strategy.cnt_min=50 \
     params.valid.split_strategy.cnt_max=200 \
-    model_path="models/bowl2019_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     --conf conf/mles_params.hocon
 
 python -m dltranz.pl_inference \
-    model_path="models/bowl2019_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     params.valid.batch_size=32 \
     output.path="data/emb__$SC_SUFFIX" \
     --conf conf/mles_params.hocon

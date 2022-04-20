@@ -66,7 +66,7 @@
 
   "save_model": true,
   "model_path": {
-    "model": "models/mles_proj_head_model.p",
+    "model": "../../artifacts/scenario_gender/mles_proj_head_model.p",
     "only_encoder": true
   },
 

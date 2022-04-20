@@ -104,7 +104,7 @@
     }
   }
 
-  model_path: "models/mles_proj_head_model.p"
+  model_path: "../../artifacts/scenario_rosbank/mles_proj_head_model.p"
 
   include "dataset_inference_file.hocon"
 

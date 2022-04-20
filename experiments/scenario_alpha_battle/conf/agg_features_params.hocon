@@ -109,7 +109,7 @@
     }
   }
 
-  model_path: "models/agg_features_model.p"
+  model_path: "../../artifacts/scenario_alpha_battle/agg_features_model.p"
 
   include "dataset_inference_file.hocon"
 

@@ -33,11 +33,11 @@ python -m dltranz.pl_inference --conf conf/random_params.hocon
 #    params.validation_metric_params.K=1 \
 #    trainer.max_epochs=30 \
 #    params.lr_scheduler.step_size=1 \
-#    model_path="models/mles_model2.p" \
+#    model_path="../../artifacts/scenario_alpha_battle/mles_model2.p" \
 #    logger_name="mles_model2" \
 #    --conf conf/mles_params.hocon
 #python -m dltranz.pl_inference    \
-#    model_path="models/mles_model2.p" \
+#    model_path="../../artifacts/scenario_alpha_battle/mles_model2.p" \
 #    output.path="data/mles2_embeddings" \
 #    --conf conf/mles_params.hocon
 #
@@ -46,12 +46,12 @@ python -m dltranz.pl_inference --conf conf/random_params.hocon
 #    params.encoder_type=transf \
 #    trainer.max_epochs=3 \
 #    params.lr_scheduler.step_size=3 \
-#    model_path="models/mles_modelt.p" \
+#    model_path="../../artifacts/scenario_alpha_battle/mles_modelt.p" \
 #    logger_name="mles_modelt" \
 #    --conf conf/mles_params.hocon
 #python -m dltranz.pl_inference    \
 #    inference_dataloader.loader.batch_size=128 \
-#    model_path="models/mles_modelt.p" \
+#    model_path="../../artifacts/scenario_alpha_battle/mles_modelt.p" \
 #    output.path="data/mlest_embeddings" \
 #    --conf conf/mles_params.hocon
 

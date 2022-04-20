@@ -4,10 +4,10 @@ python -m dltranz.pl_fit_target --conf conf/pl_fit_target.hocon
 # Fine tune the MeLES model in supervised mode and save scores to the file
 python -m dltranz.pl_train_module \
     params.train.neg_count=5 \
-    model_path="models/mles_model_ft.p" \
+    model_path="../../artifacts/scenario_bowl2019/mles_model_ft.p" \
     --conf conf/mles_params.hocon
 python -m dltranz.pl_fit_target \
-    params.pretrained.model_path="models/mles_model_ft.p" \
+    params.pretrained.model_path="../../artifacts/scenario_bowl2019/mles_model_ft.p" \
     data_module.train.drop_last=true \
     --conf conf/pl_fit_finetuning_mles.hocon
 
@@ -21,7 +21,7 @@ python -m dltranz.pl_fit_target --conf conf/pl_fit_finetuning_cpc.hocon
 # Fine tune the RTD model in supervised mode and save scores to the file
 python -m dltranz.pl_fit_target data_module.train.drop_last=true --conf conf/pl_fit_finetuning_rtd.hocon
 
-cp "models/barlow_twins_model.p" "models/barlow_twins_model_ft.p"
+cp "../../artifacts/scenario_bowl2019/barlow_twins_model.p" "../../artifacts/scenario_bowl2019/barlow_twins_model_ft.p"
 # Fine tune the RTD model in supervised mode and save scores to the file
 python -m dltranz.pl_fit_target data_module.train.drop_last=true --conf conf/pl_fit_finetuning_barlow_twins.hocon
 

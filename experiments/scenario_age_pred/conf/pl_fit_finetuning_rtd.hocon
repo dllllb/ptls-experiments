@@ -62,7 +62,7 @@
     encoder_type: pretrained
     pretrained: {
         pl_module_class: dltranz.lightning_modules.rtd_module.RtdModule
-        model_path: "models/rtd_model.p"
+        model_path: "../../artifacts/scenario_age_pred/rtd_model.p"
         lr: 0.0001
     }
     

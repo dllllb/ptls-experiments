@@ -112,7 +112,7 @@
     
   }
 
-  model_path: "models/transf_model.p"
+  model_path: "../../artifacts/scenario_age_pred/transf_model.p"
 
   inference_dataloader: {
     col_id: client_id
