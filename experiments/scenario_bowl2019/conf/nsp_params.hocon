@@ -96,7 +96,7 @@
     }
   }
 
-  model_path: "models/nsp_model.p"
+  model_path: "../../artifacts/scenario_bowl2019/nsp_model.p"
 
   include "dataset_inference_file.hocon"
 

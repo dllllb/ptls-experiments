@@ -1,10 +1,10 @@
 # Train the MeLES encoder and take embedidngs; inference
-# python ../../pl_train_module.py --conf conf/mles_params.hocon
-# python ../../pl_inference.py --conf conf/mles_params.hocon
+# python -m dltranz.pl_train_module --conf conf/mles_params.hocon
+# python -m dltranz.pl_inference --conf conf/mles_params.hocon
 
 # Train the Transformers embedder; inference
-python ../../pl_train_module.py --conf conf/transformer_params.hocon
-python ../../pl_inference.py --conf conf/transformer_params.hocon
+python -m dltranz.pl_train_module --conf conf/transformer_params.hocon
+python -m dltranz.pl_inference --conf conf/transformer_params.hocon
 
 
 # Compare

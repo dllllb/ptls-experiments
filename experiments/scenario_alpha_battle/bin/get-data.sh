@@ -3,7 +3,7 @@
 # the same as get_data2.sh
 mkdir data
 
-curl -OL https://storage.googleapis.com/di-datasets/alfabattle2b-boosters.pro.zip
+curl -OL https://storage.yandexcloud.net/di-datasets/alfabattle2b-boosters.pro.zip
 
 unzip alfabattle2b-boosters.pro.zip -d data/
 mv alfabattle2b-boosters.pro.zip data/

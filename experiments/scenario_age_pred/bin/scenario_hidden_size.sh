@@ -1,20 +1,20 @@
 for SC_HIDDEN_SIZE in 2400 1600 1200 0800 0480 0224 0160 0096 0064 0032
 do
   export SC_SUFFIX="hidden_size_bs_0064_hs_${SC_HIDDEN_SIZE}"
-  python ../../pl_train_module.py \
+  python -m dltranz.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
     params.train.batch_size=64 \
-    model_path="models/age_pred_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
 done
 
 for SC_HIDDEN_SIZE in 0800 0480 0224 0160 0096 0064 0032
 do
   export SC_SUFFIX="hidden_size_bs_0064_hs_${SC_HIDDEN_SIZE}"
-  python ../../pl_inference.py \
+  python -m dltranz.pl_inference \
     inference_dataloader.loader.batch_size=64 \
-    model_path="models/age_pred_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 done
@@ -22,9 +22,9 @@ done
 for SC_HIDDEN_SIZE in 2400 1600 1200
 do
   export SC_SUFFIX="hidden_size_bs_0064_hs_${SC_HIDDEN_SIZE}"
-  python ../../pl_inference.py \
+  python -m dltranz.pl_inference \
     inference_dataloader.loader.batch_size=64 \
-    model_path="models/age_pred_mlm__$SC_SUFFIX.p" \
+    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
     params.valid.batch_size=256 \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"

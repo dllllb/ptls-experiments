@@ -58,7 +58,7 @@
     encoder_type: pretrained
     pretrained: {
       pl_module_class: dltranz.lightning_modules.coles_module.CoLESModule
-      model_path: "models/barlow_twins_model_for_finetuning.p"
+      model_path: "../../artifacts/scenario_age_pred/barlow_twins_model_for_finetuning.p"
       lr: 0.0001
     }
 

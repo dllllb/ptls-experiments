@@ -90,7 +90,7 @@
     }
   }
 
-  model_path: "models/nsp_model.p"
+  model_path: "../../artifacts/scenario_x5/nsp_model.p"
 
   include "dataset_inference_file.hocon"
 

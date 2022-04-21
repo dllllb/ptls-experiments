@@ -43,7 +43,7 @@
     "norm_scores": false,
     "score_metric": "auroc",
 
-    "pretrained_model_path": "models/transf_model.p",
+    "pretrained_model_path": "../../artifacts/scenario_gender/transf_model.p",
     "use_batch_norm": false
   },
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+export PYTHONPATH="../../"
 SPARK_LOCAL_IP="127.0.0.1" spark-submit \
     --master local[8] \
     --name "Gender Make Dataset" \
@@ -8,7 +9,7 @@ SPARK_LOCAL_IP="127.0.0.1" spark-submit \
     --conf spark.sql.parquet.compression.codec="snappy" \
     --conf spark.ui.port=4041 \
     --conf spark.local.dir="data/.spark_local_dir" \
-    ../../make_datasets_spark.py \
+    make_dataset.py \
     --data_path data/ \
     --trx_files transactions.csv \
     --col_client_id "customer_id" \

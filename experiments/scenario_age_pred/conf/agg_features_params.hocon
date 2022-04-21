@@ -90,7 +90,7 @@
     }
   }
 
-  model_path: "models/agg_features_model.p"
+  model_path: "../../artifacts/scenario_age_pred/agg_features_model.p"
 
   include "dataset_inference_file.hocon"
 

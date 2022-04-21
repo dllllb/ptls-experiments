@@ -61,7 +61,7 @@
       "# checkpoints": {
         "save_interval": 15,
         "n_saved": 1000,
-        "dirname": "models/checkpoints/",
+        "dirname": "../../artifacts/scenario_gender/checkpoints/",
         "filename_prefix": "transf",
         "create_dir": true
       }
@@ -82,7 +82,7 @@
 
   "save_model": true,
   "model_path": {
-    "model": "models/transf_model.p",
+    "model": "../../artifacts/scenario_gender/transf_model.p",
     "only_encoder": true
   },
 

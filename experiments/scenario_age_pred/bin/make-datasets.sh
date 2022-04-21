@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-python ../../make_datasets.py \
+python -m dltranz.make_datasets \
     --data_path data/ \
     --trx_files transactions_train.csv transactions_test.csv \
     --col_client_id "client_id" \
