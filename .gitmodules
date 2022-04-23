@@ -1,3 +1,4 @@
 [submodule "artifacts"]
 	path = artifacts
 	url = https://github.com/dllllb/pytorch-lifestream-artifacts.git
+	shallow = true
