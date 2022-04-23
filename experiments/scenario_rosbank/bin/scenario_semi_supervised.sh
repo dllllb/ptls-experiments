@@ -1,6 +1,6 @@
 for SC_AMOUNT in 3600 1800 0900 0450 0225
 do
-      python ../../pl_fit_target.py \
+      python -m dltranz.pl_fit_target \
             logger_name="fit_target_${SC_AMOUNT}" \
             trainer.max_epochs=20 \
             data_module.train.drop_last=true \
@@ -9,7 +9,7 @@ do
             embedding_validation_results.output_path="results/fit_target_${SC_AMOUNT}_results.json" \
             --conf conf/pl_fit_target.hocon
 
-      python ../../pl_fit_target.py \
+      python -m dltranz.pl_fit_target \
             logger_name="mles_finetuning_${SC_AMOUNT}" \
             trainer.max_epochs=10 \
             data_module.train.drop_last=true \
@@ -18,7 +18,7 @@ do
             embedding_validation_results.output_path="results/mles_finetuning_${SC_AMOUNT}_results.json" \
             --conf conf/pl_fit_finetuning_mles.hocon
 
-      python ../../pl_fit_target.py \
+      python -m dltranz.pl_fit_target \
             logger_name="cpc_finetuning_${SC_AMOUNT}" \
             trainer.max_epochs=10 \
             data_module.train.drop_last=true \

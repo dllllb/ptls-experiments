@@ -81,7 +81,7 @@
     }
   }
 
-  model_path: "models/rtd_model_ft.p"
+  model_path: "../../artifacts/scenario_x5/rtd_model_ft.p"
 
   include "dataset_inference_file.hocon"
 

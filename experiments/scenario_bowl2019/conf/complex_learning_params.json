@@ -107,7 +107,7 @@
 
   "save_model": true,
   "model_path": {
-    "model": "models/complex_model.p",
+    "model": "../../artifacts/scenario_bowl2019/complex_model.p",
     "only_encoder": false
   },
 

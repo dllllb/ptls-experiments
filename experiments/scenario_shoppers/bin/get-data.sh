@@ -4,7 +4,7 @@
 
 mkdir data
 
-curl -OL https://storage.googleapis.com/di-datasets/acquire-valued-shoppers.zip
+curl -OL https://storage.yandexcloud.net/di-datasets/acquire-valued-shoppers.zip
 
 unzip acquire-valued-shoppers.zip -d data/
 mv acquire-valued-shoppers.zip data/

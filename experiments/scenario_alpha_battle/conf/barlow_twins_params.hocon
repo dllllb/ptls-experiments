@@ -126,7 +126,7 @@
     }
   }
 
-  model_path: "models/barlow_twins_model.p"
+  model_path: "../../artifacts/scenario_alpha_battle/barlow_twins_model.p"
 
   include "dataset_inference_file.hocon"
 

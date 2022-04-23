@@ -94,7 +94,7 @@
     }
   }
 
-  model_path: "models/sop_model.p"
+  model_path: "../../artifacts/scenario_rosbank/sop_model.p"
 
   include "dataset_inference_file.hocon"
 

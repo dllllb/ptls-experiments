@@ -92,7 +92,7 @@
     }
   }
 
-  model_path: "models/agg_features_model.p"
+  model_path: "../../artifacts/scenario_x5/agg_features_model.p"
 
   include "dataset_inference_file.hocon"
 

@@ -114,7 +114,7 @@
     }
   }
 
-  model_path: "models/mles_model_for_finetuning.p"
+  model_path: "../../artifacts/scenario_age_pred/mles_model_for_finetuning.p"
 
   include "dataset_inference_file.hocon"
 

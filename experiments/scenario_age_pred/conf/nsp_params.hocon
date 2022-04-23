@@ -91,7 +91,7 @@
     }
   }
 
-  model_path: "models/nsp_model.p"
+  model_path: "../../artifacts/scenario_age_pred/nsp_model.p"
 
   include "dataset_inference_file.hocon"
 

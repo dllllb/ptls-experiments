@@ -97,7 +97,7 @@
     }
   }
 
-  model_path: "models/agg_features_model.p"
+  model_path: "../../artifacts/scenario_bowl2019/agg_features_model.p"
 
   include "dataset_inference_file.hocon"
 

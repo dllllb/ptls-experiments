@@ -69,7 +69,7 @@
     }
   },
 
-  model_path: "models/mles_model.p"
+  model_path: "../../artifacts/scenario_gender/mles_model.p"
 
   include "dataset_inference_file.hocon"
 

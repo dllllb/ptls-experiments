@@ -1,4 +1,4 @@
-from make_datasets_spark import DatasetConverter
+from dltranz.make_datasets_spark import DatasetConverter
 
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F

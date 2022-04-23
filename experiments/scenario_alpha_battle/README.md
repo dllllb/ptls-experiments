@@ -32,7 +32,7 @@ export CUDA_VISIBLE_DEVICES=0  # define here one gpu device number
 ```
 
 This is a big dataset. Only unsupervised task are presented.
-Run `python ../../pl_train_module.py --conf conf/params.hocon` with specific `params.hocon` file and use
+Run `python -m dltranz.pl_train_module --conf conf/params.hocon` with specific `params.hocon` file and use
 scripts from `bin/embeddings_by_epochs` to get score on downstream task by epochs.
 See `figures.ipynb` for visualisation.
 

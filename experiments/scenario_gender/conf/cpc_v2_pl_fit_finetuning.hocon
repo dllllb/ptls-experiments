@@ -59,7 +59,7 @@
     encoder_type: pretrained
     pretrained: {
       pl_module_class: dltranz.lightning_modules.cpc_v2_module.CpcV2Module
-      model_path: "models/cpc_v2_model.p"
+      model_path: "../../artifacts/scenario_gender/cpc_v2_model.p"
       lr: 0.0001
     }
 

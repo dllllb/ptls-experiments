@@ -76,7 +76,7 @@
 
   "save_model": true,
   "model_path": {
-    "model": "models/cpc_v2_model.p",
+    "model": "../../artifacts/scenario_x5/cpc_v2_model.p",
     "only_encoder": false
   },
 
