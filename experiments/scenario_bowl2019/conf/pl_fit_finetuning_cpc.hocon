@@ -58,7 +58,7 @@
 
     encoder_type: pretrained
     pretrained: {
-      pl_module_class: dltranz.lightning_modules.cpc_module.CpcModule
+      pl_module_class: ptls.lightning_modules.cpc_module.CpcModule
       model_path: "../../artifacts/scenario_bowl2019/cpc_model_ft.p"
       lr: 0.001
     }

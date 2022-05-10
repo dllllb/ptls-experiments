@@ -1,6 +1,6 @@
 # Prepare agg feature encoder and take embedidngs; inference
-python -m dltranz.pl_train_module --conf conf/agg_features_params.hocon
-python -m dltranz.pl_inference --conf conf/agg_features_params.hocon
+python -m ptls.pl_train_module --conf conf/agg_features_params.hocon
+python -m ptls.pl_inference --conf conf/agg_features_params.hocon
 
 # Train the Contrastive Predictive Coding (CPC_V2) model; inference
 for i in 20 30 40 50; do
@@ -9,7 +9,7 @@ for i in 20 30 40 50; do
     export SC_SUFFIX="cpc_v2_sub_seq_sampl_strategy_split_count_${split_count}"
     echo "${SC_SUFFIX}"
 
-    python -m dltranz.pl_train_module \
+    python -m ptls.pl_train_module \
         logger_name=${SC_SUFFIX} \
         data_module.train.min_seq_len=$min_seq_len \
         data_module.train.split_strategy.split_count=$split_count \
@@ -19,7 +19,7 @@ for i in 20 30 40 50; do
         model_path="../../artifacts/scenario_gender/$SC_SUFFIX.p" \
         --conf "conf/cpc_v2_params.hocon"
 
-    python -m dltranz.pl_inference \
+    python -m ptls.pl_inference \
         model_path="../../artifacts/scenario_gender/$SC_SUFFIX.p" \
         output.path="data/emb__$SC_SUFFIX" \
         --conf "conf/cpc_v2_params.hocon"
