@@ -57,14 +57,14 @@ params:
     - 
       - Linear
       - 
-        in_features: {seq_encoder.embedding_size}
+        in_features: "{seq_encoder.embedding_size}"
         out_features: 2
     - 
       - Sigmoid
-      - 
+      - {}
     - 
       - Squeeze
-      - 
+      - {}
   train: 
     random_neg: false
     loss: NLLLoss

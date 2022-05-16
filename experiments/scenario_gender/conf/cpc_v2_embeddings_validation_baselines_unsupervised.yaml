@@ -45,7 +45,7 @@ models:
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
 metrics: 
   auroc: 
     enabled: true
@@ -62,7 +62,7 @@ features:
     enabled: true
     read_params: 
       file_name: ../data/agg_feat_embed.pickle
-    target_options: 
+    target_options: {}
 report: 
   is_check_train: false
   error_handling: fail

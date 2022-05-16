@@ -106,7 +106,7 @@ params:
   head_layers: 
     - 
       - NormEncoder
-      - 
+      - {}
   transf: 
     train_starter: true
     shared_layers: false

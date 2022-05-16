@@ -172,7 +172,7 @@ params:
   head_layers: 
     - 
       - DummyHead
-      - 
+      - {}
   train: 
     random_neg: false
     loss: distribution_targets

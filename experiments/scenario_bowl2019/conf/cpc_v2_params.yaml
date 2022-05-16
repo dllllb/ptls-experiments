@@ -75,7 +75,7 @@ params:
       correct: 
         in: 4
         out: 2
-    numeric_values: 
+    numeric_values: {}
   cpc: 
     n_forward_steps: 6
     n_negatives: 30

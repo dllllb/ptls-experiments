@@ -73,7 +73,7 @@ params:
       correct: 
         in: 4
         out: 2
-    numeric_values: 
+    numeric_values: {}
   head: 
     pred_all_states: false
     pred_all_states_mean: false
@@ -85,7 +85,7 @@ params:
     - 
       - Linear
       - 
-        in_features: {seq_encoder.embedding_size}
+        in_features: "{seq_encoder.embedding_size}"
         out_features: 4
     - 
       - LogSoftmax

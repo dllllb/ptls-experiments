@@ -12,7 +12,7 @@ data_module:
     augmentations: 
       - 
         - AllTimeShuffle
-        - 
+        - {}
       - 
         - DropoutTrx
         - 

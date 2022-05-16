@@ -168,7 +168,7 @@ models:
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
 metrics: 
   auroc: 
     enabled: true

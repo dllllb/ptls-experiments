@@ -80,12 +80,12 @@ params:
       correct: 
         in: 4
         out: 2
-    numeric_values: 
+    numeric_values: {}
   head_layers: 
     - 
       - Linear
       - 
-        in_features: {seq_encoder.embedding_size}
+        in_features: "{seq_encoder.embedding_size}"
         out_features: 256
         bias: false
     - 
@@ -94,7 +94,7 @@ params:
         num_features: 256
     - 
       - ReLU
-      - 
+      - {}
     - 
       - Linear
       - 

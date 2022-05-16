@@ -22,12 +22,12 @@ models:
   linear: 
     enabled: false
     cls_name: sklearn.linear_model.LogisticRegression
-    params: 
+    params: {}
     cpu_count: 1
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
   lgbm: 
     enabled: true
     cls_name: lightgbm.LGBMClassifier
@@ -54,7 +54,7 @@ models:
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
   xgb: 
     enabled: false
     cls_name: xgboost.XGBClassifier
@@ -66,7 +66,7 @@ models:
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
 metrics: 
   auroc: 
     enabled: true

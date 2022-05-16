@@ -71,7 +71,7 @@ params:
       correct: 
         in: 4
         out: 2
-    numeric_values: 
+    numeric_values: {}
   rnn: 
     type: gru
     hidden_size: 100

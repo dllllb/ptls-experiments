@@ -92,10 +92,10 @@ params:
     - 
       - BatchNorm1d
       - 
-        num_features: {seq_encoder.embedding_size}
+        num_features: "{seq_encoder.embedding_size}"
     - 
       - NormEncoder
-      - 
+      - {}
   train: 
     sampling_strategy: HardNegativePair
     neg_count: 5

@@ -73,7 +73,7 @@ params:
     - 
       - Linear
       - 
-        in_features: {seq_encoder.embedding_size}
+        in_features: "{seq_encoder.embedding_size}"
         out_features: 256
     - 
       - BatchNorm1d
@@ -81,7 +81,7 @@ params:
         num_features: 256
     - 
       - ReLU
-      - 
+      - {}
     - 
       - Linear
       - 
@@ -89,7 +89,7 @@ params:
         out_features: 256
     - 
       - NormEncoder
-      - 
+      - {}
   lr_scheduler: 
     step_size: 10
     step_gamma: 0.9025

@@ -26,7 +26,7 @@ params:
   head_layers: 
     - 
       - NormEncoder
-      - 
+      - {}
   train: 
     sampling_strategy: HardNegativePair
     neg_count: 5

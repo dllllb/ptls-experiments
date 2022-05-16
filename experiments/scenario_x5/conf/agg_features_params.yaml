@@ -63,10 +63,10 @@ params:
     - 
       - BatchNorm1d
       - 
-        num_features: {seq_encoder.embedding_size}
+        num_features: "{seq_encoder.embedding_size}"
     - 
       - NormEncoder
-      - 
+      - {}
   lr_scheduler: 
     step_size: 30
     step_gamma: 0.9025

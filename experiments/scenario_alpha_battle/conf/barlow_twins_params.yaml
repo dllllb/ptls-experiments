@@ -107,7 +107,7 @@ params:
     - 
       - Linear
       - 
-        in_features: {seq_encoder.embedding_size}
+        in_features: "{seq_encoder.embedding_size}"
         out_features: 1024
         bias: false
     - 
@@ -116,7 +116,7 @@ params:
         num_features: 1024
     - 
       - ReLU
-      - 
+      - {}
     - 
       - Linear
       - 

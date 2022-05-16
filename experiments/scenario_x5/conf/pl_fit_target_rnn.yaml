@@ -18,7 +18,7 @@ data_module:
           trx_dropout: 0.03
       - 
         - DropDay
-        - 
+        - {}
       - 
         - RandomSlice
         - 
@@ -27,7 +27,7 @@ data_module:
           rate_for_min: 0.9
       - 
         - AllTimeShuffle
-        - 
+        - {}
     num_workers: 16
     batch_size: 32
   valid: 
@@ -81,7 +81,7 @@ params:
     - 
       - Linear
       - 
-        in_features: {seq_encoder.embedding_size}
+        in_features: "{seq_encoder.embedding_size}"
         out_features: 4
     - 
       - LogSoftmax

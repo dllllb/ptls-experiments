@@ -20,12 +20,12 @@ models:
   linear: 
     enabled: false
     cls_name: sklearn.linear_model.LogisticRegression
-    params: 
+    params: {}
     cpu_count: 1
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
   lgbm: 
     enabled: true
     cls_name: lightgbm.LGBMClassifier
@@ -54,7 +54,7 @@ models:
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
   xgb: 
     enabled: false
     cls_name: xgboost.XGBClassifier
@@ -68,7 +68,7 @@ models:
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
 metrics: 
   accuracy: 
     enabled: true
@@ -81,7 +81,7 @@ features:
     enabled: true
     read_params: 
       file_name: ../data/mles_embeddings.pickle
-    target_options: 
+    target_options: {}
 external_scores: 
 report: 
   is_check_train: false

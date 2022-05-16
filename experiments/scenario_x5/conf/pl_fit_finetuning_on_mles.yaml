@@ -22,7 +22,7 @@ data_module:
           trx_dropout: 0.01
       - 
         - AllTimeShuffle
-        - 
+        - {}
     num_workers: 16
     batch_size: 64
   valid: 
@@ -58,11 +58,11 @@ params:
     - 
       - BatchNorm1d
       - 
-        num_features: {seq_encoder.embedding_size}
+        num_features: "{seq_encoder.embedding_size}"
     - 
       - Linear
       - 
-        in_features: {seq_encoder.embedding_size}
+        in_features: "{seq_encoder.embedding_size}"
         out_features: 4
     - 
       - LogSoftmax

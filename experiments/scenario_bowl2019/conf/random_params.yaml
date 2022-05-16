@@ -33,11 +33,11 @@ params:
       correct: 
         in: 4
         out: 2
-    numeric_values: 
+    numeric_values: {}
   head_layers: 
     - 
       - NormEncoder
-      - 
+      - {}
   train: 
     sampling_strategy: HardNegativePair
     neg_count: 2

@@ -66,7 +66,7 @@ params:
     - 
       - BatchNorm1d
       - 
-        num_features: {seq_encoder.embedding_size}
+        num_features: "{seq_encoder.embedding_size}"
         affine: false
   lr_scheduler: 
     step_size: 10

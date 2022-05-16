@@ -41,7 +41,7 @@ models:
     preprocessing: 
       - 
         - sklearn.preprocessing.MaxAbsScaler
-        - 
+        - {}
 metrics: 
   accuracy: 
     enabled: true

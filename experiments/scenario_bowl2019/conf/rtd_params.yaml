@@ -70,7 +70,7 @@ params:
       correct: 
         in: 4
         out: 2
-    numeric_values: 
+    numeric_values: {}
   head: 
     pred_all_states: true
     pred_all_states_mean: false
