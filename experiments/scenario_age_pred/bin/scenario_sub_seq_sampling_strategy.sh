@@ -5,8 +5,8 @@ python -m ptls.pl_train_module \
     data_module.train.split_strategy.split_strategy=$SC_STRATEGY \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
-    params.train.split_strategy.cnt_min=200 \
-    params.train.split_strategy.cnt_max=600 \
+    +params.train.split_strategy.cnt_min=200 \
+    +params.train.split_strategy.cnt_max=600 \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
@@ -18,8 +18,8 @@ export SC_SUFFIX="SplitRandom"
 export SC_STRATEGY="SplitRandom"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
-    data_module.train.max_seq_len=600 \
-    data_module.valid.max_seq_len=600 \
+    +data_module.train.max_seq_len=600 \
+    +data_module.valid.max_seq_len=600 \
     data_module.train.split_strategy.split_strategy=$SC_STRATEGY \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \

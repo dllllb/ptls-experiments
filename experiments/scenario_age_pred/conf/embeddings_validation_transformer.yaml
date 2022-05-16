@@ -81,12 +81,12 @@ features:
     enabled: true
     read_params: 
       file_name: ../data/mles_embeddings.pickle
-    target_options: 
+    target_options: {}
   transf_embeddings: 
     enabled: true
     read_params: 
       file_name: ../data/transf_embeddings.pickle
-    target_options: 
+    target_options: {}
 external_scores: 
 report: 
   is_check_train: false

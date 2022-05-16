@@ -16,7 +16,7 @@ split:
   cv_split_count: 5
   is_stratify: false
   random_state: 42
-models: 
+models: {}
 report_file: ../results/scenario_age_distibution_target.txt
 features: 
 external_scores: 

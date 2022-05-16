@@ -66,16 +66,14 @@ params:
     - 
       - Linear
       - 
-        in_features: {seq_encoder.embedding_size}
+        in_features: "{seq_encoder.embedding_size}"
         out_features: 256
         bias: false
     - 
       - BatchNorm1d
       - 
         num_features: 256
-    - 
-      - ReLU
-      - 
+    - [ReLU, {}]
     - 
       - Linear
       - 

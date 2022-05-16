@@ -24,9 +24,7 @@ params:
     numeric_values: 
       amount_rur: identity
   head_layers: 
-    - 
-      - NormEncoder
-      - 
+    - [NormEncoder, {}] 
   train: 
     sampling_strategy: HardNegativePair
     neg_count: 5

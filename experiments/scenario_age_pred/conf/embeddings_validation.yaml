@@ -20,12 +20,10 @@ models:
   linear: 
     enabled: false
     cls_name: sklearn.linear_model.LogisticRegression
-    params: 
+    params: {} 
     cpu_count: 1
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - 
+      - [sklearn.preprocessing.MaxAbsScaler, {}]
   lgbm: 
     enabled: true
     cls_name: lightgbm.LGBMClassifier
@@ -52,9 +50,7 @@ models:
       n_jobs: 4
     cpu_count: 4
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - 
+      - [sklearn.preprocessing.MaxAbsScaler, {}]
   xgb: 
     enabled: false
     cls_name: xgboost.XGBClassifier
@@ -66,9 +62,7 @@ models:
       n_estimators: 300
     cpu_count: 4
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - 
+      - [sklearn.preprocessing.MaxAbsScaler, {}]
 metrics: 
   accuracy: 
     enabled: true

@@ -3,8 +3,8 @@ do
   export SC_SUFFIX="hidden_size_bs_0064_hs_${SC_HIDDEN_SIZE}"
   python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
-    params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
-    params.train.batch_size=64 \
+    +params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
+    +params.train.batch_size=64 \
     model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 done
@@ -25,7 +25,7 @@ do
   python -m ptls.pl_inference \
     inference_dataloader.loader.batch_size=64 \
     model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
-    params.valid.batch_size=256 \
+    +params.valid.batch_size=256 \
     output.path="data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 done

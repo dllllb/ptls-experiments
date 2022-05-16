@@ -214,9 +214,7 @@ models:
       n_jobs: 4
     cpu_count: 4
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - 
+      - [sklearn.preprocessing.MaxAbsScaler, {}]
 metrics: 
   accuracy: 
     enabled: true

@@ -16,18 +16,18 @@ export SC_SUFFIX="encoder_transf"
 python -m ptls.pl_train_module \
   logger_name=${SC_SUFFIX} \
   params.encoder_type="transf" \
-  params.train.batch_size=128 \
-  params.transf.train_starter=true \
-  params.transf.dropout=0.1 \
-  params.transf.max_seq_len=800 \
-  params.transf.n_heads=4 \
-  params.transf.input_size=128 \
-  params.transf.dim_hidden=128 \
-  params.transf.n_layers=4 \
-  params.transf.shared_layers=false \
-  params.transf.use_after_mask=false \
-  params.transf.use_positional_encoding=false \
-  params.transf.use_src_key_padding_mask=false \
+  +params.train.batch_size=128 \
+  +params.transf.train_starter=true \
+  +params.transf.dropout=0.1 \
+  +params.transf.max_seq_len=800 \
+  +params.transf.n_heads=4 \
+  +params.transf.input_size=128 \
+  +params.transf.dim_hidden=128 \
+  +params.transf.n_layers=4 \
+  +params.transf.shared_layers=false \
+  +params.transf.use_after_mask=false \
+  +params.transf.use_positional_encoding=false \
+  +params.transf.use_src_key_padding_mask=false \
   model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
   --config-dir conf --config-name mles_params
 

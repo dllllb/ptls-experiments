@@ -11,25 +11,25 @@ do
     python -m ptls.pl_fit_target \
         logger_name="fit_target_${SC_AMOUNT}" \
         trainer.max_epochs=20 \
-        data_module.train.drop_last=true \
-        data_module.train.labeled_amount=$SC_AMOUNT \
+        +data_module.train.drop_last=true \
+        +data_module.train.labeled_amount=$SC_AMOUNT \
         embedding_validation_results.feature_name="target_scores_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/fit_target_${SC_AMOUNT}_results.json" \
         --config-dir conf --config-name pl_fit_target
 
     python -m ptls.pl_fit_target \
         logger_name="mles_finetuning_${SC_AMOUNT}" \
-        data_module.train.labeled_amount=$SC_AMOUNT \
-        params.rnn.hidden_size=160 \
-        params.pretrained_model_path="../../artifacts/scenario_age_pred/age_pred_ml_model_ss_ft.p" \
+        +data_module.train.labeled_amount=$SC_AMOUNT \
+        +params.rnn.hidden_size=160 \
+        +params.pretrained_model_path="../../artifacts/scenario_age_pred/age_pred_ml_model_ss_ft.p" \
         embedding_validation_results.feature_name="mles_finetuning_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/mles_finetuning_${SC_AMOUNT}_results.json" \
         --config-dir conf --config-name pl_fit_finetuning_mles
 
     python -m ptls.pl_fit_target \
         logger_name="cpc_finetuning_${SC_AMOUNT}" \
-        data_module.train.labeled_amount=$SC_AMOUNT \
-        params.pretrained_model_path="../../artifacts/scenario_age_pred/cpc_model.p" \
+        +data_module.train.labeled_amount=$SC_AMOUNT \
+        +params.pretrained_model_path="../../artifacts/scenario_age_pred/cpc_model.p" \
         embedding_validation_results.feature_name="cpc_finetuning_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/cpc_finetuning_${SC_AMOUNT}_results.json" \
         --config-dir conf --config-name pl_fit_finetuning_cpc

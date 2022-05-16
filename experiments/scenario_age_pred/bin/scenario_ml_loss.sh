@@ -29,9 +29,9 @@ export SC_SUFFIX="loss_binomialdeviance"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="BinomialDevianceLoss" \
-    params.train.C=1.0 \
-    params.train.alpha=1.0 \
-    params.train.beta=0.3 \
+    +params.train.C=1.0 \
+    +params.train.alpha=1.0 \
+    +params.train.beta=0.3 \
     model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
@@ -73,7 +73,7 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="MarginLoss" \
     params.train.margin=0.2 \
-    params.train.beta=0.4 \
+    +params.train.beta=0.4 \
     model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
@@ -87,7 +87,7 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="MarginLoss" \
     params.train.margin=0.3 \
-    params.train.beta=0.6 \
+    +params.train.beta=0.6 \
     model_path="../../artifacts/scenario_age_pred/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \

@@ -79,10 +79,8 @@ params:
     - 
       - BatchNorm1d
       - 
-        num_features: {seq_encoder.embedding_size}
-    - 
-      - NormEncoder
-      - 
+        num_features: "{seq_encoder.embedding_size}"
+    - [NormEncoder, {}]
   train: 
     swa: false
     sampling_strategy: HardNegativePair
