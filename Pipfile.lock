@@ -812,7 +812,7 @@
         "pytorch-lifestream": {
             "editable": true,
             "git": "https://github.com/dllllb/pytorch-lifestream.git",
-            "ref": "793d97ace87df25879b139cec89a1da8fc950d2f"
+            "ref": "290daf2c805644a04b12c685b1702585d59a369a"
         },
         "pytorch-lightning": {
             "hashes": [
