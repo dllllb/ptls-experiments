@@ -4,11 +4,11 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="ContrastiveLoss" \
     params.train.margin=0.5 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # ContrastiveLoss (negative stronger)
@@ -17,11 +17,11 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="ContrastiveLoss" \
     params.train.margin=1.0 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # BinomialDevianceLoss (positive stronger)
@@ -32,11 +32,11 @@ python -m ptls.pl_train_module \
     params.train.C=1.0 \
     params.train.alpha=1.0 \
     params.train.beta=0.4 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # BinomialDevianceLoss (negative stronger)
@@ -47,11 +47,11 @@ python -m ptls.pl_train_module \
     params.train.C=6.0 \
     params.train.alpha=0.4 \
     params.train.beta=0.7 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # TripletLoss
@@ -62,11 +62,11 @@ python -m ptls.pl_train_module \
     params.train.margin=0.3 \
     params.train.sampling_strategy="HardTriplets" \
     params.train.neg_count=5 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 export SC_SUFFIX="loss_triplet_margin_0.6"
@@ -76,11 +76,11 @@ python -m ptls.pl_train_module \
     params.train.margin=0.6 \
     params.train.sampling_strategy="HardTriplets" \
     params.train.neg_count=5 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # HistogramLoss
@@ -89,11 +89,11 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.loss="HistogramLoss" \
     params.train.num_steps=25 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # MarginLoss (positive stronger)
@@ -103,11 +103,11 @@ python -m ptls.pl_train_module \
     params.train.loss="MarginLoss" \
     params.train.margin=0.2 \
     params.train.beta=0.4 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # MarginLoss (negative stronger)
@@ -117,11 +117,11 @@ python -m ptls.pl_train_module \
     params.train.loss="MarginLoss" \
     params.train.margin=0.3 \
     params.train.beta=0.6 \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # Compare

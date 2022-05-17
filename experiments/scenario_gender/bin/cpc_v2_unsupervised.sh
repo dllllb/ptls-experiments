@@ -16,12 +16,12 @@ for i in 20 30 40 50; do
         \
         data_module.valid.min_seq_len=$min_seq_len \
         data_module.valid.split_strategy.split_count=$split_count \
-        model_path="../../artifacts/scenario_gender/$SC_SUFFIX.p" \
+        model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/$SC_SUFFIX.p" \
         --config-dir conf --config-name cpc_v2_params
 
     python -m ptls.pl_inference \
-        model_path="../../artifacts/scenario_gender/$SC_SUFFIX.p" \
-        output.path="data/emb__$SC_SUFFIX" \
+        model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/$SC_SUFFIX.p" \
+        output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
         --config-dir conf --config-name cpc_v2_params
 done
 

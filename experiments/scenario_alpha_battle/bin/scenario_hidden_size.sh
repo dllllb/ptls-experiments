@@ -7,11 +7,11 @@ do
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
       data_module.train.batch_size=128 \
       data_module.valid.batch_size=128 \
-      model_path="../../artifacts/scenario_alpha_battle/mlm__$SC_SUFFIX.p" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mlm__$SC_SUFFIX.p" \
       --config-dir conf --config-name mles_params
   python -m ptls.pl_inference \
-      model_path="../../artifacts/scenario_alpha_battle/mlm__$SC_SUFFIX.p" \
-      output.path="data/emb_mles__$SC_SUFFIX" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mlm__$SC_SUFFIX.p" \
+      output.path="${hydra:runtime.cwd}/data/emb_mles__$SC_SUFFIX" \
       --config-dir conf --config-name mles_params
 done
 
@@ -21,11 +21,11 @@ do
   python -m ptls.pl_train_module \
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
-      model_path="../../artifacts/scenario_alpha_battle/mlm__$SC_SUFFIX.p" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mlm__$SC_SUFFIX.p" \
       --config-dir conf --config-name mles_params
   python -m ptls.pl_inference \
-      model_path="../../artifacts/scenario_alpha_battle/mlm__$SC_SUFFIX.p" \
-      output.path="data/emb_mles__$SC_SUFFIX" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mlm__$SC_SUFFIX.p" \
+      output.path="${hydra:runtime.cwd}/data/emb_mles__$SC_SUFFIX" \
       --config-dir conf --config-name mles_params
 done
 

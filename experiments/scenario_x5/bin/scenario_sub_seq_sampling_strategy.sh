@@ -6,11 +6,11 @@ python -m ptls.pl_train_module \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     params.train.batch_size=128 \
     params.valid.batch_size=128 \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
-    output.path="data/emb_mles__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb_mles__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 
@@ -22,11 +22,11 @@ python -m ptls.pl_train_module \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     params.train.batch_size=128 \
     params.valid.batch_size=128 \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
-    output.path="data/emb_mles__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb_mles__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 

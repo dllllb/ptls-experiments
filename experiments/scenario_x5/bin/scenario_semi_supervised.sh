@@ -4,21 +4,21 @@ do
         logger_name="fit_target_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         embedding_validation_results.feature_name="target_scores_${SC_AMOUNT}" \
-        embedding_validation_results.output_path="results/fit_target_${SC_AMOUNT}_results.json" \
+        embedding_validation_results.output_path="${hydra:runtime.cwd}/results/fit_target_${SC_AMOUNT}_results.json" \
         --config-dir conf --config-name pl_fit_target_rnn
 
     python -m ptls.pl_fit_target \
         logger_name="mles_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         embedding_validation_results.feature_name="mles_finetuning_${SC_AMOUNT}" \
-        embedding_validation_results.output_path="results/mles_finetuning_${SC_AMOUNT}_results.json" \
+        embedding_validation_results.output_path="${hydra:runtime.cwd}/results/mles_finetuning_${SC_AMOUNT}_results.json" \
         --config-dir conf --config-name pl_fit_finetuning_on_mles
 
     python -m ptls.pl_fit_target \
         logger_name="cpc_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         embedding_validation_results.feature_name="cpc_finetuning_${SC_AMOUNT}" \
-        embedding_validation_results.output_path="results/cpc_finetuning_${SC_AMOUNT}_results.json" \
+        embedding_validation_results.output_path="${hydra:runtime.cwd}/results/cpc_finetuning_${SC_AMOUNT}_results.json" \
         --config-dir conf --config-name pl_fit_finetuning_on_cpc
 done
 

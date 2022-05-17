@@ -7,11 +7,11 @@ do
   python -m ptls.pl_train_module \
       logger_name=${SC_SUFFIX} \
       params.train.lambd=${SC_PARAMETER} \
-      model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
       --config-dir conf --config-name barlow_twins_params
   python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-    output.path="data/emb__${SC_SUFFIX}" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
       --config-dir conf --config-name barlow_twins_params
 done
 # Compare
@@ -32,12 +32,12 @@ do
   python -m ptls.pl_train_module \
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size=${SC_PARAMETER} \
-      model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
       --config-dir conf --config-name barlow_twins_params
   python -m ptls.pl_inference \
     inference_dataloader.loader.batch_size=500 \
-    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-    output.path="data/emb__${SC_SUFFIX}" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
       --config-dir conf --config-name barlow_twins_params
 done
 # Compare
@@ -60,12 +60,12 @@ do
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size="${RNN_SIZE}" \
       "params.head_layers=[[Linear, {in_features: ${RNN_SIZE}, out_features: ${PRJ_SIZE}, bias: false}], [BatchNorm1d, {num_features: ${PRJ_SIZE}}], [ReLU, {}], [Linear, {in_features: ${PRJ_SIZE}, out_features: ${PRJ_SIZE}, bias: false}], [BatchNorm1d, {num_features: ${PRJ_SIZE}, affine: False}]]" \
-      model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
       --config-dir conf --config-name barlow_twins_params
   python -m ptls.pl_inference \
     inference_dataloader.loader.batch_size=500 \
-    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-    output.path="data/emb__${SC_SUFFIX}" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
       --config-dir conf --config-name barlow_twins_params
 done
 # Compare
@@ -86,11 +86,11 @@ do
   python -m ptls.pl_train_module \
       logger_name=${SC_SUFFIX} \
       data_module.train.batch_size=${SC_PARAMETER} \
-      model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
       --config-dir conf --config-name barlow_twins_params
   python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-    output.path="data/emb__${SC_SUFFIX}" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
       --config-dir conf --config-name barlow_twins_params
 done
 # Compare
@@ -108,9 +108,9 @@ less -S results/res_bt_bs.txt
 export SC_SUFFIX="bt_tuning_new"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
-    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference         inference_dataloader.loader.batch_size=500 \
-    model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-    output.path="data/emb__${SC_SUFFIX}" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params

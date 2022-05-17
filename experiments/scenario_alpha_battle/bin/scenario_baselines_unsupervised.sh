@@ -33,12 +33,12 @@ python -m ptls.pl_inference --config-dir conf --config-name random_params
 #    params.validation_metric_params.K=1 \
 #    trainer.max_epochs=30 \
 #    params.lr_scheduler.step_size=1 \
-#    model_path="../../artifacts/scenario_alpha_battle/mles_model2.p" \
+#    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mles_model2.p" \
 #    logger_name="mles_model2" \
 #    --config-dir conf --config-name mles_params
 #python -m ptls.pl_inference    \
-#    model_path="../../artifacts/scenario_alpha_battle/mles_model2.p" \
-#    output.path="data/mles2_embeddings" \
+#    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mles_model2.p" \
+#    output.path="${hydra:runtime.cwd}/data/mles2_embeddings" \
 #    --config-dir conf --config-name mles_params
 #
 ## Check COLEs with transformer encoder
@@ -46,13 +46,13 @@ python -m ptls.pl_inference --config-dir conf --config-name random_params
 #    params.encoder_type=transf \
 #    trainer.max_epochs=3 \
 #    params.lr_scheduler.step_size=3 \
-#    model_path="../../artifacts/scenario_alpha_battle/mles_modelt.p" \
+#    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mles_modelt.p" \
 #    logger_name="mles_modelt" \
 #    --config-dir conf --config-name mles_params
 #python -m ptls.pl_inference    \
 #    inference_dataloader.loader.batch_size=128 \
-#    model_path="../../artifacts/scenario_alpha_battle/mles_modelt.p" \
-#    output.path="data/mlest_embeddings" \
+#    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mles_modelt.p" \
+#    output.path="${hydra:runtime.cwd}/data/mlest_embeddings" \
 #    --config-dir conf --config-name mles_params
 
 ## Train the Replaced Token Detection (RTD) model; inference

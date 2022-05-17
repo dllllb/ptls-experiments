@@ -21,7 +21,7 @@ cp "../../artifacts/scenario_x5/barlow_twins_model.p" "../../artifacts/scenario_
 #python -m ptls.pl_train_module \
 #  params.rnn.hidden_size=160 \
 #  trainer.max_epochs=100 \
-#  model_path="../../artifacts/scenario_x5/barlow_twins_model_for_finetuning.p" \
+#  model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/barlow_twins_model_for_finetuning.p" \
 #  --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_on_barlow_twins
 

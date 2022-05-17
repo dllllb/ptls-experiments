@@ -7,11 +7,11 @@ do
             logger_name=${SC_SUFFIX} \
             params.rnn.hidden_size=${RNN_SIZE} \
             "params.head_layers=[[Linear, {in_features: ${RNN_SIZE}, out_features: ${PRJ_SIZE}}], [BatchNorm1d, {num_features: ${PRJ_SIZE}}], [ReLU, {}], [Linear, {in_features: ${PRJ_SIZE}, out_features: ${PRJ_SIZE}}], [NormEncoder, {}]]" \
-            model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+            model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
             --config-dir conf --config-name mles_proj_head_params
         python -m ptls.pl_inference \
-            model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-            output.path="data/emb__$SC_SUFFIX" \
+            model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
+            output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
             --config-dir conf --config-name mles_proj_head_params
     done
 done

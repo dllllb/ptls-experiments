@@ -4,11 +4,11 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.lr_scheduler.ReduceLROnPlateau=true \
     params.lr_scheduler.patience=3 \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
-    output.path="data/emb_mles__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb_mles__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # ReduceLROnPlateau x2 epochs
@@ -19,11 +19,11 @@ python -m ptls.pl_train_module \
     params.lr_scheduler.threshold=0.0001 \
     params.lr_scheduler.patience=3 \
     params.train.n_epoch=60 \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
-    output.path="data/emb_mles__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb_mles__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # CosineAnnealing
@@ -32,11 +32,11 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.lr_scheduler.CosineAnnealing=true \
     params.train.lr_scheduler.n_epoch=30 \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
-    output.path="data/emb_mles__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb_mles__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # Compare

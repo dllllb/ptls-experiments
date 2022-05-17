@@ -3,11 +3,11 @@ export SC_SUFFIX="reduce_on_plateau"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     +params.lr_scheduler.ReduceLROnPlateau=true \
-    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # ReduceLROnPlateau x2 epochs
@@ -17,11 +17,11 @@ python -m ptls.pl_train_module \
     +params.lr_scheduler.ReduceLROnPlateau=true \
     +params.lr_scheduler.threshold=0.0001 \
     trainer.max_epochs=200 \
-    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # CosineAnnealing
@@ -30,11 +30,11 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     +params.train.lr_scheduler.n_epoch=150 \
     +params.lr_scheduler.CosineAnnealing=true \
-    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/age_pred_mlm__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 

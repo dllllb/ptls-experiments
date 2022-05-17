@@ -3,11 +3,11 @@ export SC_SUFFIX="smpl_strategy_AllPositivePair"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.sampling_strategy="AllPositivePair" \
-    model_path="../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 
@@ -17,11 +17,11 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.sampling_strategy="DistanceWeightedPair" \
     params.train.n_samples_from_class=5 \
-    model_path="../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
-    model_path="../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
-    output.path="data/emb__$SC_SUFFIX" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
+    output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
 # HardNegativePair
@@ -32,11 +32,11 @@ do
       logger_name=${SC_SUFFIX} \
       params.train.sampling_strategy="HardNegativePair" \
       params.train.neg_count=${SC_NEG_COUNT} \
-      model_path="../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
       --config-dir conf --config-name mles_params
   python -m ptls.pl_inference \
-      model_path="../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
-      output.path="data/emb__$SC_SUFFIX" \
+      model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p" \
+      output.path="${hydra:runtime.cwd}/data/emb__$SC_SUFFIX" \
       --config-dir conf --config-name mles_params
 done
 

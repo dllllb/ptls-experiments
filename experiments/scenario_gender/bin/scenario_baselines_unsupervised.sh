@@ -31,12 +31,12 @@ python -m ptls.pl_train_module \
     data_module.train.split_strategy.split_count=2 \
     data_module.valid.split_strategy.split_count=2 \
     params.validation_metric_params.K=1 \
-    model_path="../../artifacts/scenario_gender/mles_model2.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles_model2.p" \
     logger_name="mles_model2" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference    \
-    model_path="../../artifacts/scenario_gender/mles_model2.p" \
-    output.path="data/mles2_embeddings" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles_model2.p" \
+    output.path="${hydra:runtime.cwd}/data/mles2_embeddings" \
     --config-dir conf --config-name mles_params
 
 # Train the Contrastive Predictive Coding (CPC) model; inference

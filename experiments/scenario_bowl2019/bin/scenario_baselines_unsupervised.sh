@@ -33,12 +33,12 @@ python -m ptls.pl_train_module \
     params.validation_metric_params.K=1 \
     trainer.max_epochs=200 \
     params.lr_scheduler.step_size=30 \
-    model_path="../../artifacts/scenario_bowl2019/mles_model2.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles_model2.p" \
     logger_name="mles_model2" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference    \
-    model_path="../../artifacts/scenario_bowl2019/mles_model2.p" \
-    output.path="data/mles2_embeddings" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles_model2.p" \
+    output.path="${hydra:runtime.cwd}/data/mles2_embeddings" \
     --config-dir conf --config-name mles_params
 
 # Train the Replaced Token Detection (RTD) model; inference

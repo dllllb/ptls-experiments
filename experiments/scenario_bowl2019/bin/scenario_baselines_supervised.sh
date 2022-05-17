@@ -4,10 +4,10 @@ python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_target
 # Fine tune the MeLES model in supervised mode and save scores to the file
 python -m ptls.pl_train_module \
     params.train.neg_count=5 \
-    model_path="../../artifacts/scenario_bowl2019/mles_model_ft.p" \
+    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles_model_ft.p" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_fit_target \
-    params.pretrained.model_path="../../artifacts/scenario_bowl2019/mles_model_ft.p" \
+    params.pretrained.model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles_model_ft.p" \
     data_module.train.drop_last=true \
     --config-dir conf --config-name pl_fit_finetuning_mles
 
