@@ -23,6 +23,8 @@ lightgbm = ">=2.3.1"
 xgboost = ">=0.90"
 embeddings-validation = {editable = true, path = "embeddings_validation_src/."}
 pytorch-lifestream = {git = "https://github.com/dllllb/pytorch-lifestream.git", editable = true}
+hydra-core = ">=1.1.2"
+omegaconf = ">=2.1.2"
 
 [requires]
 python_version = "3.8"
