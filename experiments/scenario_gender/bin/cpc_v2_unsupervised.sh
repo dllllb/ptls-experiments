@@ -1,6 +1,6 @@
 # Prepare agg feature encoder and take embedidngs; inference
-python -m ptls.pl_train_module --conf conf/agg_features_params.hocon
-python -m ptls.pl_inference --conf conf/agg_features_params.hocon
+python -m ptls.pl_train_module --config-dir conf --config-name agg_features_params
+python -m ptls.pl_inference --config-dir conf --config-name agg_features_params
 
 # Train the Contrastive Predictive Coding (CPC_V2) model; inference
 for i in 20 30 40 50; do
@@ -17,16 +17,16 @@ for i in 20 30 40 50; do
         data_module.valid.min_seq_len=$min_seq_len \
         data_module.valid.split_strategy.split_count=$split_count \
         model_path="../../artifacts/scenario_gender/$SC_SUFFIX.p" \
-        --conf "conf/cpc_v2_params.hocon"
+        --config-dir conf --config-name cpc_v2_params
 
     python -m ptls.pl_inference \
         model_path="../../artifacts/scenario_gender/$SC_SUFFIX.p" \
         output.path="data/emb__$SC_SUFFIX" \
-        --conf "conf/cpc_v2_params.hocon"
+        --config-dir conf --config-name cpc_v2_params
 done
 
 rm results/scenario_gender_baselines_unsupervised_cpc_v2.txt
 python -m embeddings_validation \
-    --conf conf/cpc_v2_embeddings_validation_baselines_unsupervised.hocon --workers 10 --total_cpu_count 20 --local_scheduler \
+    --config-dir conf --config-name cpc_v2_embeddings_validation_baselines_unsupervised --workers 10 --total_cpu_count 20 --local_scheduler \
     --conf_extra \
       'auto_features: ["../data/emb__cpc_v2_sub_seq_sampl_strategy*.pickle"]'

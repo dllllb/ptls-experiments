@@ -1,5 +1,5 @@
 # Train a supervised model and save scores to the file
-python -m ptls.pl_fit_target trainer.max_epochs=1 --conf conf/pl_fit_target.hocon
+python -m ptls.pl_fit_target trainer.max_epochs=1 --config-dir conf --config-name pl_fit_target
 
 # Fine tune the CPC model in supervised mode and save scores to the file
 for i in 20 30 40 50; do
@@ -11,7 +11,7 @@ for i in 20 30 40 50; do
         params.pretrained.model_path="../../artifacts/scenario_bowl2019/$SC_SUFFIX.p" \
         embedding_validation_results.output_path="results/$SC_SUFFIX.json" \
         embedding_validation_results.feature_name="cpc_v2_finetuning_split_count_$split_count" \
-        --conf conf/cpc_v2_pl_fit_finetuning.hocon
+        --config-dir conf --config-name cpc_v2_pl_fit_finetuning
 done
 
 
@@ -19,4 +19,4 @@ done
 rm results/scenario_bowl_baselines_supervised_cpc_v2.txt
 
 python -m embeddings_validation \
-    --conf conf/cpc_v2_embeddings_validation_baselines_supervised.hocon --workers 10 --total_cpu_count 20 --local_scheduler
+    --config-dir conf --config-name cpc_v2_embeddings_validation_baselines_supervised --workers 10 --total_cpu_count 20 --local_scheduler

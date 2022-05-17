@@ -4,11 +4,11 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="lstm" \
     model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 #
 export SC_SUFFIX="encoder_transf"
 python -m ptls.pl_train_module \
@@ -27,19 +27,19 @@ python -m ptls.pl_train_module \
     params.transf.use_positional_encoding=false \
     params.transf.use_src_key_padding_mask=false \
     model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
     inference_dataloader.loader.batch_size=32 \
     output.path="data/emb__$SC_SUFFIX" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 
 # Compare
 rm results/scenario_gender__encoder_types.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --conf conf/embeddings_validation_short.hocon --workers 10 --total_cpu_count 20 \
+    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
     --conf_extra \
       'report_file: "../results/scenario_gender__encoder_types.txt",
       auto_features: ["../data/emb__encoder_*.pickle"]'

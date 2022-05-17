@@ -4,12 +4,12 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="gru" \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 # LSTM encoder
 export SC_SUFFIX="encoder_lstm"
@@ -17,12 +17,12 @@ python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.rnn.type="lstm" \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 
 # Transformer encoder
@@ -39,13 +39,13 @@ python -m ptls.pl_train_module \
     params.valid.split_strategy.cnt_min=50 \
     params.valid.split_strategy.cnt_max=200 \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     inference_dataloader.loader.batch_size=128 \
     output.path="data/emb__$SC_SUFFIX" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 # Transformer encoder
 export SC_SUFFIX="encoder_transf_bs064_4head_64hs_8layers"
@@ -61,19 +61,19 @@ python -m ptls.pl_train_module \
     params.valid.split_strategy.cnt_min=50 \
     params.valid.split_strategy.cnt_max=200 \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     params.valid.batch_size=32 \
     output.path="data/emb__$SC_SUFFIX" \
-    --conf conf/mles_params.hocon
+    --config-dir conf --config-name mles_params
 
 # Compare
 rm results/scenario_bowl2019__encoder_types.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --conf conf/embeddings_validation_short.hocon --workers 10 --total_cpu_count 20 --local_scheduler\
+    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 --local_scheduler\
     --conf_extra \
       'report_file: "../results/scenario_bowl2019__encoder_types.txt",
       auto_features: ["../data/emb__encoder_*.pickle"]'

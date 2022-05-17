@@ -5,11 +5,11 @@ do
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
       model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
-      --conf conf/mles_params.hocon
+      --config-dir conf --config-name mles_params
   python -m ptls.pl_inference \
       model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       output.path="data/emb_mles__$SC_SUFFIX" \
-      --conf conf/mles_params.hocon
+      --config-dir conf --config-name mles_params
 done
 
 for SC_HIDDEN_SIZE in 1600
@@ -20,18 +20,18 @@ do
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
       data_module.train.batch_size=128 \
       model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
-      --conf conf/mles_params.hocon
+      --config-dir conf --config-name mles_params
   python -m ptls.pl_inference \
       model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       output.path="data/emb_mles__$SC_SUFFIX" \
-      --conf conf/mles_params.hocon
+      --config-dir conf --config-name mles_params
 done
 
 # Compare
 rm results/scenario_x5__hidden_size.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --conf conf/embeddings_validation_short.hocon --workers 10 --total_cpu_count 20 \
+    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
     --conf_extra \
       'report_file: "../results/scenario_x5__hidden_size.txt",
       auto_features: ["../data/emb_mles__hidden_size_*.pickle"]'

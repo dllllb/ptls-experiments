@@ -8,11 +8,11 @@ do
             params.rnn.hidden_size=${RNN_SIZE} \
             "params.head_layers=[[Linear, {in_features: ${RNN_SIZE}, out_features: ${PRJ_SIZE}}], [BatchNorm1d, {num_features: ${PRJ_SIZE}}], [ReLU, {}], [Linear, {in_features: ${PRJ_SIZE}, out_features: ${PRJ_SIZE}}], [NormEncoder, {}]]" \
             model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
-            --conf conf/mles_proj_head_params.hocon
+            --config-dir conf --config-name mles_proj_head_params
         python -m ptls.pl_inference \
             model_path="../../artifacts/scenario_gender/gender_mlm__$SC_SUFFIX.p" \
             output.path="data/emb__$SC_SUFFIX" \
-            --conf conf/mles_proj_head_params.hocon
+            --config-dir conf --config-name mles_proj_head_params
     done
 done
 
@@ -20,7 +20,7 @@ done
 rm results/scenario_gender__projection_head.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --conf conf/embeddings_validation_short.hocon --workers 10 --total_cpu_count 20 \
+    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
     --conf_extra \
       'report_file: "../results/scenario_gender__projection_head.txt",
       auto_features: ["../data/emb__projection_head_*.pickle"]'

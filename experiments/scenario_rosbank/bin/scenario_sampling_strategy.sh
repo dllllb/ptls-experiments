@@ -4,12 +4,12 @@ python -m ptls.pl_train_module \
   logger_name=${SC_SUFFIX} \
   params.train.sampling_strategy="AllPositivePair" \
   model_path="../../artifacts/scenario_rosbank/mles__$SC_SUFFIX.p" \
-  --conf "conf/mles_params.hocon"
+  --config-dir conf --config-name mles_params
 
 python -m ptls.pl_inference \
   model_path="../../artifacts/scenario_rosbank/mles__$SC_SUFFIX.p" \
   output.path="data/emb_mles__$SC_SUFFIX" \
-  --conf "conf/mles_params.hocon"
+  --config-dir conf --config-name mles_params
 
 
 # DistanceWeightedPair
@@ -19,11 +19,11 @@ python -m ptls.pl_train_module \
   params.train.sampling_strategy="DistanceWeightedPair" \
   params.train.n_samples_from_class=5 \
   model_path="../../artifacts/scenario_rosbank/mles__$SC_SUFFIX.p" \
-  --conf "conf/mles_params.hocon"
+  --config-dir conf --config-name mles_params
 python -m ptls.pl_inference \
   model_path="../../artifacts/scenario_rosbank/mles__$SC_SUFFIX.p" \
   output.path="data/emb_mles__$SC_SUFFIX" \
-  --conf "conf/mles_params.hocon"
+  --config-dir conf --config-name mles_params
 
 
 # HardNegativePair
@@ -35,18 +35,18 @@ do
     params.train.sampling_strategy="HardNegativePair" \
     params.train.neg_count=${SC_NEG_COUNT} \
     model_path="../../artifacts/scenario_rosbank/mles__$SC_SUFFIX.p" \
-    --conf "conf/mles_params.hocon"
+    --config-dir conf --config-name mles_params
   python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_rosbank/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
-    --conf "conf/mles_params.hocon"
+    --config-dir conf --config-name mles_params
 done
 
 # Compare
 rm results/scenario_rosbank__smpl_strategy.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-  --conf conf/embeddings_validation_short.hocon --workers 10 --total_cpu_count 20 \
+  --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
   --conf_extra \
     'report_file: "../results/scenario_rosbank__smpl_strategy.txt",
     auto_features: ["../data/emb_mles__smpl_*.pickle"]'

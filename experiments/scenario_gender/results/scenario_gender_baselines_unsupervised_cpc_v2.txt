@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 Vector testing report
 Params:
-    conf: "conf/cpc_v2_embeddings_validation_baselines_unsupervised_1618076541.hocon"
+    conf: "conf/cpc_v2_embeddings_validation_baselines_unsupervised_1618076541.yaml"
 
 Collected 25 files with 0 errors
 

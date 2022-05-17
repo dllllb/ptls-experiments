@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 Vector testing report
 Params:
-    conf: "conf/embeddings_validation_baselines_supervised.hocon"
+    conf: "conf/embeddings_validation_baselines_supervised.yaml"
 
 Collected 6 files with 0 errors
 

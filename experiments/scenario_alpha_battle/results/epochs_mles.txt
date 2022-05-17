@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 Vector testing report
 Params:
-    conf: "conf/embeddings_validation_short_1643961956.hocon"
+    conf: "conf/embeddings_validation_short_1643961956.yaml"
 
 Collected 150 files with 0 errors
 

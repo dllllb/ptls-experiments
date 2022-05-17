@@ -1,29 +1,29 @@
 # Prepare agg feature encoder and take embedidngs; inference
-python -m ptls.pl_train_module --conf conf/agg_features_params.hocon
-python -m ptls.pl_inference --conf conf/agg_features_params.hocon
+python -m ptls.pl_train_module --config-dir conf --config-name agg_features_params
+python -m ptls.pl_inference --config-dir conf --config-name agg_features_params
 
 # Random encoder
-python -m ptls.pl_inference --conf conf/random_params.hocon
+python -m ptls.pl_inference --config-dir conf --config-name random_params
 
 ## Train the MeLES encoder and take embedidngs; inference
-#python -m ptls.pl_train_module --conf conf/mles_params.hocon
-#python -m ptls.pl_inference --conf conf/mles_params.hocon
+#python -m ptls.pl_train_module --config-dir conf --config-name mles_params
+#python -m ptls.pl_inference --config-dir conf --config-name mles_params
 #
 ## Train the Contrastive Predictive Coding (CPC) model; inference
-#python -m ptls.pl_train_module --conf conf/cpc_params.hocon
-#python -m ptls.pl_inference --conf conf/cpc_params.hocon
+#python -m ptls.pl_train_module --config-dir conf --config-name cpc_params
+#python -m ptls.pl_inference --config-dir conf --config-name cpc_params
 #
 ## Train the Sequence Order Prediction (SOP) model; inference
-#python -m ptls.pl_train_module --conf conf/sop_params.hocon
-#python -m ptls.pl_inference --conf conf/sop_params.hocon
+#python -m ptls.pl_train_module --config-dir conf --config-name sop_params
+#python -m ptls.pl_inference --config-dir conf --config-name sop_params
 #
 ## Train the Next Sequence Prediction (NSP) model; inference
-#python -m ptls.pl_train_module --conf conf/nsp_params.hocon
-#python -m ptls.pl_inference --conf conf/nsp_params.hocon
+#python -m ptls.pl_train_module --config-dir conf --config-name nsp_params
+#python -m ptls.pl_inference --config-dir conf --config-name nsp_params
 #
 ## Train the Replaced Token Detection (RTD) model; inference
-#python -m ptls.pl_train_module --conf conf/rtd_params.hocon
-#python -m ptls.pl_inference --conf conf/rtd_params.hocon
+#python -m ptls.pl_train_module --config-dir conf --config-name rtd_params
+#python -m ptls.pl_inference --config-dir conf --config-name rtd_params
 
 # Check COLEs with split_count=2
 # was
@@ -35,11 +35,11 @@ python -m ptls.pl_inference --conf conf/random_params.hocon
 #    params.lr_scheduler.step_size=1 \
 #    model_path="../../artifacts/scenario_alpha_battle/mles_model2.p" \
 #    logger_name="mles_model2" \
-#    --conf conf/mles_params.hocon
+#    --config-dir conf --config-name mles_params
 #python -m ptls.pl_inference    \
 #    model_path="../../artifacts/scenario_alpha_battle/mles_model2.p" \
 #    output.path="data/mles2_embeddings" \
-#    --conf conf/mles_params.hocon
+#    --config-dir conf --config-name mles_params
 #
 ## Check COLEs with transformer encoder
 #python -m ptls.pl_train_module \
@@ -48,20 +48,20 @@ python -m ptls.pl_inference --conf conf/random_params.hocon
 #    params.lr_scheduler.step_size=3 \
 #    model_path="../../artifacts/scenario_alpha_battle/mles_modelt.p" \
 #    logger_name="mles_modelt" \
-#    --conf conf/mles_params.hocon
+#    --config-dir conf --config-name mles_params
 #python -m ptls.pl_inference    \
 #    inference_dataloader.loader.batch_size=128 \
 #    model_path="../../artifacts/scenario_alpha_battle/mles_modelt.p" \
 #    output.path="data/mlest_embeddings" \
-#    --conf conf/mles_params.hocon
+#    --config-dir conf --config-name mles_params
 
 ## Train the Replaced Token Detection (RTD) model; inference
-#python -m ptls.pl_train_module --conf conf/barlow_twins_params.hocon
-#python -m ptls.pl_inference --conf conf/barlow_twins_params.hocon
+#python -m ptls.pl_train_module --config-dir conf --config-name barlow_twins_params
+#python -m ptls.pl_inference --config-dir conf --config-name barlow_twins_params
 
 
 # Compare
 rm results/scenario_alpha_battle_baselines_unsupervised.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --conf conf/embeddings_validation_baselines_unsupervised.hocon --workers 10 --total_cpu_count 20
+    --config-dir conf --config-name embeddings_validation_baselines_unsupervised --workers 10 --total_cpu_count 20

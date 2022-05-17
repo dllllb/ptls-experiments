@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 Vector testing report
 Params:
-    conf: "conf/embeddings_validation_distribution_target.hocon"
+    conf: "conf/embeddings_validation_distribution_target.yaml"
 
 Collected 3 files with 0 errors
 

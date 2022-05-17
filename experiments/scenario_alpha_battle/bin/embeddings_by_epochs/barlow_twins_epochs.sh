@@ -1,7 +1,7 @@
 # Barlow twins
 checkpoints_folder="lightning_logs/barlow_twins_model/version_1/checkpoints/*.ckpt"
 output_file_prefix="data/barlow_twins_v1__"
-conf_file="conf/barlow_twins_params.hocon"
+conf_file="barlow_twins_params"
 batch_size=1024
 
 for model_file in $(ls -vr $checkpoints_folder)
@@ -23,7 +23,7 @@ do
     echo "--------: $output_file exists"
   else
     echo "--------: Run inference for $output_file"
-    python -m ptls.pl_inference model_path="${model_file}" output.path="${output_file}"  inference_dataloader.loader.batch_size=${batch_size} --conf "${conf_file}"
+    python -m ptls.pl_inference model_path="${model_file}" output.path="${output_file}"  inference_dataloader.loader.batch_size=${batch_size} --config-dir conf --config-name "${conf_file}"
   fi
 #  fi
 done
@@ -31,7 +31,7 @@ done
 rm results/epochs_barlow_twins.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --conf conf/embeddings_validation_short.hocon --workers 10 --total_cpu_count 20 \
+    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
     --conf_extra \
       'report_file: "../results/epochs_barlow_twins.txt",
       auto_features: ["../data/barlow_twins_v1_???.pickle"]'

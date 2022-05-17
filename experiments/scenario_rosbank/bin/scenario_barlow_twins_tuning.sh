@@ -9,11 +9,11 @@ python -m ptls.pl_train_module \
     params.lr_scheduler.step_size=10 \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_hidden_size_0680"
 python -m ptls.pl_train_module \
@@ -26,11 +26,11 @@ python -m ptls.pl_train_module \
     params.lr_scheduler.step_size=10 \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_batch_size_96"
 python -m ptls.pl_train_module \
@@ -43,11 +43,11 @@ python -m ptls.pl_train_module \
     params.lr_scheduler.step_size=10 \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_lambd_0.02"
 python -m ptls.pl_train_module \
@@ -60,11 +60,11 @@ python -m ptls.pl_train_module \
     params.lr_scheduler.step_size=10 \
     params.lr_scheduler.step_gamma=0.9025 \
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__${SC_SUFFIX}" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 
 #################
@@ -83,7 +83,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v02"
 python -m ptls.pl_train_module \
@@ -99,7 +99,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v03"
 python -m ptls.pl_train_module \
@@ -115,7 +115,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v04"
 python -m ptls.pl_train_module \
@@ -131,7 +131,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=400 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v05"
 python -m ptls.pl_train_module \
@@ -147,7 +147,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v06"
 python -m ptls.pl_train_module \
@@ -163,7 +163,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v07"
 python -m ptls.pl_train_module \
@@ -179,7 +179,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v08"
 python -m ptls.pl_train_module \
@@ -195,7 +195,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v09"
 python -m ptls.pl_train_module \
@@ -211,7 +211,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v10"
 python -m ptls.pl_train_module \
@@ -227,7 +227,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 
 export SC_SUFFIX="bt_tuning_v11"
@@ -243,7 +243,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v12"
 python -m ptls.pl_train_module \
@@ -258,7 +258,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v13"
 python -m ptls.pl_train_module \
@@ -273,7 +273,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 
 export SC_SUFFIX="bt_tuning_v14"
@@ -286,7 +286,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none \
     model_path="../../artifacts/scenario_rosbank/mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v15"
 python -m ptls.pl_train_module \
@@ -298,7 +298,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none \
     model_path="../../artifacts/scenario_rosbank/mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v16"
 python -m ptls.pl_train_module \
@@ -310,7 +310,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none \
     model_path="../../artifacts/scenario_rosbank/mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 export SC_SUFFIX="bt_tuning_v18"
 python -m ptls.pl_train_module \
@@ -322,7 +322,7 @@ python -m ptls.pl_train_module \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none \
     model_path="../../artifacts/scenario_rosbank/mlm__$SC_SUFFIX.p" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 
 export SC_SUFFIX="bt_tuning_v17"; export SC_VERSION=1
@@ -335,53 +335,53 @@ ls "lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/"
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=9-step\=79.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_009" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=49-step\=399.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_049" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=99-step\=799.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_099" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=149-step\=1199.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_149" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=199-step\=1599.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_199" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=249-step\=1999.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_249" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=299-step\=2399.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_299" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=349-step\=2799.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_349" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=399-step\=3199.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_399" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=449-step\=3599.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_449" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=200 \
     model_path="lightning_logs/${SC_SUFFIX}/version_${SC_VERSION}/checkpoints/epoch\=499-step\=3999.ckpt" \
     output.path="data/emb__${SC_SUFFIX}_499" \
-    --conf "conf/barlow_twins_params.hocon"
+    --config-dir conf --config-name barlow_twins_params
 
 
 rm results/res_bt_tuning.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --conf conf/embeddings_validation_short.hocon --workers 10 --total_cpu_count 20 \
+    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
     --conf_extra \
       'report_file: "../results/res_bt_tuning.txt",
       auto_features: ["../data/emb__bt_tuning_*.pickle", "../data/barlow_twins_embeddings.pickle"]'

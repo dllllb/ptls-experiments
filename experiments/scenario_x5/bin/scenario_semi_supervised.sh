@@ -5,24 +5,24 @@ do
         data_module.train.labeled_amount=$SC_AMOUNT \
         embedding_validation_results.feature_name="target_scores_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/fit_target_${SC_AMOUNT}_results.json" \
-        --conf conf/pl_fit_target_rnn.hocon
+        --config-dir conf --config-name pl_fit_target_rnn
 
     python -m ptls.pl_fit_target \
         logger_name="mles_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         embedding_validation_results.feature_name="mles_finetuning_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/mles_finetuning_${SC_AMOUNT}_results.json" \
-        --conf conf/pl_fit_finetuning_on_mles.hocon
+        --config-dir conf --config-name pl_fit_finetuning_on_mles
 
     python -m ptls.pl_fit_target \
         logger_name="cpc_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         embedding_validation_results.feature_name="cpc_finetuning_${SC_AMOUNT}" \
         embedding_validation_results.output_path="results/cpc_finetuning_${SC_AMOUNT}_results.json" \
-        --conf conf/pl_fit_finetuning_on_cpc.hocon
+        --config-dir conf --config-name pl_fit_finetuning_on_cpc
 done
 
 rm results/scenario_x5__semi_supervised.txt
 # rm -r conf/embeddings_validation_semi_supervised.work/
 python -m embeddings_validation \
-    --conf conf/embeddings_validation_semi_supervised.hocon --workers 10 --total_cpu_count 20
+    --config-dir conf --config-name embeddings_validation_semi_supervised --workers 10 --total_cpu_count 20
