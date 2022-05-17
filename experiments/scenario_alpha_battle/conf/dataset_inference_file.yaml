@@ -1,0 +1,11 @@
+inference_dataloader: 
+  col_id: app_id
+  dataset_files: 
+    - ${hydra:runtime.cwd}/data/train_trx.parquet
+    - ${hydra:runtime.cwd}/data/test_trx.parquet
+  SeqLenLimit: 
+    max_seq_len: 1600
+  loader: 
+    num_workers: 8
+    batch_size: 1000
+  torch_multiprocessing_sharing_strategy: file_system

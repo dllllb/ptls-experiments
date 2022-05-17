@@ -1,19 +1,19 @@
 export SC_SUFFIX="SampleRandom"
 export SC_STRATEGY="SampleRandom"
-python -m dltranz.pl_train_module \
+python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     data_module.train.split_strategy.split_strategy=$SC_STRATEGY \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python -m dltranz.pl_inference \
+python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
 
 export SC_SUFFIX="SampleRandom_short"
 export SC_STRATEGY="SampleRandom"
-python -m dltranz.pl_train_module \
+python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     data_module.train.max_seq_len=600 \
     data_module.valid.max_seq_len=600 \
@@ -21,7 +21,7 @@ python -m dltranz.pl_train_module \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python -m dltranz.pl_inference \
+python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_bowl2019/bowl2019_mlm__$SC_SUFFIX.p" \
     output.path="data/emb__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"

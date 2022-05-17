@@ -1,6 +1,6 @@
 export SC_SUFFIX="subseq_SampleRandom"
 export SC_STRATEGY="SampleRandom"
-python -m dltranz.pl_train_module \
+python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     data_module.train.split_strategy.split_strategy=$SC_STRATEGY \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
@@ -8,7 +8,7 @@ python -m dltranz.pl_train_module \
     params.valid.batch_size=128 \
     model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python -m dltranz.pl_inference \
+python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"
@@ -16,7 +16,7 @@ python -m dltranz.pl_inference \
 
 export SC_SUFFIX="subseq_SplitRandom"
 export SC_STRATEGY="SplitRandom"
-python -m dltranz.pl_train_module \
+python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     data_module.train.split_strategy.split_strategy=$SC_STRATEGY \
     data_module.valid.split_strategy.split_strategy=$SC_STRATEGY \
@@ -24,7 +24,7 @@ python -m dltranz.pl_train_module \
     params.valid.batch_size=128 \
     model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     --conf "conf/mles_params.hocon"
-python -m dltranz.pl_inference \
+python -m ptls.pl_inference \
     model_path="../../artifacts/scenario_x5/mles__$SC_SUFFIX.p" \
     output.path="data/emb_mles__$SC_SUFFIX" \
     --conf "conf/mles_params.hocon"

@@ -1,4 +1,4 @@
-python -m dltranz.pl_fit_target \
+python -m ptls.pl_fit_target \
   data_module.train.drop_last=true \
   logger_name="bf_ftning_v01" \
   params.pretrained.lr=0.001 \

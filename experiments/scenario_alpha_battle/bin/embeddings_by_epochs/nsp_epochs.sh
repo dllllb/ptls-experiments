@@ -22,7 +22,7 @@ do
     echo "--------: $output_file exists"
   else
     echo "--------: Run inference for $output_file"
-    python -m dltranz.pl_inference model_path="${model_file}" output.path="${output_file}" inference_dataloader.loader.batch_size=${batch_size} --conf "${conf_file}"
+    python -m ptls.pl_inference model_path="${model_file}" output.path="${output_file}" inference_dataloader.loader.batch_size=${batch_size} --conf "${conf_file}"
   fi
 done
 

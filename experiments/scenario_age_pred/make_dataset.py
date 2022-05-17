@@ -1,4 +1,4 @@
-from dltranz.make_datasets_spark import DatasetConverter
+from ptls.make_datasets_spark import DatasetConverter
 
 
 if __name__ == '__main__':

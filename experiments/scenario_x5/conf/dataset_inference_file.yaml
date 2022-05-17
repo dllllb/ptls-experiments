@@ -1,0 +1,10 @@
+inference_dataloader: 
+  col_id: client_id
+  dataset_files: 
+    - ${hydra:runtime.cwd}/data/train_trx.parquet
+    - ${hydra:runtime.cwd}/data/test_trx.parquet
+  SeqLenLimit: 
+    max_seq_len: 800
+  loader: 
+    num_workers: 4
+    batch_size: 1000

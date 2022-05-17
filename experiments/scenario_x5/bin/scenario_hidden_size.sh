@@ -1,12 +1,12 @@
 for SC_HIDDEN_SIZE in 0064 0160 0480 0800
 do
   export SC_SUFFIX="hidden_size__hs_${SC_HIDDEN_SIZE}"
-  python -m dltranz.pl_train_module \
+  python -m ptls.pl_train_module \
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
       model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       --conf conf/mles_params.hocon
-  python -m dltranz.pl_inference \
+  python -m ptls.pl_inference \
       model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       output.path="data/emb_mles__$SC_SUFFIX" \
       --conf conf/mles_params.hocon
@@ -15,13 +15,13 @@ done
 for SC_HIDDEN_SIZE in 1600
 do
   export SC_SUFFIX="hidden_size__hs_${SC_HIDDEN_SIZE}"
-  python -m dltranz.pl_train_module \
+  python -m ptls.pl_train_module \
       logger_name=${SC_SUFFIX} \
       params.rnn.hidden_size=${SC_HIDDEN_SIZE} \
       data_module.train.batch_size=128 \
       model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       --conf conf/mles_params.hocon
-  python -m dltranz.pl_inference \
+  python -m ptls.pl_inference \
       model_path="../../artifacts/scenario_x5/x5_mlm__$SC_SUFFIX.p" \
       output.path="data/emb_mles__$SC_SUFFIX" \
       --conf conf/mles_params.hocon

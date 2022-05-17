@@ -1,29 +1,29 @@
 # Train a supervised model and save scores to the file
-python -m dltranz.pl_fit_target --conf conf/pl_fit_target.hocon
+python -m ptls.pl_fit_target --conf conf/pl_fit_target.hocon
 
 # Fine tune the MeLES model in supervised mode and save scores to the file
-python -m dltranz.pl_train_module \
+python -m ptls.pl_train_module \
     params.train.neg_count=5 \
     model_path="../../artifacts/scenario_bowl2019/mles_model_ft.p" \
     --conf conf/mles_params.hocon
-python -m dltranz.pl_fit_target \
+python -m ptls.pl_fit_target \
     params.pretrained.model_path="../../artifacts/scenario_bowl2019/mles_model_ft.p" \
     data_module.train.drop_last=true \
     --conf conf/pl_fit_finetuning_mles.hocon
 
 # Train a special CPC model for fine-tuning
 # it is quite smaller, than one which is used for embeddings extraction, due to insufficiency labeled data to fine-tune a big model.
-python -m dltranz.pl_train_module --conf conf/cpc_params_for_finetuning.hocon
+python -m ptls.pl_train_module --conf conf/cpc_params_for_finetuning.hocon
 
 # Fine tune the CPC model in supervised mode and save scores to the file
-python -m dltranz.pl_fit_target --conf conf/pl_fit_finetuning_cpc.hocon
+python -m ptls.pl_fit_target --conf conf/pl_fit_finetuning_cpc.hocon
 
 # Fine tune the RTD model in supervised mode and save scores to the file
-python -m dltranz.pl_fit_target data_module.train.drop_last=true --conf conf/pl_fit_finetuning_rtd.hocon
+python -m ptls.pl_fit_target data_module.train.drop_last=true --conf conf/pl_fit_finetuning_rtd.hocon
 
 cp "../../artifacts/scenario_bowl2019/barlow_twins_model.p" "../../artifacts/scenario_bowl2019/barlow_twins_model_ft.p"
 # Fine tune the RTD model in supervised mode and save scores to the file
-python -m dltranz.pl_fit_target data_module.train.drop_last=true --conf conf/pl_fit_finetuning_barlow_twins.hocon
+python -m ptls.pl_fit_target data_module.train.drop_last=true --conf conf/pl_fit_finetuning_barlow_twins.hocon
 
 
 # Compare

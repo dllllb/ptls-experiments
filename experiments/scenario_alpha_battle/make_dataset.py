@@ -1,4 +1,4 @@
-from dltranz.make_datasets_spark import DatasetConverter
+from ptls.make_datasets_spark import DatasetConverter
 
 import pyspark.sql.functions as F
 import logging

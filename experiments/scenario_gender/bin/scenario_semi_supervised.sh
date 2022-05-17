@@ -1,6 +1,6 @@
 for SC_AMOUNT in 0378 0756 1512 3024 6048
 do
-	python -m dltranz.pl_fit_target \
+	python -m ptls.pl_fit_target \
         logger_name="fit_target_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         trainer.max_epochs=20 \
@@ -8,7 +8,7 @@ do
         embedding_validation_results.output_path="results/fit_target_${SC_AMOUNT}_results.json" \
         --conf conf/pl_fit_target.hocon
 
-  python -m dltranz.pl_fit_target \
+  python -m ptls.pl_fit_target \
         logger_name="mles_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         trainer.max_epochs=10 \
@@ -16,7 +16,7 @@ do
         embedding_validation_results.output_path="results/mles_finetuning_${SC_AMOUNT}_results.json" \
         --conf conf/pl_fit_finetuning_mles.hocon
 
-  python -m dltranz.pl_fit_target \
+  python -m ptls.pl_fit_target \
         logger_name="cpc_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         trainer.max_epochs=10 \
