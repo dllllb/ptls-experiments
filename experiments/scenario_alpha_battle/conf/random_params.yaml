@@ -78,8 +78,8 @@ random_model: true
 inference_dataloader: 
   col_id: app_id
   dataset_files: 
-    - data/train_trx.parquet
-    - data/test_trx.parquet
+    - ${hydra:runtime.cwd}/data/train_trx.parquet
+    - ${hydra:runtime.cwd}/data/test_trx.parquet
   SeqLenLimit: 
     max_seq_len: 1600
   loader: 
@@ -87,5 +87,5 @@ inference_dataloader:
     batch_size: 1000
   torch_multiprocessing_sharing_strategy: file_system
 output: 
-  path: data/random_embeddings
+  path: ${hydra:runtime.cwd}/data/random_embeddings
   format: pickle

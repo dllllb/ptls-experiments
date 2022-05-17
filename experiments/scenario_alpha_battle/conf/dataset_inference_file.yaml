@@ -1,8 +1,8 @@
 inference_dataloader: 
   col_id: app_id
   dataset_files: 
-    - data/train_trx.parquet
-    - data/test_trx.parquet
+    - ${hydra:runtime.cwd}/data/train_trx.parquet
+    - ${hydra:runtime.cwd}/data/test_trx.parquet
   SeqLenLimit: 
     max_seq_len: 1600
   loader: 

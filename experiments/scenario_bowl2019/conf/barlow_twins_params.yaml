@@ -3,7 +3,7 @@ data_module:
   setup: 
     col_id: game_session
     dataset_files: 
-      data_path: data/train_trx.parquet
+      data_path: ${hydra:runtime.cwd}/data/train_trx.parquet
     split_by: files
     valid_size: 0.05
     valid_split_seed: 42
@@ -116,17 +116,17 @@ params:
     lambd: 0.04
     lr: 0.002
     weight_decay: 0.0
-model_path: ../../artifacts/scenario_bowl2019/barlow_twins_model.p
+model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/barlow_twins_model.p
 inference_dataloader: 
   col_id: game_session
   dataset_files: 
-    - data/train_trx.parquet
-    - data/test_trx.parquet
+    - ${hydra:runtime.cwd}/data/train_trx.parquet
+    - ${hydra:runtime.cwd}/data/test_trx.parquet
   SeqLenLimit: 
     max_seq_len: 1600
   loader: 
     num_workers: 4
     batch_size: 1000
 output: 
-  path: data/barlow_twins_embeddings
+  path: ${hydra:runtime.cwd}/data/barlow_twins_embeddings
   format: pickle

@@ -2,13 +2,13 @@ data_module:
   type: map
   setup: 
     dataset_files: 
-      train_data_path: data/train_trx.parquet
-      test_data_path: data/test_trx.parquet
+      train_data_path: ${hydra:runtime.cwd}/data/train_trx.parquet
+      test_data_path: ${hydra:runtime.cwd}/data/test_trx.parquet
     col_id: customer_id
     col_id_dtype: int
     col_target: gender
     split_by: embeddings_validation
-    fold_info: conf/embeddings_validation.work/folds/folds.json
+    fold_info: ${hydra:runtime.cwd}/conf/embeddings_validation.work/folds/folds.json
   train: 
     min_seq_len: 0
     augmentations: 
@@ -35,7 +35,7 @@ data_module:
 embedding_validation_results: 
   model_name: nn
   feature_name: target_scores
-  output_path: results/fit_target_results.json
+  output_path: ${hydra:runtime.cwd}/results/fit_target_results.json
 seed_everything: 42
 trainer: 
   gpus: 1

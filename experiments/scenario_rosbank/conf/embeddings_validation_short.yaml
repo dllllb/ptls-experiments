@@ -1,8 +1,8 @@
 environment: 
   work_dir: embeddings_validation.work
-report_file: ../results/scenario_rosbank_short.txt
+report_file: ${hydra:runtime.cwd}/../results/scenario_rosbank_short.txt
 target: 
-  file_name: ../data/train.csv
+  file_name: ${hydra:runtime.cwd}/../data/train.csv
   cols_id: 
     - cl_id
   cols_id_type: 
@@ -12,10 +12,10 @@ target:
 split: 
   fit_ids: true
   train_id: 
-    file_name: ../data/train.csv
+    file_name: ${hydra:runtime.cwd}/../data/train.csv
     drop_duplicated_ids: true
   test_id: 
-    file_name: ../data/test_ids.csv
+    file_name: ${hydra:runtime.cwd}/../data/test_ids.csv
   cv_split_count: 5
   is_stratify: true
   random_state: 42
@@ -23,7 +23,7 @@ features:
   mles_embeddings: 
     enabled: true
     read_params: 
-      file_name: ../data/mles_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/../data/mles_embeddings.pickle
     target_options: {}
 external_scores: 
 models: 

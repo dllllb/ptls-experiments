@@ -3,7 +3,7 @@ data_module:
   setup: 
     col_id: client_id
     dataset_files: 
-      data_path: data/train_trx.parquet
+      data_path: ${hydra:runtime.cwd}/data/train_trx.parquet
     split_by: files
     valid_size: 0.05
     valid_split_seed: 42
@@ -74,17 +74,17 @@ params:
   train: 
     lr: 0.002
     weight_decay: 0.0
-model_path: ../../artifacts/scenario_x5/rtd_model_ft.p
+model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_x5/rtd_model_ft.p
 inference_dataloader: 
   col_id: client_id
   dataset_files: 
-    - data/train_trx.parquet
-    - data/test_trx.parquet
+    - ${hydra:runtime.cwd}/data/train_trx.parquet
+    - ${hydra:runtime.cwd}/data/test_trx.parquet
   SeqLenLimit: 
     max_seq_len: 800
   loader: 
     num_workers: 4
     batch_size: 1000
 output: 
-  path: data/rtd_embeddings
+  path: ${hydra:runtime.cwd}/data/rtd_embeddings
   format: pickle

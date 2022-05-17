@@ -36,13 +36,13 @@ random_model: true
 inference_dataloader: 
   col_id: client_id
   dataset_files: 
-    - data/train_trx_file.parquet
-    - data/test_trx_file.parquet
+    - ${hydra:runtime.cwd}/data/train_trx_file.parquet
+    - ${hydra:runtime.cwd}/data/test_trx_file.parquet
   SeqLenLimit: 
     max_seq_len: 1600
   loader: 
     num_workers: 4
     batch_size: 1000
 output: 
-  path: data/random_embeddings
+  path: ${hydra:runtime.cwd}/data/random_embeddings
   format: pickle

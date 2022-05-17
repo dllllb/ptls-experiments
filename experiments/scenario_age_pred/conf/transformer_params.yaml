@@ -3,7 +3,7 @@ data_module:
   setup: 
     col_id: client_id
     dataset_files: 
-      data_path: data/train_trx_file.parquet
+      data_path: ${hydra:runtime.cwd}/data/train_trx_file.parquet
     split_by: files
     valid_size: 0.05
     valid_split_seed: 42
@@ -90,17 +90,17 @@ params:
     margin: 0.5
     lr: 0.001
     weight_decay: 0.0
-model_path: ../../artifacts/scenario_age_pred/transf_model.p
+model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/transf_model.p
 inference_dataloader: 
   col_id: client_id
   dataset_files: 
-    - data/train_trx_file.parquet
-    - data/test_trx_file.parquet
+    - ${hydra:runtime.cwd}/data/train_trx_file.parquet
+    - ${hydra:runtime.cwd}/data/test_trx_file.parquet
   SeqLenLimit: 
     max_seq_len: 1600
   loader: 
     num_workers: 4
     batch_size: 64
 output: 
-  path: data/transf_embeddings
+  path: ${hydra:runtime.cwd}/data/transf_embeddings
   format: pickle
