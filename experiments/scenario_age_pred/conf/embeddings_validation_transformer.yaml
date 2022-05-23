@@ -1,4 +1,4 @@
-conf_path: embeddings_validation_transformer.yaml
+conf_path: conf/embeddings_validation_transformer.yaml
 environment: 
   work_dir: embeddings_validation.work
 target: 

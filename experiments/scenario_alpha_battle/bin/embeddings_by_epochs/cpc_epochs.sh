@@ -29,7 +29,6 @@ done
 rm results/epochs_cpc.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
-    --conf_extra \
-      'report_file: "../results/epochs_cpc.txt",
-      auto_features: ["../data/cpc__???.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
+    report_file="${hydra:runtime.cwd}/results/epochs_cpc.txt" \    
+    auto_features=["${hydra:runtime.cwd}/data/cpc__???.pickle"]

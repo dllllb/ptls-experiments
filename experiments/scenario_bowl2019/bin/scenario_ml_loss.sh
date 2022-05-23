@@ -128,7 +128,6 @@ python -m ptls.pl_inference \
 rm results/scenario_bowl2019__loss.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 --local_scheduler \
-    --conf_extra \
-      'report_file: "../results/scenario_bowl2019__loss.txt",
-      auto_features: ["../data/emb__loss_*.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 +local_scheduler=True \
+    report_file="${hydra:runtime.cwd}/results/scenario_bowl2019__loss.txt" \    
+    auto_features=["${hydra:runtime.cwd}/data/emb__loss_*.pickle"]

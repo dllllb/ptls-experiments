@@ -47,7 +47,6 @@ rm results/scenario_bowl2019__smpl_strategy.txt
 
 
 python -m embeddings_validation \
-  --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 --local_scheduler \
-  --conf_extra \
-    'report_file: "../results/scenario_bowl2019__smpl_strategy.txt",
-    auto_features: ["../data/emb__smpl_strategy_*.pickle"]'
+  --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 +local_scheduler=True \
+  report_file="${hydra:runtime.cwd}/results/scenario_bowl2019__smpl_strategy.txt" \    
+  auto_features=["${hydra:runtime.cwd}/data/emb__smpl_strategy_*.pickle"]

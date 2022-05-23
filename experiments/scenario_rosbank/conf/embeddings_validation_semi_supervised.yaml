@@ -1,8 +1,9 @@
+conf_path: conf/embeddings_validation_semi_supervised.yaml
 environment: 
   work_dir: embeddings_validation_semi_supervised.work
-report_file: ${hydra:runtime.cwd}/../results/scenario_rosbank__semi_supervised.txt
+report_file: ${hydra:runtime.cwd}/results/scenario_rosbank__semi_supervised.txt
 target: 
-  file_name: ${hydra:runtime.cwd}/../data/train.csv
+  file_name: ${hydra:runtime.cwd}/data/train.csv
   cols_id: 
     - cl_id
   cols_id_type: 
@@ -12,10 +13,10 @@ target:
 split: 
   fit_ids: true
   train_id: 
-    file_name: ${hydra:runtime.cwd}/../data/train.csv
+    file_name: ${hydra:runtime.cwd}/data/train.csv
     drop_duplicated_ids: true
   test_id: 
-    file_name: ${hydra:runtime.cwd}/../data/test_ids.csv
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
   cv_split_count: 5
   is_stratify: true
   random_state: 42
@@ -23,124 +24,124 @@ features:
   baseline_0225: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/agg_feat_embed.pickle
+      file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: 
       labeled_amount: 225
       random_state: 42
   baseline_0450: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/agg_feat_embed.pickle
+      file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: 
       labeled_amount: 450
       random_state: 42
   baseline_0900: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/agg_feat_embed.pickle
+      file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: 
       labeled_amount: 900
       random_state: 42
   baseline_1800: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/agg_feat_embed.pickle
+      file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: 
       labeled_amount: 1800
       random_state: 42
   baseline_3600: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/agg_feat_embed.pickle
+      file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: 
       labeled_amount: 3600
       random_state: 42
   mles_embeddings_0225: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/mles_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
     target_options: 
       labeled_amount: 225
       random_state: 42
   mles_embeddings_0450: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/mles_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
     target_options: 
       labeled_amount: 450
       random_state: 42
   mles_embeddings_0900: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/mles_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
     target_options: 
       labeled_amount: 900
       random_state: 42
   mles_embeddings_1800: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/mles_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
     target_options: 
       labeled_amount: 1800
       random_state: 42
   mles_embeddings_3600: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/mles_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
     target_options: 
       labeled_amount: 3600
       random_state: 42
   cpc_embeddings_0225: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/cpc_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
     target_options: 
       labeled_amount: 225
       random_state: 42
   cpc_embeddings_0450: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/cpc_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
     target_options: 
       labeled_amount: 450
       random_state: 42
   cpc_embeddings_0900: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/cpc_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
     target_options: 
       labeled_amount: 900
       random_state: 42
   cpc_embeddings_1800: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/cpc_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
     target_options: 
       labeled_amount: 1800
       random_state: 42
   cpc_embeddings_3600: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/cpc_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
     target_options: 
       labeled_amount: 3600
       random_state: 42
 external_scores: 
-  t_0225: ${hydra:runtime.cwd}/../results/fit_target_0225_results.json
-  m_0225: ${hydra:runtime.cwd}/../results/mles_finetuning_0225_results.json
-  c_0225: ${hydra:runtime.cwd}/../results/cpc_finetuning_0225_results.json
-  t_0450: ${hydra:runtime.cwd}/../results/fit_target_0450_results.json
-  m_0450: ${hydra:runtime.cwd}/../results/mles_finetuning_0450_results.json
-  c_0450: ${hydra:runtime.cwd}/../results/cpc_finetuning_0450_results.json
-  t_0900: ${hydra:runtime.cwd}/../results/fit_target_0900_results.json
-  m_0900: ${hydra:runtime.cwd}/../results/mles_finetuning_0900_results.json
-  c_0900: ${hydra:runtime.cwd}/../results/cpc_finetuning_0900_results.json
-  t_1800: ${hydra:runtime.cwd}/../results/fit_target_1800_results.json
-  m_1800: ${hydra:runtime.cwd}/../results/mles_finetuning_1800_results.json
-  c_1800: ${hydra:runtime.cwd}/../results/cpc_finetuning_1800_results.json
-  t_3600: ${hydra:runtime.cwd}/../results/fit_target_3600_results.json
-  m_3600: ${hydra:runtime.cwd}/../results/mles_finetuning_3600_results.json
-  c_3600: ${hydra:runtime.cwd}/../results/cpc_finetuning_3600_results.json
+  t_0225: ${hydra:runtime.cwd}/results/fit_target_0225_results.json
+  m_0225: ${hydra:runtime.cwd}/results/mles_finetuning_0225_results.json
+  c_0225: ${hydra:runtime.cwd}/results/cpc_finetuning_0225_results.json
+  t_0450: ${hydra:runtime.cwd}/results/fit_target_0450_results.json
+  m_0450: ${hydra:runtime.cwd}/results/mles_finetuning_0450_results.json
+  c_0450: ${hydra:runtime.cwd}/results/cpc_finetuning_0450_results.json
+  t_0900: ${hydra:runtime.cwd}/results/fit_target_0900_results.json
+  m_0900: ${hydra:runtime.cwd}/results/mles_finetuning_0900_results.json
+  c_0900: ${hydra:runtime.cwd}/results/cpc_finetuning_0900_results.json
+  t_1800: ${hydra:runtime.cwd}/results/fit_target_1800_results.json
+  m_1800: ${hydra:runtime.cwd}/results/mles_finetuning_1800_results.json
+  c_1800: ${hydra:runtime.cwd}/results/cpc_finetuning_1800_results.json
+  t_3600: ${hydra:runtime.cwd}/results/fit_target_3600_results.json
+  m_3600: ${hydra:runtime.cwd}/results/mles_finetuning_3600_results.json
+  c_3600: ${hydra:runtime.cwd}/results/cpc_finetuning_3600_results.json
 models: 
   lgbm: 
     enabled: true

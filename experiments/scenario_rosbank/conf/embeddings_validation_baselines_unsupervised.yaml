@@ -1,7 +1,8 @@
+conf_path: conf/embeddings_validation_baselines_unsupervised.yaml
 environment: 
   work_dir: embeddings_validation.work
 target: 
-  file_name: ${hydra:runtime.cwd}/../data/train.csv
+  file_name: ${hydra:runtime.cwd}/data/train.csv
   cols_id: 
     - cl_id
   cols_id_type: 
@@ -11,10 +12,10 @@ target:
 split: 
   fit_ids: true
   train_id: 
-    file_name: ${hydra:runtime.cwd}/../data/train.csv
+    file_name: ${hydra:runtime.cwd}/data/train.csv
     drop_duplicated_ids: true
   test_id: 
-    file_name: ${hydra:runtime.cwd}/../data/test_ids.csv
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
   cv_split_count: 5
   is_stratify: true
   random_state: 42
@@ -78,52 +79,52 @@ metrics:
     score_func: sklearn.metrics.accuracy_score
     scorer_params: 
       needs_proba: false
-report_file: ${hydra:runtime.cwd}/../results/scenario_rosbank_baselines_unsupervised.txt
+report_file: ${hydra:runtime.cwd}/results/scenario_rosbank_baselines_unsupervised.txt
 features: 
   baseline: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/agg_feat_embed.pickle
+      file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: {}
   random_encoder: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/random_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/random_embeddings.pickle
     target_options: {}
   mles_embeddings: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/mles_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
     target_options: {}
   cpc_embeddings: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/cpc_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
     target_options: {}
   sop_embeddings: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/sop_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/sop_embeddings.pickle
     target_options: {}
   nsp_embeddings: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/nsp_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/nsp_embeddings.pickle
     target_options: {}
   rtd_embeddings: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/rtd_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/rtd_embeddings.pickle
     target_options: {}
   mles2_embeddings: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/mles2_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/mles2_embeddings.pickle
     target_options: {}
   barlow_twins_embeddings: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/barlow_twins_embeddings.pickle
+      file_name: ${hydra:runtime.cwd}/data/barlow_twins_embeddings.pickle
     target_options: {}
 external_scores: 
 report: 

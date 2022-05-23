@@ -1,4 +1,4 @@
-conf_path: embeddings_validation_distribution_target.yaml
+conf_path: conf/embeddings_validation_distribution_target.yaml
 environment: 
   work_dir: embeddings_validation.work
 target: 

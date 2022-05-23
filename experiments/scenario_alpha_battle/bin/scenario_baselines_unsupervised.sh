@@ -64,4 +64,4 @@ python -m ptls.pl_inference --config-dir conf --config-name random_params
 rm results/scenario_alpha_battle_baselines_unsupervised.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_baselines_unsupervised --workers 10 --total_cpu_count 20
+    --config-dir conf --config-name embeddings_validation_baselines_unsupervised +workers=10 +total_cpu_count=20

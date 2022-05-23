@@ -33,9 +33,8 @@ python -m ptls.pl_inference \
 rm results/scenario_age_pred__subseq_smpl_strategy.txt
 
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
-    --conf_extra \
-      'report_file: "../results/scenario_age_pred__subseq_smpl_strategy.txt",
-      auto_features: [
-          "../data/emb__SplitRandom.pickle",
-          "../data/emb__SampleRandom.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
+    report_file="${hydra:runtime.cwd}/results/scenario_age_pred__subseq_smpl_strategy.txt" \    
+    auto_features=[
+          "${hydra:runtime.cwd}/data/emb__SplitRandom.pickle",
+          "${hydra:runtime.cwd}/data/emb__SampleRandom.pickle"]'

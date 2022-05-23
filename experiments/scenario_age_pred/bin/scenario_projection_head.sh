@@ -20,7 +20,6 @@ done
 rm results/scenario_age_pred__proj_head.txt
 
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
-    --conf_extra \
-      'report_file: "../results/scenario_age_pred__proj_head.txt",
-      auto_features: ["../data/emb__projection_head_*.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
+    report_file="${hydra:runtime.cwd}/results/scenario_age_pred__proj_head.txt" \    
+    auto_features=["${hydra:runtime.cwd}/data/emb__projection_head_*.pickle"]

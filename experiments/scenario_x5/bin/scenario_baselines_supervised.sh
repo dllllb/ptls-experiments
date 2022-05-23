@@ -29,4 +29,4 @@ python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_o
 rm results/scenario_x5_baselines_supervised.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_baselines_supervised --workers 10 --total_cpu_count 20
+    --config-dir conf --config-name embeddings_validation_baselines_supervised +workers=10 +total_cpu_count=20

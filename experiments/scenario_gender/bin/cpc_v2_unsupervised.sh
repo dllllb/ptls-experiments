@@ -27,6 +27,5 @@ done
 
 rm results/scenario_gender_baselines_unsupervised_cpc_v2.txt
 python -m embeddings_validation \
-    --config-dir conf --config-name cpc_v2_embeddings_validation_baselines_unsupervised --workers 10 --total_cpu_count 20 --local_scheduler \
-    --conf_extra \
-      'auto_features: ["../data/emb__cpc_v2_sub_seq_sampl_strategy*.pickle"]'
+    --config-dir conf --config-name cpc_v2_embeddings_validation_baselines_unsupervised +workers=10 +total_cpu_count=20 +local_scheduler=True \
+      'auto_features: ["${hydra:runtime.cwd}/data/emb__cpc_v2_sub_seq_sampl_strategy*.pickle"]'

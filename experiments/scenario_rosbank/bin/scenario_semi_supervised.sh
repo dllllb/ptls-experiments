@@ -31,4 +31,4 @@ done
 rm results/scenario_rosbank__semi_supervised.txt
 python -m embeddings_validation \
   --config-dir conf --config-name embeddings_validation_semi_supervised \
-  --workers 10 --total_cpu_count 18
+  +workers=10 --total_cpu_count 18
