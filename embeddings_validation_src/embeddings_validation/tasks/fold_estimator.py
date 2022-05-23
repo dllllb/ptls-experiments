@@ -26,30 +26,25 @@ class FoldEstimator(luigi.Task):
         return FoldSplitter(conf=self.conf)
 
     def output(self):
-        conf = Config.read_file(self.conf)
         fold_name = '__'.join([
             f'm_{self.model_name}',
             f'f_{self.feature_name}',
             f'i_{self.fold_id}'
         ])
-        path = os.path.join(conf.work_dir, fold_name, 'results.json')
+        path = os.path.join(self.conf.work_dir, fold_name, 'results.json')
         return luigi.LocalTarget(path)
 
     @property
     def resources(self):
-        conf = Config.read_file(self.conf)
-
-        cpu_count = conf.models[self.model_name]['cpu_count']
+        cpu_count = self.conf.models[self.model_name]['cpu_count']
         return {'cpu': math.ceil(cpu_count / self.total_cpu_count * 100) / 100}
 
     def run(self):
-        conf = Config.read_file(self.conf)
-
-        x_transf = XTransformer(conf, self.feature_name, conf.models[self.model_name]['preprocessing'])
-        conf_model = conf.models[self.model_name]
+        x_transf = XTransformer(self.conf, self.feature_name, self.conf.models[self.model_name]['preprocessing'])
+        conf_model = self.conf.models[self.model_name]
         model = cls_loader.create(conf_model['cls_name'], conf_model['params'])
-        scorer = Metrics(conf)
-        on_error = conf.error_handling
+        scorer = Metrics(self.conf)
+        on_error = self.conf.error_handling
 
         results = {
             'fold_id': self.fold_id,
@@ -88,10 +83,10 @@ class FoldEstimator(luigi.Task):
             }
 
         except BaseException:
-            if on_error == conf.ON_ERROR_SKIP:
+            if on_error == self.conf.ON_ERROR_SKIP:
                 results = None
                 logging.getLogger('luigi-interface').exception('Fail', stack_info=True)
-            elif on_error == conf.ON_ERROR_FAIL:
+            elif on_error == self.conf.ON_ERROR_FAIL:
                 raise
             else:
                 raise AssertionError(f'Unknown error_handling: "{on_error}"')
@@ -112,8 +107,7 @@ class FoldEstimator(luigi.Task):
         return score
 
     def apply_target_options(self, df_target):
-        conf = Config.read_file(self.conf)
-        target_options = conf.features[self.feature_name]['target_options']
+        target_options = self.conf.features[self.feature_name]['target_options']
         if 'labeled_amount' in target_options:
             df_target = self.reduce_labeled_amount(
                 df_target,
@@ -122,8 +116,7 @@ class FoldEstimator(luigi.Task):
         return df_target
 
     def reduce_labeled_amount(self, df_target, labeled_amount):
-        conf = Config.read_file(self.conf)
-        row_order_shuffle_seed = conf['split'].get('row_order_shuffle_seed', None)
+        row_order_shuffle_seed = self.conf['split'].get('row_order_shuffle_seed', None)
         if row_order_shuffle_seed is None:
             logging.warning('`row_order_shuffle_seed` not set. Row order may be incorrect')
 
