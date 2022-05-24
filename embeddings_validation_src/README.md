@@ -135,7 +135,7 @@ These results will be collected and presented in report.
 ## Folds for external scores
 Your external scorer can use train-valid-test split from embedding_validation.
 1. Set `split.row_order_shuffle_seed` for specify random row order in folds.
-2. Run `python -m embeddings_validation --split_only`
+2. Run `python -m embeddings_validation +split_only=True`
 3. Run your scorer and read fold information:
     ```python
     from embeddings_validation.file_reader import TargetFile
@@ -256,7 +256,7 @@ rm -r test_conf/train-test.work/
 rm test_conf/train-test.txt
 
 # run report collection
-python -m embeddings_validation --workers 4 --conf test_conf/train-test.hocon --total_cpu_count 10
+python -m embeddings_validation +workers=4 --config-dir test_conf --config-name train-test +total_cpu_count=10
 
 # check final report
 less test_conf/train-test.txt
@@ -268,7 +268,7 @@ rm -r test_conf/train-valid-1iter.work/
 rm test_conf/train-valid-1iter.txt
 
 # run report collection
-python -m embeddings_validation --workers 4 --conf test_conf/train-valid-1iter.hocon --total_cpu_count 10
+python -m embeddings_validation +workers=4 --config-dir test_conf --config-name train-valid-1iter +total_cpu_count=10
 
 # check final report
 less test_conf/train-valid-1iter.txt
@@ -280,7 +280,7 @@ rm -r test_conf/crossval.work/
 rm test_conf/crossval.txt
 
 # run report collection
-python -m embeddings_validation --workers 4 --conf test_conf/crossval.hocon --total_cpu_count 10
+python -m embeddings_validation +workers=4 --config-dir test_conf --config-name crossval +total_cpu_count=10
 
 # check final report
 less test_conf/crossval.txt
@@ -293,7 +293,7 @@ rm -r test_conf/single-file.work/
 rm test_conf/single-file.txt
 
 # run report collection
-python -m embeddings_validation --workers 4 --conf test_conf/single-file.hocon --total_cpu_count 10
+python -m embeddings_validation +workers=4 --config-dir test_conf --config-name single-file +total_cpu_count=10
 
 # check final report
 less test_conf/single-file.txt
@@ -306,7 +306,7 @@ rm -r test_conf/single-file-short.work/
 rm test_conf/single-file-short.txt
 
 # run report collection
-python -m embeddings_validation --workers 4 --conf test_conf/single-file-short.hocon --total_cpu_count 10
+python -m embeddings_validation +workers=4 --config-dir test_conf --config-name single-file-short +total_cpu_count=10
 
 # check final report
 less test_conf/single-file-short.txt
