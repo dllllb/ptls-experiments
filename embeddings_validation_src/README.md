@@ -249,7 +249,7 @@ luigid
 
 ```
 
-## Test example `train-test.hocon`
+## Test example `train-test.yaml`
 ```
 # delete old files
 rm -r test_conf/train-test.work/
@@ -261,7 +261,7 @@ python -m embeddings_validation +workers=4 --config-dir test_conf --config-name 
 # check final report
 less test_conf/train-test.txt
 ```
-## Test example `train-valid-1iter.hocon`
+## Test example `train-valid-1iter.yaml`
 ```
 # delete old files
 rm -r test_conf/train-valid-1iter.work/
@@ -273,7 +273,7 @@ python -m embeddings_validation +workers=4 --config-dir test_conf --config-name 
 # check final report
 less test_conf/train-valid-1iter.txt
 ```
-## Test example `crossval.hocon`
+## Test example `crossval.yaml`
 ```
 # delete old files
 rm -r test_conf/crossval.work/
@@ -286,7 +286,7 @@ python -m embeddings_validation +workers=4 --config-dir test_conf --config-name 
 less test_conf/crossval.txt
 ```
 
-## Test example `single-file.hocon`
+## Test example `single-file.yaml`
 ```
 # delete old files
 rm -r test_conf/single-file.work/
@@ -299,7 +299,7 @@ python -m embeddings_validation +workers=4 --config-dir test_conf --config-name 
 less test_conf/single-file.txt
 ```
 
-## Test example `single-file-short.hocon`
+## Test example `single-file-short.yaml`
 ```
 # delete old files
 rm -r test_conf/single-file-short.work/
