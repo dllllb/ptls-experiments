@@ -13,4 +13,4 @@ rm -f results/scenario_age_pred_transformer.txt
 rm -rf conf/embeddings_validation.work/
 
 python -m embeddings_validation \
-   --config-dir conf --config-name embeddings_validation_transformer --workers 10 --total_cpu_count 20
+   --config-dir conf --config-name embeddings_validation_transformer +workers=10 +total_cpu_count=20

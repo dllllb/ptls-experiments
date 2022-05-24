@@ -41,10 +41,9 @@ python -m ptls.pl_inference \
 rm results/rm results/scenario_lr_schedule.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 --local_scheduler \
-    --conf_extra \
-      'report_file: "../results/scenario_lr_schedule.txt",
-      auto_features: [
-          "../data/emb__reduce_on_plateau.pickle", 
-          "../data/emb__reduce_on_plateau_x2epochs.pickle",
-          "../data/emb__cosine_annealing.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 +local_scheduler=True \
+    report_file="${hydra:runtime.cwd}/results/scenario_lr_schedule.txt" \    
+    auto_features=[
+          "${hydra:runtime.cwd}/data/emb__reduce_on_plateau.pickle", 
+          "${hydra:runtime.cwd}/data/emb__reduce_on_plateau_x2epochs.pickle",
+          "${hydra:runtime.cwd}/data/emb__cosine_annealing.pickle"]'

@@ -1,7 +1,8 @@
+conf_path: conf/embeddings_validation_distribution_target.yaml
 environment: 
   work_dir: embeddings_validation.work
 target: 
-  file_name: ${hydra:runtime.cwd}/../data/gender_train_distribution_target.csv
+  file_name: ${hydra:runtime.cwd}/data/gender_train_distribution_target.csv
   cols_id: 
     - customer_id
   cols_id_type: 
@@ -10,39 +11,39 @@ target:
 split: 
   fit_ids: true
   train_id: 
-    file_name: ${hydra:runtime.cwd}/../data/gender_train_distribution_target.csv
+    file_name: ${hydra:runtime.cwd}/data/gender_train_distribution_target.csv
   test_id: 
-    file_name: ${hydra:runtime.cwd}/../data/test_ids.csv
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
   cv_split_count: 5
   is_stratify: false
   random_state: 42
 models: {}
-report_file: ${hydra:runtime.cwd}/../results/scenario_gender_distibution_target.txt
+report_file: ${hydra:runtime.cwd}/results/scenario_gender_distibution_target.txt
 features: 
 external_scores: 
-  nn: ${hydra:runtime.cwd}/../results/fit_target_distribution_results.json
-  half_stats: ${hydra:runtime.cwd}/../results/fit_target_distribution_results_statistics.json
-  agg_head: ${hydra:runtime.cwd}/../results/fit_target_distribution_results_agg_features.json
+  nn: ${hydra:runtime.cwd}/results/fit_target_distribution_results.json
+  half_stats: ${hydra:runtime.cwd}/results/fit_target_distribution_results_statistics.json
+  agg_head: ${hydra:runtime.cwd}/results/fit_target_distribution_results_agg_features.json
 report: 
   is_check_train: false
   error_handling: fail
   print_all_metrics: false
   metrics: 
     R2n: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     R2p: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     CEn: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     CEp: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     KLn: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     KLp: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true

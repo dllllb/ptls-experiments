@@ -40,4 +40,4 @@ done
 rm results/scenario_bowl2019__semi_supervised.txt
 # rm -r conf/embeddings_validation_semi_supervised.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_semi_supervised --workers 10 --total_cpu_count 20 --local_scheduler
+    --config-dir conf --config-name embeddings_validation_semi_supervised +workers=10 +total_cpu_count=20 +local_scheduler=True

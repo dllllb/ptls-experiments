@@ -13,23 +13,21 @@ class ExternalScore(luigi.Task):
     external_path = luigi.Parameter()
 
     def output(self):
-        conf = Config.read_file(self.conf)
-        path = os.path.join(conf.work_dir, 'external', self.name, 'scores.json')
+        path = os.path.join(self.conf.work_dir, 'external', self.name, 'scores.json')
         return luigi.LocalTarget(path)
 
     def run(self):
-        conf = Config.read_file(self.conf)
-        on_error = conf.error_handling
+        on_error = self.conf.error_handling
 
         try:
-            path = os.path.join(conf.root_path, self.external_path)
+            path = os.path.join(self.conf.root_path, self.external_path)
             with open(path, 'r') as f:
                 external_scores = json.load(f)
         except BaseException:
-            if on_error == conf.ON_ERROR_SKIP:
+            if on_error == self.conf.ON_ERROR_SKIP:
                 external_scores = None
                 logging.getLogger('luigi-interface').exception('Fail', stack_info=True)
-            elif on_error == conf.ON_ERROR_FAIL:
+            elif on_error == self.conf.ON_ERROR_FAIL:
                 raise
             else:
                 raise AssertionError(f'Unknown error_handling: "{on_error}"')

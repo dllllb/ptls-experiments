@@ -102,9 +102,8 @@ python -m ptls.pl_inference     inference_dataloader.loader.batch_size=1000 \
 rm results/res_bt_tuning.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 4 --total_cpu_count 20 \
-    --conf_extra \
-      'report_file: "../results/res_bt_tuning.txt",
-      auto_features: ["../data/emb__bt_tuning_*.pickle", "../data/barlow_twins_embeddings.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=4 +total_cpu_count=20 \
+    report_file="${hydra:runtime.cwd}/results/res_bt_tuning.txt" \    
+    auto_features=["${hydra:runtime.cwd}/data/emb__bt_tuning_*.pickle", "${hydra:runtime.cwd}/data/barlow_twins_embeddings.pickle"]
 less -S results/res_bt_tuning.txt
 

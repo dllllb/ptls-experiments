@@ -221,9 +221,7 @@ class ReportByFolds(luigi.Task):
     feature_name = luigi.Parameter()
 
     def requires(self):
-        conf = Config.read_file(self.conf)
-
-        for fold_id in conf.folds:
+        for fold_id in self.conf.folds:
             yield FoldEstimator(
                 conf=self.conf,
                 model_name=self.model_name,
@@ -244,17 +242,15 @@ class ReportCollect(luigi.Task):
     f = None
 
     def requires(self):
-        conf = Config.read_file(self.conf)
-
-        for model_name in conf.models:
-            for feature_name in conf.features:
+        for model_name in self.conf.models:
+            for feature_name in self.conf.features:
                 yield ReportByFolds(
                     conf=self.conf,
                     model_name=model_name,
                     feature_name=feature_name,
                     total_cpu_count=self.total_cpu_count,
                 )
-        for name, external_path in conf.external_scores.items():
+        for name, external_path in self.conf.external_scores.items():
             yield ExternalScore(
                 conf=self.conf,
                 name=name,
@@ -262,9 +258,7 @@ class ReportCollect(luigi.Task):
             )
 
     def output(self):
-        conf = Config.read_file(self.conf)
-
-        path = os.path.join(conf.root_path, conf['report_file'])
+        path = os.path.join(self.conf.root_path, self.conf['report_file'])
         return luigi.LocalTarget(path)
 
     def load_results(self):
@@ -298,13 +292,11 @@ class ReportCollect(luigi.Task):
         return pd_report, total_count, error_count
 
     def run(self):
-        conf = Config.read_file(self.conf)
-
         splits = []
-        if conf['report.is_check_train']:
+        if self.conf['report']['is_check_train']:
             splits.append('scores_train')
         splits.append('scores_valid')
-        if 'test_id' in conf['split']:
+        if 'test_id' in self.conf['split']:
             splits.append('scores_test')
 
         pd_report, total_count, error_count = self.load_results()
@@ -320,11 +312,11 @@ class ReportCollect(luigi.Task):
             self.print_header()
             self.print_errors(total_count, error_count)
 
-            for k in conf['report.metrics'].keys():
-                self.print_row_pandas(k, metric_index[k].loc[k], **conf['report.metrics'].get(k, {}))
+            for k in self.conf['report']['metrics'].keys():
+                self.print_row_pandas(k, metric_index[k].loc[k], **self.conf['report']['metrics'].get(k, {}))
                 del metric_index[k]
 
-            if conf['report.print_all_metrics'] and len(metric_index) > 0:
+            if self.conf['report']['print_all_metrics'] and len(metric_index) > 0:
                 print('Other metrics:', file=f)
                 for k in metric_index:
                     self.print_row_pandas(k, metric_index[k].loc[k])
@@ -335,7 +327,7 @@ class ReportCollect(luigi.Task):
         self.print_line()
         _text = f"""Vector testing report
 Params:
-    conf: "{self.conf}"
+    conf: "{self.conf['conf_path']}"
 """
         print(_text, file=self.f)
 

@@ -1,8 +1,9 @@
+conf_path: conf/cpc_v2_embeddings_validation_baselines_unsupervised.yaml
 environment: 
   work_dir: embeddings_validation.work
-report_file: ${hydra:runtime.cwd}/../results/scenario_bowl_baselines_unsupervised_cpc_v2.txt
+report_file: ${hydra:runtime.cwd}/results/scenario_bowl_baselines_unsupervised_cpc_v2.txt
 target: 
-  file_name: ${hydra:runtime.cwd}/../data/train_labels.csv
+  file_name: ${hydra:runtime.cwd}/data/train_labels.csv
   cols_id: 
     - game_session
   cols_id_type: 
@@ -12,9 +13,9 @@ target:
 split: 
   fit_ids: true
   train_id: 
-    file_name: ${hydra:runtime.cwd}/../data/train_labels.csv
+    file_name: ${hydra:runtime.cwd}/data/train_labels.csv
   test_id: 
-    file_name: ${hydra:runtime.cwd}/../data/test_ids.csv
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
   cv_split_count: 5
   is_stratify: true
   random_state: 42
@@ -54,7 +55,7 @@ features:
   baseline: 
     enabled: true
     read_params: 
-      file_name: ${hydra:runtime.cwd}/../data/agg_feat_embed.pickle
+      file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: {}
 report: 
   is_check_train: false
@@ -62,7 +63,7 @@ report:
   print_all_metrics: false
   metrics: 
     accuracy: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       baseline_key: 
         - lgbm
         - baseline

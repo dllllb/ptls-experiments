@@ -1,7 +1,8 @@
+conf_path: conf/embeddings_validation_baselines_supervised.yaml
 environment: 
   work_dir: embeddings_validation.work
 target: 
-  file_name: ${hydra:runtime.cwd}/../data/gender_train.csv
+  file_name: ${hydra:runtime.cwd}/data/gender_train.csv
   cols_id: 
     - customer_id
   cols_id_type: 
@@ -10,9 +11,9 @@ target:
 split: 
   fit_ids: true
   train_id: 
-    file_name: ${hydra:runtime.cwd}/../data/gender_train.csv
+    file_name: ${hydra:runtime.cwd}/data/gender_train.csv
   test_id: 
-    file_name: ${hydra:runtime.cwd}/../data/test_ids.csv
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
   cv_split_count: 5
   is_stratify: true
   random_state: 42
@@ -76,21 +77,21 @@ metrics:
     score_func: sklearn.metrics.accuracy_score
     scorer_params: 
       needs_proba: false
-report_file: ${hydra:runtime.cwd}/../results/scenario_gender_baselines_supervised.txt
+report_file: ${hydra:runtime.cwd}/results/scenario_gender_baselines_supervised.txt
 features: 
 external_scores: 
-  fit_target: ${hydra:runtime.cwd}/../results/fit_target_results.json
-  mles_finetuning: ${hydra:runtime.cwd}/../results/mles_finetuning_results.json
-  cpc_finetuning: ${hydra:runtime.cwd}/../results/cpc_finetuning_results.json
-  rtd_finetuning: ${hydra:runtime.cwd}/../results/rtd_finetuning_results.json
-  barlow_twins_finetuning: ${hydra:runtime.cwd}/../results/barlow_twins_finetuning_results.json
+  fit_target: ${hydra:runtime.cwd}/results/fit_target_results.json
+  mles_finetuning: ${hydra:runtime.cwd}/results/mles_finetuning_results.json
+  cpc_finetuning: ${hydra:runtime.cwd}/results/cpc_finetuning_results.json
+  rtd_finetuning: ${hydra:runtime.cwd}/results/rtd_finetuning_results.json
+  barlow_twins_finetuning: ${hydra:runtime.cwd}/results/barlow_twins_finetuning_results.json
 report: 
   is_check_train: false
   error_handling: fail
   print_all_metrics: false
   metrics: 
     auroc: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       baseline_key: 
         - nn
         - target_scores

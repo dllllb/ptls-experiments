@@ -19,4 +19,4 @@ done
 rm results/scenario_gender_baselines_supervised_cpc_v2.txt
 
 python -m embeddings_validation \
-    --config-dir conf --config-name cpc_v2_embeddings_validation_baselines_supervised --workers 10 --total_cpu_count 20 --local_scheduler
+    --config-dir conf --config-name cpc_v2_embeddings_validation_baselines_supervised +workers=10 +total_cpu_count=20 +local_scheduler=True

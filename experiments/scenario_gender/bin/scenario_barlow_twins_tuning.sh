@@ -18,10 +18,9 @@ done
 rm results/res_bt_lambd.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
-    --conf_extra \
-      'report_file: "../results/res_bt_lambd.txt",
-      auto_features: ["../data/emb__bt_lambd_*.pickle", "../data/barlow_twins_embeddings.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
+    report_file="${hydra:runtime.cwd}/results/res_bt_lambd.txt" \    
+    auto_features=["${hydra:runtime.cwd}/data/emb__bt_lambd_*.pickle", "${hydra:runtime.cwd}/data/barlow_twins_embeddings.pickle"]
 less -S results/res_bt_lambd.txt
 
 
@@ -44,10 +43,9 @@ done
 rm results/res_bt_hs.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
-    --conf_extra \
-      'report_file: "../results/res_bt_hs.txt",
-      auto_features: ["../data/emb__bt_hs_*.pickle", "../data/barlow_twins_embeddings.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
+    report_file="${hydra:runtime.cwd}/results/res_bt_hs.txt" \    
+    auto_features=["${hydra:runtime.cwd}/data/emb__bt_hs_*.pickle", "${hydra:runtime.cwd}/data/barlow_twins_embeddings.pickle"]
 less -S results/res_bt_hs.txt
 
 # prj
@@ -72,10 +70,9 @@ done
 rm results/res_bt_prj.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
-    --conf_extra \
-      'report_file: "../results/res_bt_prj.txt",
-      auto_features: ["../data/emb__bt_prj_*.pickle", "../data/barlow_twins_embeddings.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
+    report_file="${hydra:runtime.cwd}/results/res_bt_prj.txt" \    
+    auto_features=["${hydra:runtime.cwd}/data/emb__bt_prj_*.pickle", "${hydra:runtime.cwd}/data/barlow_twins_embeddings.pickle"]
 less -S results/res_bt_prj.txt
 
 
@@ -97,10 +94,9 @@ done
 rm results/res_bt_bs.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short --workers 10 --total_cpu_count 20 \
-    --conf_extra \
-      'report_file: "../results/res_bt_bs.txt",
-      auto_features: ["../data/emb__bt_bs_*.pickle", "../data/barlow_twins_embeddings.pickle"]'
+    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
+    report_file="${hydra:runtime.cwd}/results/res_bt_bs.txt" \    
+    auto_features=["${hydra:runtime.cwd}/data/emb__bt_bs_*.pickle", "${hydra:runtime.cwd}/data/barlow_twins_embeddings.pickle"]
 less -S results/res_bt_bs.txt
 
 

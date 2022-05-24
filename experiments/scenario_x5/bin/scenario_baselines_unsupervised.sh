@@ -50,4 +50,4 @@ python -m ptls.pl_inference --config-dir conf --config-name barlow_twins_params
 rm results/scenario_x5_baselines_unsupervised.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_baselines_unsupervised --workers 10 --total_cpu_count 20
+    --config-dir conf --config-name embeddings_validation_baselines_unsupervised +workers=10 +total_cpu_count=20

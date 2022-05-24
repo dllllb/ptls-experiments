@@ -1,7 +1,8 @@
+conf_path: conf/embeddings_validation.yaml
 environment: 
   work_dir: embeddings_validation.work
 target: 
-  file_name: ${hydra:runtime.cwd}/../data/train_target.csv
+  file_name: ${hydra:runtime.cwd}/data/train_target.csv
   cols_id: 
     - app_id
   cols_id_type: 
@@ -11,10 +12,10 @@ target:
 split: 
   fit_ids: true
   train_id: 
-    file_name: ${hydra:runtime.cwd}/../data/train_target.csv
+    file_name: ${hydra:runtime.cwd}/data/train_target.csv
     drop_duplicated_ids: false
   test_id: 
-    file_name: ${hydra:runtime.cwd}/../data/test_ids.csv
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
   cv_split_count: 5
   is_stratify: true
   random_state: 42
