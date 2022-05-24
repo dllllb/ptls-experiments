@@ -16,9 +16,9 @@ def main(conf: DictConfig):
     orig_cwd = hydra.utils.get_original_cwd()
 
     conf.workers = conf.get('workers')
-    if conf.workers is None: raise AttributeError
+    if conf.workers is None: raise AttributeError('Define the number of workers: +workers=4')
     conf.total_cpu_count = conf.get('total_cpu_count')
-    if conf.total_cpu_count is None: raise AttributeError
+    if conf.total_cpu_count is None: raise AttributeError('Define the number of cpu on your machine: +total_cpu_count=8')
 
     conf.split_only = conf.get('split_only', False)
     conf.local_scheduler = conf.get('local_sheduler', True)
