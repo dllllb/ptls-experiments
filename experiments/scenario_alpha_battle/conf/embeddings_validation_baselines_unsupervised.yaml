@@ -133,7 +133,7 @@ report:
   print_all_metrics: false
   metrics: 
     auroc: 
-      float_format: {:.4f}
+      float_format: "{:.4f}"
       baseline_key: 
         - lgbm
         - baseline

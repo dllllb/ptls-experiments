@@ -30,20 +30,20 @@ report:
   print_all_metrics: false
   metrics: 
     R2n: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     R2p: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     CEn: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     CEp: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     KLn: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     KLp: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true

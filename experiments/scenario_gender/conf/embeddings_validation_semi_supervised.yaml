@@ -185,13 +185,13 @@ report:
   print_all_metrics: false
   metrics: 
     auroc: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     accuracy: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true
     cnt_features: 
-      float_format: {:.0f}
+      float_format: "{:.0f}"
       keep_columns: 
         - mean
     cnt_samples: 

@@ -87,5 +87,5 @@ report:
   print_all_metrics: false
   metrics: 
     auroc: 
-      float_format: {:.4f}
+      float_format: "{:.4f}"
       split_columns: true

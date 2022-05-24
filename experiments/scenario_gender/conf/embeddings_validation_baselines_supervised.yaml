@@ -91,7 +91,7 @@ report:
   print_all_metrics: false
   metrics: 
     auroc: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       baseline_key: 
         - nn
         - target_scores

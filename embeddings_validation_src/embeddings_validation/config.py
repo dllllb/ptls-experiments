@@ -1,11 +1,8 @@
-import argparse
 import os
 
 import logging
 from glob import glob
 from omegaconf import DictConfig
-
-from pyhocon import ConfigFactory, HOCONConverter
 
 logger = logging.getLogger(__name__)
 
@@ -26,10 +23,6 @@ class Config:
         logger.info('Load config from "{0}"'.format(conf['conf_path']))
         root_path = os.path.dirname(abs_conf_path)
         return cls(conf=conf, root_path=root_path)
-
-    def save_tmp_copy(self, tmp_file_name):
-        with open(tmp_file_name, 'w') as f:
-            f.write(HOCONConverter.convert(self.conf, 'hocon'))
 
     def __getitem__(self, item):
         return self.conf[item]

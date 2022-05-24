@@ -228,5 +228,5 @@ report:
   print_all_metrics: false
   metrics: 
     accuracy: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       split_columns: true

@@ -90,7 +90,7 @@ report:
   print_all_metrics: false
   metrics: 
     accuracy: 
-      float_format: {:.3f}
+      float_format: "{:.3f}"
       baseline_key: 
         - lgbm
         - mles_embeddings
