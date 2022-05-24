@@ -246,7 +246,7 @@ python3 setup.py sdist bdist_wheel
 luigid
 
 # for local run without central server add `+local_scheduler=True` option to `python -m embeddings_validation` args
-UPD: now it is by default
+# UPD: now it is by default
 
 ```
 
