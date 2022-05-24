@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 Vector testing report
 Params:
-    conf: "test_conf/single-file.hocon"
+    conf: "test_conf/single-file.yaml"
 
 Collected 45 files with 0 errors
 
