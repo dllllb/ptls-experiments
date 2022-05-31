@@ -41,7 +41,7 @@ trainer:
   checkpoint_callback: false
   deterministic: true
 
-  # logger_name: mles_model
+logger_name: mles_model
 
 pl_module:
   _target_: ptls.lightning_modules.coles_module.CoLESModule
@@ -64,10 +64,10 @@ pl_module:
           out: 16
       numeric_values: 
         amount_rur: identity
-    rnn_hidden_size: 800
-    rnn_type: gru
-    rnn_bidir: false
-    rnn_trainable_starter: static
+    hidden_size: 800
+    type: gru
+    bidir: false
+    trainable_starter: static
   head: 
     _target_: ptls.models.Head
     input_size: 800

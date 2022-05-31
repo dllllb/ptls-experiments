@@ -43,9 +43,6 @@ logger_name: cpc_model
 
 pl_module: 
   _target_: ptls.lightning_modules.cpc_module.CpcModule
-  validation_metric_partial:
-    _partial_: true
-    _target_: ptls.lightning_modules.cpc_module.CpcAccuracyPL
   seq_encoder:
     _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
     trx_encoder:
@@ -61,10 +58,10 @@ pl_module:
           out: 128
       numeric_values: 
         amount_rur: identity
-    rnn_type: gru
-    rnn_hidden_size: 512
-    rnn_bidir: false
-    rnn_trainable_starter: static
+    type: gru
+    hidden_size: 512
+    bidir: false
+    trainable_starter: static
   loss: 
     _target_: ptls.lightning_modules.cpc_module.CPC_Loss
     n_forward_steps: 6
