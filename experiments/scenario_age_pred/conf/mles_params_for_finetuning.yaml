@@ -62,6 +62,19 @@ pl_module:
     input_size: ${pl_module.hidden_size}
     hidden_layers_sizes: [256, 256]
     use_batch_norm: true
+  trx_encoder: 
+    _target_: ptls.trx_encoder.TrxEncoder
+    norm_embeddings: false
+    embeddings_noise: 0.003
+    embeddings: 
+      trans_date: 
+        in: 800
+        out: 16
+      small_group: 
+        in: 250
+        out: 16
+    numeric_values: 
+      amount_rur: identity
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR

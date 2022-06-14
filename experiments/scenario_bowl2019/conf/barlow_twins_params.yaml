@@ -98,7 +98,7 @@ pl_module:
     step_size: 30
     step_gamma: 0.8
   loss:
-  _target_: ptls.metric_learn.losses.BarlowTwinsLoss
+    _target_: ptls.metric_learn.losses.BarlowTwinsLoss
     lambd: 0.04
     sampling_strategy:
       _target_: ptls.metric_learn.sampling_strategies.HardNegativePairSelector

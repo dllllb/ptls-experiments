@@ -81,7 +81,7 @@ pl_module:
     step_size: 3
     step_gamma: 0.7
   loss:
-  _target_: torch.nn.NLLLoss
+    _target_: torch.nn.NLLLoss
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam

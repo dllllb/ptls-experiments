@@ -72,7 +72,7 @@ pl_module:
     input_size: 777
     hidden_layers_sizes: [1]
   loss:
-  _target_: torch.nn.BCELoss
+    _target_: torch.nn.BCELoss
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam

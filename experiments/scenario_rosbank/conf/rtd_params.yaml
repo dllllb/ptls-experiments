@@ -77,7 +77,7 @@ pl_module:
     ReduceLROnPlateau: true
     patience: 10
   loss:
-  _target_: torch.nn.BCELoss
+    _target_: torch.nn.BCELoss
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
