@@ -1,4 +1,5 @@
 data_module: 
+  _target_: ptls.data_load.data_module.cpc_data_module.CpcDataModuleTrain
   type: map
   setup: 
     col_id: cl_id
@@ -28,51 +29,64 @@ data_module:
           max_seq_len: 1200
     num_workers: 16
     batch_size: 64
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 25
   checkpoint_callback: false
   deterministic: true
+
 logger_name: cpc_model
-params: 
-  data_module_class: ptls.data_load.data_module.cpc_data_module.CpcDataModuleTrain
-  pl_module_class: ptls.lightning_modules.cpc_module.CpcModule
-  encoder_type: rnn
-  rnn: 
+
+pl_module:
+  _target_: ptls.lightning_modules.cpc_module.CpcModule
+  seq_encoder:
+    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
     type: gru
     hidden_size: 512
     bidir: false
     trainable_starter: static
-  trx_encoder: 
-    norm_embeddings: false
-    embeddings_noise: 0.003
-    embeddings: 
-      mcc: 
-        in: 100
-        out: 16
-      channel_type: 
-        in: 4
-        out: 2
-      currency: 
-        in: 4
-        out: 2
-      trx_category: 
-        in: 10
-        out: 2
-    numeric_values: 
-      amount: identity
-  cpc: 
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        mcc: 
+          in: 100
+          out: 16
+        channel_type: 
+          in: 4
+          out: 2
+        currency: 
+          in: 4
+          out: 2
+        trx_category: 
+          in: 10
+          out: 2
+      numeric_values: 
+        amount: identity
+  loss:
+    _target_: ptls.lightning_modules.cpc_module.CPC_Loss
     n_forward_steps: 6
     n_negatives: 40
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     step_size: 5
     step_gamma: 0.5
-  train: 
+  loss:
+  _target_: torch.nn.BCELoss
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
+
 model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/cpc_model.p
+
 inference_dataloader: 
   col_id: cl_id
   dataset_files: 
@@ -83,6 +97,7 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 output: 
   path: ${hydra:runtime.cwd}/data/cpc_embeddings
   format: pickle

@@ -1,7 +1,10 @@
 conf_path: conf/cpc_v2_embeddings_validation_baselines_unsupervised.yaml
+
 environment: 
   work_dir: embeddings_validation.work
+
 report_file: ${hydra:runtime.cwd}/results/scenario_gender_baselines_unsupervised_cpc_v2.txt
+
 target: 
   file_name: ${hydra:runtime.cwd}/data/gender_train.csv
   cols_id: 
@@ -9,6 +12,7 @@ target:
   cols_id_type: 
     - int
   col_target: gender
+
 split: 
   fit_ids: true
   train_id: 
@@ -18,7 +22,9 @@ split:
   cv_split_count: 5
   is_stratify: true
   random_state: 42
+
 external_scores: 
+
 models: 
   lgbm: 
     enabled: true
@@ -47,6 +53,7 @@ models:
       - 
         - sklearn.preprocessing.MaxAbsScaler
         - {}
+
 metrics: 
   auroc: 
     enabled: true
@@ -58,12 +65,14 @@ metrics:
     score_func: sklearn.metrics.accuracy_score
     scorer_params: 
       needs_proba: false
+
 features: 
   baseline: 
     enabled: true
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: {}
+
 report: 
   is_check_train: false
   error_handling: fail

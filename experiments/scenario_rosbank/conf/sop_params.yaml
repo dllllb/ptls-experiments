@@ -1,4 +1,5 @@
 data_module: 
+  _target_: ptls.data_load.data_module.sop_data_module.SopDataModuleTrain
   type: map
   setup: 
     col_id: cl_id
@@ -30,53 +31,63 @@ data_module:
     augmentations: []
     num_workers: 16
     batch_size: 256
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 100
   deterministic: true
+
 logger_name: sop_model
-params: 
-  data_module_class: ptls.data_load.data_module.sop_data_module.SopDataModuleTrain
-  pl_module_class: ptls.lightning_modules.sop_nsp_module.SopNspModule
-  encoder_type: rnn
-  rnn: 
+
+pl_module:
+  _target_: ptls.lightning_modules.sop_nsp_module.SopNspModule
+  seq_encoder:
+    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
     type: lstm
     hidden_size: 128
     bidir: false
     trainable_starter: static
-  trx_encoder: 
-    norm_embeddings: false
-    embeddings_noise: 0.0003
-    embeddings: 
-      mcc: 
-        in: 100
-        out: 24
-      channel_type: 
-        in: 4
-        out: 4
-      currency: 
-        in: 4
-        out: 4
-      trx_category: 
-        in: 10
-        out: 4
-    numeric_values: 
-      amount: identity
-  score_metric: auroc
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.0003
+      embeddings: 
+        mcc: 
+          in: 100
+          out: 24
+        channel_type: 
+          in: 4
+          out: 4
+        currency: 
+          in: 4
+          out: 4
+        trx_category: 
+          in: 10
+          out: 4
+      numeric_values: 
+        amount: identity
   head: 
     hidden_size: 512
     drop_p: 0.5
     pred_all_states: false
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     ReduceLROnPlateau: true
     patience: 10
-  train: 
-    loss: bce
+  loss:
+  _target_: torch.nn.BCELoss
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
+
 model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/sop_model.p
+
 inference_dataloader: 
   col_id: cl_id
   dataset_files: 
@@ -87,6 +98,7 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 output: 
   path: ${hydra:runtime.cwd}/data/sop_embeddings
   format: pickle

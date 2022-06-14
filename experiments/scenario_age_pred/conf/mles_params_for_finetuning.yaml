@@ -1,4 +1,5 @@
 data_module: 
+  _target_: ptls.data_load.data_module.coles_data_module.ColesDataModuleTrain
   type: map
   setup: 
     col_id: client_id
@@ -31,76 +32,55 @@ data_module:
       cnt_max: 100
     num_workers: 16
     batch_size: 1024
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 100
   checkpoint_callback: false
   deterministic: true
+
 logger_name: mles_model
-params: 
-  data_module_class: ptls.data_load.data_module.coles_data_module.ColesDataModuleTrain
-  pl_module_class: ptls.lightning_modules.coles_module.CoLESModule
-  validation_metric_params: 
+
+pl_module:
+  _target_: ptls.lightning_modules.coles_module.CoLESModule
+  validation_metric:
+    _target_: ptls.metric_learn.metric.BatchRecallTopPL
     K: 4
     metric: cosine
-  encoder_type: rnn
-  rnn: 
+  seq_encoder:
+    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
     type: gru
     hidden_size: 160
     bidir: false
     trainable_starter: static
-  head_layers: 
-    -
-      - Linear
-      - 
-        in_features: "{seq_encoder.embedding_size}"
-        out_features: 256
-    - 
-      - BatchNorm1d
-      - 
-        num_features: 256
-    - [ReLU, {}]
-    - 
-      - Linear
-      - 
-        in_features: 256
-        out_features: 256
-    - [NormEncoder, {}] 
-  transf: 
-    shared_layers: false
-    input_size: 64
-    n_heads: 2
-    dim_hidden: 64
-    dropout: 0.1
-    n_layers: 4
-    max_seq_len: 1
-    use_after_mask: false
-    use_positional_encoding: false
-  trx_encoder: 
-    norm_embeddings: false
-    embeddings_noise: 0.003
-    embeddings: 
-      trans_date: 
-        in: 800
-        out: 16
-      small_group: 
-        in: 250
-        out: 16
-    numeric_values: 
-      amount_rur: identity
-  lr_scheduler: 
+  head:
+    _target_: ptls.models.Head
+    use_norm_encoder: true
+    input_size: ${pl_module.hidden_size}
+    hidden_layers_sizes: [256, 256]
+    use_batch_norm: true
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     step_size: 30
     step_gamma: 0.9025
-  train: 
-    sampling_strategy: HardNegativePair
-    neg_count: 5
-    loss: ContrastiveLoss
+  loss:
+    _target_: ptls.metric_learn.losses.ContrastiveLoss
     margin: 0.5
+    sampling_strategy:
+      _target_: ptls.metric_learn.sampling_strategies.HardNegativePairSelector
+      neg_count: 5
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.002
     weight_decay: 0.0
+
 model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/mles_model_for_finetuning.p
+
 inference_dataloader: 
   col_id: client_id
   dataset_files: 
@@ -111,6 +91,7 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 output: 
   path: ${hydra:runtime.cwd}/data/mles_embeddings_for_finetuning
   format: pickle
