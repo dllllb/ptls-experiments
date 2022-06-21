@@ -1,4 +1,5 @@
 data_module: 
+  _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   type: map
   setup: 
     dataset_files: 
@@ -33,11 +34,14 @@ data_module:
           max_seq_len: 800
     num_workers: 8
     batch_size: 512
+
 embedding_validation_results: 
   model_name: nn
   feature_name: barlow_twins_finetuning
   output_path: ${hydra:runtime.cwd}/results/barlow_twins_finetuning_results.json
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
@@ -45,33 +49,36 @@ trainer:
   log_every_n_steps: 10
   checkpoint_callback: false
   deterministic: true
+
 logger_name: barlow_twins_finetuning
-params: 
-  score_metric: 
-    - accuracy
-  encoder_type: pretrained
-  pretrained: 
-    pl_module_class: ptls.lightning_modules.coles_module.CoLESModule
-    model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_x5/barlow_twins_model_ft.p
-    lr: 0.001
-  head_layers: 
-    - 
-      - BatchNorm1d
-      - 
-        num_features: "{seq_encoder.embedding_size}"
-    - 
-      - Linear
-      - 
-        in_features: "{seq_encoder.embedding_size}"
-        out_features: 4
-    - 
-      - LogSoftmax
-      - 
-        dim: 1
-  train: 
-    loss: NLLLoss
+
+pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_x5/barlow_twins_model_ft.p
+pretrained_module_cls:
+  _target_: hydra.utils.get_class
+  path: ptls.lightning_modules.coles_module.CoLESModule
+
+pl_module:
+  _target_: ptls.seq_to_target.SequenceToTarget
+  metric_list:
+    accuracy:
+      _target_: torchmetrics.Accuracy
+      compute_on_step: false
+  pretrained_lr: 0.001
+  head:
+    _target_: ptls.models.Head
+    input_size: 777
+    use_batch_norm: true
+    objective: classification
+    num_classes: 4
+  loss:
+    _target_: torch.nn.NLLLoss
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     step_size: 4
-    step_gamma: 0.1
+    gamma: 0.1

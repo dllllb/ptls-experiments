@@ -1,4 +1,5 @@
 data_module: 
+  _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   distribution_targets_task: true
   type: map
   setup: 
@@ -40,20 +41,26 @@ data_module:
     num_workers: 8
     batch_size: 512
     take_first_fraction: 0.5
+
 embedding_validation_results: 
   model_name: agg_features
   feature_name: target_scores
   output_path: ${hydra:runtime.cwd}/results/fit_target_distribution_results_agg_features.json
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 5
   checkpoint_callback: false
   deterministic: true
+
 logger_name: target_scores
-params: 
-  score_metric: 
+
+pl_module:
+  _target_: ptls.seq_to_target.SequenceToTarget
+  metric_list:
     - R2n
     - R2p
     - MAPEn
@@ -62,8 +69,10 @@ params:
     - KLp
     - CEn
     - CEp
-  encoder_type: agg_features
-  trx_encoder: 
+  seq_encoder:
+    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
     distribution_targets_task: true
     logify_sum_mean_seqlens: true
     norm_embeddings: false
@@ -79,11 +88,14 @@ params:
       - 
         in_size: "{seq_encoder.embedding_size}"
         num_distr_classes: 6
-  train: 
-    random_neg: false
-    loss: distribution_targets
+  loss:
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.005
     weight_decay: 0.0
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     step_size: 1
-    step_gamma: 0.9
+    gamma: 0.9

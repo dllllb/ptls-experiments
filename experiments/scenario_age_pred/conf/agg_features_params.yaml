@@ -1,4 +1,5 @@
 data_module: 
+  _target_: ptls.data_load.data_module.coles_data_module.ColesDataModuleTrain
   type: map
   setup: 
     col_id: client_id
@@ -30,22 +31,26 @@ data_module:
       split_count: 5
       cnt_min: 25
       cnt_max: 100
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: 1
   max_epochs: 3
   checkpoint_callback: false
   deterministic: true
+
 logger_name: agg_features_model
-params: 
-  data_module_class: ptls.data_load.data_module.coles_data_module.ColesDataModuleTrain
-  pl_module_class: ptls.lightning_modules.coles_module.CoLESModule
-  validation_metric_params: 
+
+pl_module:
+  _target_: ptls.lightning_modules.coles_module.CoLESModule
+  validation_metric:
+    _target_: ptls.metric_learn.metric.BatchRecallTopPL
     K: 4
     metric: cosine
-  encoder_type: agg_features
-  trx_encoder: 
+  seq_encoder:
+    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
     embeddings: 
       small_group: 
         in: 250
@@ -53,23 +58,30 @@ params:
       amount_rur: identity
     was_logified: true
     log_scale_factor: 1
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     step_size: 30
-    step_gamma: 0.9025
-  head_layers: 
-    - 
-      - BatchNorm1d
-      - 
-        num_features: "{seq_encoder.embedding_size}"
-    - [NormEncoder, {}]
-  train: 
-    sampling_strategy: HardNegativePair
-    neg_count: 5
-    loss: ContrastiveLoss
+    gamma: 0.9025
+  head:
+    _target_: ptls.models.Head
+    use_norm_encoder: true
+    input_size: 777
+    use_batch_norm: true
+  loss:
+    _target_: ptls.metric_learn.losses.ContrastiveLoss
     margin: 0.5
+    sampling_strategy:
+      _target_: ptls.metric_learn.sampling_strategies.HardNegativePairSelector
+      neg_count: 5
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.002
     weight_decay: 0.0
+
 model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/agg_features_model.p
+
 inference_dataloader: 
   col_id: client_id
   dataset_files: 
@@ -80,6 +92,7 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 output: 
   path: ${hydra:runtime.cwd}/data/agg_feat_embed
   format: pickle

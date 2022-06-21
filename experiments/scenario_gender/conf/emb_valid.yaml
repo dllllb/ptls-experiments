@@ -8,7 +8,9 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 data_module: 
+  _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   distribution_targets_task: true
   type: iterable
   setup: 
@@ -50,19 +52,25 @@ data_module:
     num_workers: 8
     batch_size: 64
     take_first_fraction: 0.5
+
 embedding_validation_results: 
   model_name: nn
   feature_name: target_scores
   output_path: ${hydra:runtime.cwd}/results/fit_target_distribution_results.json
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 10
   checkpoint_callback: false
   deterministic: true
+
 logger_name: target_scores
-params: 
+
+pl_module:
+  _target_: ptls.seq_to_target.SequenceToTarget
   test_frequency: 5
   ckpts_path: models
   save_step_frequency: 5
@@ -72,24 +80,26 @@ params:
     neg_distribution: 1
     pos_sum: 2
     pos_distribution: 3
-  score_metric: 
+  metric_list:
     - R2n
     - R2p
     - KLn
     - KLp
-  encoder_type: emb_valid
-  trx_encoder: 
-    norm_embeddings: false
-    embeddings_noise: 0.003
-    embeddings: 
-      mcc_code: 
-        in: 200
-        out: 48
-      tr_type: 
-        in: 100
-        out: 24
-    numeric_values: 
-      amount: identity
+  seq_encoder:
+    _target_: ptls.seq_encoder.dummy_encoder.DummyEncoder
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        mcc_code: 
+          in: 200
+          out: 48
+        tr_type: 
+          in: 100
+          out: 24
+      numeric_values: 
+        amount: identity
     category_names: 
       - mcc_code
       - tr_type
@@ -98,26 +108,20 @@ params:
       tr_type: 100
     was_logified: true
     log_scale_factor: 1
-  rnn: 
     hidden_size: 48
     type: gru
     bidir: false
     trainable_starter: static
-  head_layers: 
-    - 
-      - CombinedTargetHeadFromRnn
-      - 
-        in_size: 256
-        num_distr_classes: 10
-        pos: true
-        neg: true
-        use_gates: false
-        pass_samples: false
-  train: 
-    random_neg: false
-    loss: distribution_targets
+  head:
+    _target_: ptls.models.Head
+  loss:
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.005
     weight_decay: 0.0
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     step_size: 1
-    step_gamma: 0.9
+    gamma: 0.9

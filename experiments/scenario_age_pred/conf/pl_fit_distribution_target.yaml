@@ -8,7 +8,9 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 data_module: 
+  _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   distribution_targets_task: true
   type: map
   setup: 
@@ -50,40 +52,48 @@ data_module:
     num_workers: 8
     batch_size: 64
     take_first_fraction: 0.5
+
 embedding_validation_results: 
   model_name: nn
   feature_name: target_scores
   output_path: ${hydra:runtime.cwd}/results/fit_target_distribution_results.json
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 10
   checkpoint_callback: false
   deterministic: true
+
 logger_name: target_scores
-params: 
+
+pl_module:
+  _target_: ptls.seq_to_target.SequenceToTarget
   columns_ix: 
     pos_sum: 0
     pos_distribution: 1
     neg_sum: 2
     neg_distribution: 3
   distribution_targets_task: true
-  score_metric: 
+  metric_list:
     - R2p
     - MAPEp
     - KLp
     - CEp
-  encoder_type: distribution_targets
-  trx_encoder: 
-    norm_embeddings: false
-    embeddings_noise: 0.003
-    embeddings: 
-      small_group: 
-        in: 200
-        out: 48
-    numeric_values: 
-      amount_rur: identity
+  seq_encoder:
+    _target_: ptls.seq_to_target.SequenceToTarget
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        small_group: 
+          in: 200
+          out: 48
+      numeric_values: 
+        amount_rur: identity
     category_names: 
       - mcc_code
       - tr_type
@@ -92,7 +102,6 @@ params:
       tr_type: 100
     was_logified: false
     log_scale_factor: 1
-  rnn: 
     hidden_size: 48
     type: gru
     bidir: false
@@ -107,11 +116,14 @@ params:
         neg: false
         use_gates: true
         pass_samples: true
-  train: 
-    random_neg: false
-    loss: distribution_targets
+  loss:
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.005
     weight_decay: 0.0
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     step_size: 1
-    step_gamma: 0.9
+    gamma: 0.9

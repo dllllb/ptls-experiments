@@ -1,4 +1,5 @@
 data_module: 
+  _target_: ptls.data_load.data_module.rtd_data_module.RtdDataModuleTrain
   type: map
   setup: 
     col_id: customer_id
@@ -31,42 +32,51 @@ data_module:
   replace_token: 
     replace_prob: 0.15
     skip_first: 1
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 100
   deterministic: true
+
 logger_name: rtd_model
-params: 
-  data_module_class: ptls.data_load.data_module.rtd_data_module.RtdDataModuleTrain
-  pl_module_class: ptls.lightning_modules.rtd_module.RtdModule
-  encoder_type: rnn
-  trx_encoder: 
-    norm_embeddings: false
-    embeddings_noise: 0.003
-    embeddings: 
-      mcc_code: 
-        in: 200
-        out: 48
-      tr_type: 
-        in: 100
-        out: 24
-    numeric_values: 
-      amount: identity
-  rnn: 
+
+pl_module:
+  _target_: ptls.lightning_modules.rtd_module.RtdModule
+  seq_encoder:
+    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        mcc_code: 
+          in: 200
+          out: 48
+        tr_type: 
+          in: 100
+          out: 24
+      numeric_values: 
+        amount: identity
     type: gru
     hidden_size: 256
     bidir: false
     trainable_starter: static
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     ReduceLROnPlateau: true
     patience: 15
-  train: 
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
-    use_best_epoch: true
+
 model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_gender/rtd_model.p
+
 inference_dataloader: 
   col_id: customer_id
   dataset_files: 
@@ -77,6 +87,7 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 output: 
   path: ${hydra:runtime.cwd}/data/rtd_embeddings
   format: pickle

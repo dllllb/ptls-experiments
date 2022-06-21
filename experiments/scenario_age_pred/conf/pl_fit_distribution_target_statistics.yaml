@@ -8,7 +8,9 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 data_module: 
+  _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   distribution_targets_task: true
   type: map
   setup: 
@@ -50,19 +52,25 @@ data_module:
     num_workers: 8
     batch_size: 512
     take_first_fraction: 0.5
+
 embedding_validation_results: 
   model_name: stats
   feature_name: target_scores
   output_path: ${hydra:runtime.cwd}/results/fit_target_distribution_results_statistics.json
+
 seed_everything: 42
+
 trainer: 
   gpus: 0
   auto_select_gpus: false
   max_epochs: 0
   checkpoint_callback: false
   deterministic: true
+
 logger_name: target_scores
-params: 
+
+pl_module:
+  _target_: ptls.seq_to_target.SequenceToTarget
   pos: true
   neg: false
   columns_ix: 
@@ -273,7 +281,7 @@ params:
     - 197
     - 203
     - 199
-  score_metric: 
+  metric_list:
     - R2p
     - MAPEp
     - KLp
@@ -284,8 +292,10 @@ params:
     small_group: 1000
   numeric_values: 
     - amount_rur
-  encoder_type: statistics
-  trx_encoder: 
+  seq_encoder:
+    _target_: ptls.seq_encoder.statistics_encoder.StatisticsEncoder
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
     distribution_targets_task: true
     norm_embeddings: false
     embeddings_noise: 0.003
@@ -300,11 +310,14 @@ params:
     - 
       - DummyHead
       - 
-  train: 
-    random_neg: false
-    loss: distribution_targets
+  loss:
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
     lr: 0.005
     weight_decay: 0.0
-  lr_scheduler: 
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
     step_size: 1
-    step_gamma: 0.9
+    gamma: 0.9

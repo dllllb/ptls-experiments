@@ -1,5 +1,5 @@
 
-export SC_SUFFIX="bt_tuning_lambd_0.020-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.020-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.02 \
@@ -8,14 +8,14 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
-export SC_SUFFIX="bt_tuning_lambd_0.080-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.080-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.08 \
@@ -24,7 +24,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -32,7 +32,7 @@ python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
 
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0600-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0600-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -41,14 +41,14 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_1000-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_1000-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -57,7 +57,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -65,7 +65,7 @@ python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
 
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -74,14 +74,14 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_256-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_256-lr_0.0010-weight_decay_0.000-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -90,7 +90,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -98,7 +98,7 @@ python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
 
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0003-weight_decay_0.000-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0003-weight_decay_0.000-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -107,14 +107,14 @@ python -m ptls.pl_train_module \
     params.train.lr=0.0003 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0030-weight_decay_0.000-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0030-weight_decay_0.000-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -123,7 +123,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.003 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -131,7 +131,7 @@ python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
 
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.001-step_size_30-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.001-step_size_30-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -140,7 +140,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0.001 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -148,7 +148,7 @@ python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
 
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_20-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_20-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -157,14 +157,14 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=20 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_40-step_gamma_0.9025"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_40-gamma_0.9025"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -173,7 +173,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=40 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -181,7 +181,7 @@ python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
 
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.7"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-gamma_0.7"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -190,14 +190,14 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.7 \
+    params.lr_scheduler.gamma=0.7 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     output.path="${hydra:runtime.cwd}/data/emb__${SC_SUFFIX}" \
     --config-dir conf --config-name barlow_twins_params
-export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-step_gamma_0.97"
+export SC_SUFFIX="bt_tuning_lambd_0.040-hidden_size_0800-prj_size_000-batch_size_128-lr_0.0010-weight_decay_0.000-step_size_30-gamma_0.97"
 python -m ptls.pl_train_module \
     logger_name=${SC_SUFFIX} \
     params.train.lambd=0.04 \
@@ -206,7 +206,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=30 \
-    params.lr_scheduler.step_gamma=0.97 \
+    params.lr_scheduler.gamma=0.97 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -225,7 +225,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.0003 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=60 \
-    params.lr_scheduler.step_gamma=0.97 \
+    params.lr_scheduler.gamma=0.97 \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \
@@ -241,7 +241,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.0008 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=60 \
-    params.lr_scheduler.step_gamma=0.97 \
+    params.lr_scheduler.gamma=0.97 \
     trainer.max_epochs=600 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/gender_mlm__$SC_SUFFIX.p" \

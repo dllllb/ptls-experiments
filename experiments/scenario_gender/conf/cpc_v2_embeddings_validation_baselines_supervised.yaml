@@ -1,6 +1,8 @@
 conf_path: conf/cpc_v2_embeddings_validation_baselines_supervised.yaml
+
 environment: 
   work_dir: embeddings_validation.work
+
 target: 
   file_name: ${hydra:runtime.cwd}/data/gender_train.csv
   cols_id: 
@@ -8,6 +10,7 @@ target:
   cols_id_type: 
     - int
   col_target: gender
+
 split: 
   fit_ids: true
   train_id: 
@@ -17,6 +20,7 @@ split:
   cv_split_count: 5
   is_stratify: true
   random_state: 42
+
 models: 
   linear: 
     enabled: false
@@ -66,6 +70,7 @@ models:
       - 
         - sklearn.preprocessing.MaxAbsScaler
         - {}
+
 metrics: 
   auroc: 
     enabled: true
@@ -77,14 +82,18 @@ metrics:
     score_func: sklearn.metrics.accuracy_score
     scorer_params: 
       needs_proba: false
+
 report_file: ${hydra:runtime.cwd}/results/scenario_gender_baselines_supervised_cpc_v2.txt
+
 features: 
+
 external_scores: 
   fit_target: ${hydra:runtime.cwd}/results/fit_target_results.json
   cpc_v2_finetuning_split_count_20: ${hydra:runtime.cwd}/results/cpc_v2_sub_seq_sampl_strategy_split_count_20.json
   cpc_v2_finetuning_split_count_30: ${hydra:runtime.cwd}/results/cpc_v2_sub_seq_sampl_strategy_split_count_30.json
   cpc_v2_finetuning_split_count_40: ${hydra:runtime.cwd}/results/cpc_v2_sub_seq_sampl_strategy_split_count_40.json
   cpc_v2_finetuning_split_count_50: ${hydra:runtime.cwd}/results/cpc_v2_sub_seq_sampl_strategy_split_count_50.json
+
 report: 
   is_check_train: false
   error_handling: fail
