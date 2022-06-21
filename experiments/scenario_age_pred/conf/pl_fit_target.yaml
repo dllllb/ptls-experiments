@@ -76,8 +76,7 @@ pl_module:
         amount_rur: identity
   head:
     _target_: ptls.models.Head
-    input_size: ${pl_module.hidden_size}
-    hidden_layers_sizes: [4]
+    input_size: ${pl_module.seq_encoder.hidden_size}
     objective: classification
     num_classes: 4
   loss:
@@ -91,4 +90,4 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 5
-    step_gamma: 0.5
+    gamma: 0.5

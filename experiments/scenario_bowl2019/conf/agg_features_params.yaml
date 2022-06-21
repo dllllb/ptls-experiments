@@ -58,29 +58,27 @@ pl_module:
     K: 4
     metric: cosine
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.AggFeatureSeqEncoder
-    trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
-      embeddings: 
-        event_id: 
-          in: 500
-        event_code: 
-          in: 50
-        event_type: 
-          in: 6
-        title: 
-          in: 50
-        world: 
-          in: 6
-      numeric_values: 
-        #ones: identity
+    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
+    embeddings: 
+      event_id: 
+        in: 500
+      event_code: 
+        in: 50
+      event_type: 
+        in: 6
+      title: 
+        in: 50
+      world: 
+        in: 6
+    numeric_values: 
+      #ones: identity
     was_logified: false
     log_scale_factor: 1
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 30
-    step_gamma: 0.9025
+    gamma: 0.9025
   head:
     _target_: ptls.models.Head
     use_norm_encoder: true

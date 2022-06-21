@@ -7,7 +7,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -24,7 +24,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -41,7 +41,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -58,7 +58,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
     --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference     inference_dataloader.loader.batch_size=500 \
@@ -79,7 +79,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -95,7 +95,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -111,7 +111,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.001 \
     params.train.weight_decay=0.001 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -127,7 +127,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.002 \
     params.train.weight_decay=0.001 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=400 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -143,7 +143,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.7 \
+    params.lr_scheduler.gamma=0.7 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -159,7 +159,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.7 \
+    params.lr_scheduler.gamma=0.7 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -175,7 +175,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -191,7 +191,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -207,7 +207,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -223,7 +223,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -239,7 +239,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -254,7 +254,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \
@@ -269,7 +269,7 @@ python -m ptls.pl_train_module \
     params.train.lr=0.004 \
     params.train.weight_decay=0 \
     params.lr_scheduler.step_size=10 \
-    params.lr_scheduler.step_gamma=0.9025 \
+    params.lr_scheduler.gamma=0.9025 \
     trainer.max_epochs=300 \
     params.train.checkpoints_every_n_val_epochs=10 trainer.checkpoint_callback=none\
     model_path="${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/gender_mlm__$SC_SUFFIX.p" \

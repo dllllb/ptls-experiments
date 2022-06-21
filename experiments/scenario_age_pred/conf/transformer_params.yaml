@@ -79,7 +79,7 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 1000
-    step_gamma: 1
+    gamma: 1
     warmup: 
       num_warmup_steps: 20
       num_training_steps: 60

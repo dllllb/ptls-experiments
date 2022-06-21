@@ -50,20 +50,18 @@ pl_module:
     K: 4
     metric: cosine
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.AggFeatureSeqEncoder
-    trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
-      embeddings: 
-        level_3: 
-          in: 200
-        level_4: 
-          in: 800
-        segment_id: 
-          in: 120
-      numeric_values: 
-        trn_sum_from_iss: identity
-        netto: identity
-        regular_points_received: identity
+    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
+    embeddings: 
+      level_3: 
+        in: 200
+      level_4: 
+        in: 800
+      segment_id: 
+        in: 120
+    numeric_values: 
+      trn_sum_from_iss: identity
+      netto: identity
+      regular_points_received: identity
     was_logified: true
     log_scale_factor: 1
   head:
@@ -75,7 +73,7 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 30
-    step_gamma: 0.9025
+    gamma: 0.9025
   loss:
     _target_: ptls.metric_learn.losses.ContrastiveLoss
     margin: 0.5

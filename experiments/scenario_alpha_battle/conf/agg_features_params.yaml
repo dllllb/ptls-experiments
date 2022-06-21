@@ -59,44 +59,42 @@ pl_module:
     K: 4
     metric: cosine
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.AggFeatureSeqEncoder
-    trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
-      embeddings: 
-        currency: 
-          in: 13
-        operation_kind: 
-          in: 9
-        operation_type: 
-          in: 24
-        operation_type_group: 
-          in: 6
-        ecommerce_flag: 
-          in: 5
-        payment_system: 
-          in: 9
-        income_flag: 
-          in: 5
-        mcc: 
-          in: 110
-        mcc_category: 
-          in: 30
-        day_of_week: 
-          in: 9
-        hour: 
-          in: 25
-        weekofyear: 
-          in: 55
-      numeric_values: 
-        amnt: identity
-        hour_diff: log
+    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
+    embeddings: 
+      currency: 
+        in: 13
+      operation_kind: 
+        in: 9
+      operation_type: 
+        in: 24
+      operation_type_group: 
+        in: 6
+      ecommerce_flag: 
+        in: 5
+      payment_system: 
+        in: 9
+      income_flag: 
+        in: 5
+      mcc: 
+        in: 110
+      mcc_category: 
+        in: 30
+      day_of_week: 
+        in: 9
+      hour: 
+        in: 25
+      weekofyear: 
+        in: 55
+    numeric_values: 
+      amnt: identity
+      hour_diff: log
     was_logified: false
     log_scale_factor: 1
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 30
-    step_gamma: 0.9025
+    gamma: 0.9025
   head:
     _target_: ptls.models.Head
     use_norm_encoder: true

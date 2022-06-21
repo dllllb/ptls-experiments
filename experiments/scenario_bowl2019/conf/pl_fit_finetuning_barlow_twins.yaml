@@ -64,7 +64,6 @@ pl_module:
   head:
     _target_: ptls.models.Head
     input_size: 777
-    hidden_layers_sizes: [4]
     use_batch_norm: true
     objective: classification
     num_classes: 4
@@ -79,4 +78,4 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 4
-    step_gamma: 0.1
+    gamma: 0.1

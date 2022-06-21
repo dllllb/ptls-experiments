@@ -70,20 +70,17 @@ pl_module:
         amount_rur: identity
   head:
     _target_: ptls.models.Head
-    input_size: ${pl_module.hidden_size}
+    input_size: ${pl_module.seq_encoder.hidden_size}
     hidden_layers_sizes: [256, 256]
     use_batch_norm: true
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 30
-    step_gamma: 0.9025
+    gamma: 0.9025
   loss:
     _target_: ptls.metric_learn.losses.BarlowTwinsLoss
     lambd: 0.04
-    sampling_strategy:
-      _target_: ptls.metric_learn.sampling_strategies.HardNegativePairSelector
-      neg_count: 5
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam

@@ -69,7 +69,6 @@ pl_module:
     _target_: torch.optim.lr_scheduler.StepLR
     ReduceLROnPlateau: true
     patience: 15
-  loss:
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam

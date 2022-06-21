@@ -110,12 +110,6 @@ pl_module:
     _target_: torch.optim.lr_scheduler.StepLR
     ReduceLROnPlateau: true
     patience: 2
-  loss:
-    _target_: ptls.metric_learn.losses.ContrastiveLoss
-    margin: None
-    sampling_strategy:
-      _target_: ptls.metric_learn.sampling_strategies.HardNegativePairSelector
-      neg_count: None
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam

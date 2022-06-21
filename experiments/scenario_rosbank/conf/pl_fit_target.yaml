@@ -88,9 +88,9 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 3
-    step_gamma: 0.25
+    gamma: 0.25
   head:
     _target_: ptls.models.Head
-    input_size: ${pl_module.hidden_size}
+    input_size: ${pl_module.seq_encoder.hidden_size}
     hidden_layers_sizes: [1]
     use_batch_norm: true

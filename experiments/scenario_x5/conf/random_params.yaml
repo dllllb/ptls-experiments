@@ -1,5 +1,7 @@
 seed_everything: 42
 
+device: cuda
+
 pl_module:
   _target_: ptls.lightning_modules.coles_module.CoLESModule
   validation_metric:
@@ -33,7 +35,7 @@ pl_module:
   head:
     _target_: ptls.models.Head
     use_norm_encoder: true
-    input_size: ${pl_module.hidden_size}
+    input_size: ${pl_module.seq_encoder.hidden_size}
   loss:
     _target_: ptls.metric_learn.losses.ContrastiveLoss
     margin: 0.5

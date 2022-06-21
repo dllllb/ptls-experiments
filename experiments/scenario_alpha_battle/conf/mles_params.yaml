@@ -112,12 +112,12 @@ pl_module:
   head:
     _target_: ptls.models.Head
     use_norm_encoder: true
-    input_size: ${pl_module.hidden_size}
+    input_size: ${pl_module.seq_encoder.hidden_size}
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 1
-    step_gamma: 0.8
+    gamma: 0.8
   loss:
     _target_: ptls.metric_learn.losses.ContrastiveLoss
     margin: 0.5

@@ -51,16 +51,14 @@ pl_module:
     K: 4
     metric: cosine
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.AggFeatureSeqEncoder
-    trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
-      embeddings: 
-        mcc_code: 
-          in: 200
-        tr_type: 
-          in: 100
-      numeric_values: 
-        amount: identity
+    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
+    embeddings: 
+      mcc_code: 
+        in: 200
+      tr_type: 
+        in: 100
+    numeric_values: 
+      amount: identity
     was_logified: true
     log_scale_factor: 1
   head:
@@ -72,7 +70,7 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 10
-    step_gamma: 0.9025
+    gamma: 0.9025
   loss:
   optimizer_partial:
     _partial_: true

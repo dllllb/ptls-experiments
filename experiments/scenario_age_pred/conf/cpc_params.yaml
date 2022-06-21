@@ -29,14 +29,18 @@ data_module:
           max_seq_len: 1200
     num_workers: 16
     batch_size: 64
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 30
   checkpoint_callback: false
   deterministic: true
+
 logger_name: cpc_model
+
 pl_module:
   _target_: ptls.lightning_modules.cpc_module.CpcModule
   seq_encoder:
@@ -46,6 +50,7 @@ pl_module:
     bidir: false
     trainable_starter: static
     trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -65,15 +70,15 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 5
-    step_gamma: 0.5
-  loss:
-    _target_: torch.nn.NLLLoss
+    gamma: 0.5
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
     lr: 0.002
     weight_decay: 0.0
+
 model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/cpc_model.p
+
 inference_dataloader: 
   col_id: client_id
   dataset_files: 
@@ -84,6 +89,7 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 output: 
   path: ${hydra:runtime.cwd}/data/cpc_embeddings
   format: pickle

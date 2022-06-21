@@ -17,7 +17,7 @@ do
         params.labeled_amount=$SC_AMOUNT \
         params.train.frooze_trx_encoder=true \
         params.train.n_epoch=15 \
-        params.train.lr_scheduler.step_gamma=0.5 \
+        params.train.lr_scheduler.gamma=0.5 \
         params.train.lr_scheduler.step_size=5 \
         params.train.lr=0.01 \
         embedding_validation_results.feature_name="mles_finetuning_${SC_AMOUNT}" \
@@ -28,7 +28,7 @@ do
         logger_name="cpc_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
         params.train.n_epoch=15 \
-        params.train.lr_scheduler.step_gamma=0.1 \
+        params.train.lr_scheduler.gamma=0.1 \
         params.train.lr_scheduler.step_size=10 \
         params.train.lr=0.001 \
         params.pretrained_model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/cpc_model.p" \

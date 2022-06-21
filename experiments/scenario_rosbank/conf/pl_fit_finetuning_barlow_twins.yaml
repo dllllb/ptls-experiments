@@ -77,4 +77,4 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 1
-    step_gamma: 0.4
+    gamma: 0.4

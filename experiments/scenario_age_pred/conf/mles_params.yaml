@@ -31,14 +31,18 @@ data_module:
       cnt_max: 100
     num_workers: 16
     batch_size: 512
+
 seed_everything: 42
+
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 150
   checkpoint_callback: false
   deterministic: true
+
 logger_name: mles_model
+
 pl_module:
   _target_: ptls.lightning_modules.coles_module.CoLESModule
   validation_metric:
@@ -52,6 +56,7 @@ pl_module:
     bidir: false
     trainable_starter: static
     trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -65,12 +70,11 @@ pl_module:
         amount_rur: identity
   head:
     _target_: ptls.models.Head
-    input_size: ${pl_module.hidden_size}
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 30
-    step_gamma: 0.9025
+    gamma: 0.9025
   loss:
     _target_: ptls.metric_learn.losses.ContrastiveLoss
     margin: 0.5
@@ -82,7 +86,9 @@ pl_module:
     _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
+
 model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/mles_model.p
+
 inference_dataloader: 
   col_id: client_id
   dataset_files: 
@@ -93,6 +99,7 @@ inference_dataloader:
   loader: 
     num_workers: 4
     batch_size: 1000
+
 output: 
   path: ${hydra:runtime.cwd}/data/mles_embeddings
   format: pickle

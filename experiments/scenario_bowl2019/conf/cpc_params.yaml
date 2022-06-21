@@ -81,9 +81,7 @@ pl_module:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
     step_size: 5
-    step_gamma: 0.5
-  loss:
-    _target_: torch.nn.NLLLoss
+    gamma: 0.5
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
