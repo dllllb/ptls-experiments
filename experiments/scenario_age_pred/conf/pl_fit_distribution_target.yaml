@@ -11,7 +11,7 @@ inference_dataloader:
 
 data_module: 
   _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
-  distribution_targets_task: true
+  distribution_target_task: true
   type: map
   setup: 
     dataset_files: 
@@ -76,7 +76,7 @@ pl_module:
     pos_distribution: 1
     neg_sum: 2
     neg_distribution: 3
-  distribution_targets_task: true
+  distribution_target_task: true
   metric_list:
     - R2p
     - MAPEp

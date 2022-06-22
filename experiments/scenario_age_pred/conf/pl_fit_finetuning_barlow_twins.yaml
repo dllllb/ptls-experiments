@@ -49,10 +49,33 @@ trainer:
 
 logger_name: barlow_twins_finetuning
 
+# pretrained_module_cls:
+#   _target_: hydra.utils.get_class
+#   path: ptls.lightning_modules.coles_module.CoLESModule
+
 pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/barlow_twins_model_for_finetuning.p
-pretrained_module_cls:
-  _target_: hydra.utils.get_class
-  path: ptls.lightning_modules.coles_module.CoLESModule
+
+pretrained_module:
+  _target_: ptls.lightning_modules.coles_module.CoLESModule
+  seq_encoder:
+    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    type: gru
+    hidden_size: 160
+    bidir: false
+    trainable_starter: static
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        trans_date: 
+          in: 800
+          out: 16
+        small_group: 
+          in: 250
+          out: 16
+      numeric_values: 
+        amount_rur: identity
 
 pl_module:
   _target_: ptls.seq_to_target.SequenceToTarget
@@ -63,7 +86,7 @@ pl_module:
   pretrained_lr: 0.0001
   head:
     _target_: ptls.models.Head
-    input_size: 777
+    input_size: 160
     use_batch_norm: true
     objective: classification
     num_classes: 4

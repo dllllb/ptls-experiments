@@ -50,10 +50,33 @@ trainer:
 
 logger_name: cpc_finetuning
 
+# pretrained_module_cls:
+#   _target_: hydra.utils.get_class
+#   path: ptls.lightning_modules.cpc_module.CpcModule
+
 pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/cpc_model.p
-pretrained_module_cls:
-  _target_: hydra.utils.get_class
-  path: ptls.lightning_modules.cpc_module.CpcModule
+
+pretrained_module:
+  _target_: ptls.lightning_modules.cpc_module.CpcModule
+  seq_encoder:
+    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    type: gru
+    hidden_size: 512
+    bidir: false
+    trainable_starter: static
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        trans_date: 
+          in: 800
+          out: 127
+        small_group: 
+          in: 250
+          out: 128
+      numeric_values: 
+        amount_rur: identity
 
 pl_module:
   _target_: ptls.seq_to_target.SequenceToTarget
@@ -64,7 +87,7 @@ pl_module:
   pretrained_lr: 0.0001
   head:
     _target_: ptls.models.Head
-    input_size: 777
+    input_size: 512
     objective: classification
     num_classes: 4
   loss:

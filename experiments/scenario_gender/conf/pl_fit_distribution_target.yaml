@@ -11,7 +11,7 @@ inference_dataloader:
 
 data_module: 
   _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
-  distribution_targets_task: true
+  distribution_target_task: true
   type: map
   setup: 
     use_files_partially: false
@@ -75,7 +75,7 @@ logger_name: target_scores
 
 pl_module:
   _target_: ptls.seq_to_target.SequenceToTarget
-  distribution_targets_task: true
+  distribution_target_task: true
   columns_ix: 
     neg_sum: 0
     neg_distribution: 1

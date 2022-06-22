@@ -1,6 +1,6 @@
 data_module: 
   _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
-  distribution_targets_task: true
+  distribution_target_task: true
   type: map
   setup: 
     dataset_files: 
@@ -73,7 +73,7 @@ pl_module:
     _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
     trx_encoder: 
       _target_: ptls.trx_encoder.TrxEncoder
-    distribution_targets_task: true
+    distribution_target_task: true
     logify_sum_mean_seqlens: true
     norm_embeddings: false
     embeddings_noise: 0.003

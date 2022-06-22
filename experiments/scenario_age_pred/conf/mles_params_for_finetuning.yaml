@@ -1,3 +1,5 @@
+device: cuda
+
 data_module: 
   _target_: ptls.data_load.data_module.coles_data_module.ColesDataModuleTrain
   type: map
@@ -38,7 +40,7 @@ seed_everything: 42
 trainer: 
   gpus: 1
   auto_select_gpus: false
-  max_epochs: 100
+  max_epochs: 1
   checkpoint_callback: false
   deterministic: true
 
@@ -92,7 +94,7 @@ pl_module:
     lr: 0.002
     weight_decay: 0.0
 
-model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/mles_model_for_finetuning.p
+model_path: ${hydra:runtime.cwd}/scenario_age_pred/mles_model_for_finetuning.p
 
 inference_dataloader: 
   col_id: client_id
