@@ -1,3 +1,5 @@
+device: cuda
+
 data_module: 
   _target_: ptls.data_load.data_module.nsp_data_module.NspDataModuleTrain
   type: map
@@ -88,11 +90,10 @@ pl_module:
     pred_all_states: false
   lr_scheduler_partial:
     _partial_: true
-    _target_: torch.optim.lr_scheduler.StepLR
-    ReduceLROnPlateau: true
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
     patience: 15
   loss:
-    _target_: torch.nn.BCELoss
+    _target_: ptls.loss.BCELoss
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam

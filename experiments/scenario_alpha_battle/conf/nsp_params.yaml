@@ -1,3 +1,5 @@
+device: cuda
+
 data_module: 
   _target_: ptls.data_load.data_module.nsp_data_module.NspDataModuleTrain
   type: iterable
@@ -110,8 +112,7 @@ pl_module:
     pred_all_states: false
   lr_scheduler_partial:
     _partial_: true
-    _target_: torch.optim.lr_scheduler.StepLR
-    ReduceLROnPlateau: true
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
     patience: 2
   optimizer_partial:
     _partial_: true

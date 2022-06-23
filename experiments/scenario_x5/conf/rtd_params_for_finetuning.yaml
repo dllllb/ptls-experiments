@@ -1,3 +1,5 @@
+device: cuda
+
 data_module: 
   _target_: ptls.data_load.data_module.rtd_data_module.RtdDataModuleTrain
   type: map

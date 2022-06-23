@@ -1,3 +1,5 @@
+device: cuda
+
 data_module: 
   _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   type: map
@@ -51,10 +53,39 @@ trainer:
 
 logger_name: cpc_finetuning
 
+# pretrained_module_cls:
+#   _target_: hydra.utils.get_class
+#   path: ptls.lightning_modules.cpc_module.CpcModule
+
 pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_rosbank/cpc_model.p
-pretrained_module_cls:
-  _target_: hydra.utils.get_class
-  path: ptls.lightning_modules.cpc_module.CpcModule
+
+pretrained_module:
+  _target_: ptls.lightning_modules.cpc_module.CpcModule
+  seq_encoder:
+    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    type: gru
+    hidden_size: 512
+    bidir: false
+    trainable_starter: static
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        mcc: 
+          in: 100
+          out: 16
+        channel_type: 
+          in: 4
+          out: 2
+        currency: 
+          in: 4
+          out: 2
+        trx_category: 
+          in: 10
+          out: 2
+      numeric_values: 
+        amount: identity
 
 pl_module:
   _target_: ptls.seq_to_target.SequenceToTarget
@@ -63,7 +94,7 @@ pl_module:
   pretrained_lr: 0.0001
   head:
     _target_: ptls.models.Head
-    input_size: 777
+    input_size: 512
     hidden_layers_sizes: [1]
   loss:
     _target_: torch.nn.BCELoss

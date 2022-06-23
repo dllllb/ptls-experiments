@@ -1,6 +1,6 @@
-seed_everything: 42
-
 device: cuda
+
+seed_everything: 42
 
 pl_module:
   _target_: ptls.lightning_modules.coles_module.CoLESModule

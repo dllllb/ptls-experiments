@@ -1,3 +1,5 @@
+device: cuda
+
 data_module: 
   _target_: ptls.data_load.data_module.rtd_data_module.RtdDataModuleTrain
   type: map
@@ -73,11 +75,10 @@ pl_module:
         amount: identity
   lr_scheduler_partial:
     _partial_: true
-    _target_: torch.optim.lr_scheduler.StepLR
-    ReduceLROnPlateau: true
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
     patience: 10
   loss:
-    _target_: torch.nn.BCELoss
+    _target_: ptls.loss.BCELoss
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam

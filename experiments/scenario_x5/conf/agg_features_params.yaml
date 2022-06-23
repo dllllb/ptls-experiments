@@ -1,3 +1,5 @@
+device: cuda
+
 data_module: 
   _target_: ptls.data_load.data_module.coles_data_module.ColesDataModuleTrain
   type: map
@@ -67,7 +69,7 @@ pl_module:
   head:
     _target_: ptls.models.Head
     use_norm_encoder: true
-    input_size: 777
+    input_size: 755
     use_batch_norm: true
   lr_scheduler_partial:
     _partial_: true
