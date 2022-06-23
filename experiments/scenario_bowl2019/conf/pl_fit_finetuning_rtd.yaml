@@ -1,3 +1,5 @@
+device: cuda
+
 data_module: 
   _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   type: map
@@ -50,10 +52,44 @@ trainer:
 
 logger_name: rtd_finetuning
 
+# pretrained_module_cls:
+#   _target_: hydra.utils.get_class
+#   path: ptls.lightning_modules.rtd_module.RtdModule
+
 pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/rtd_model.p
-pretrained_module_cls:
-  _target_: hydra.utils.get_class
-  path: ptls.lightning_modules.rtd_module.RtdModule
+
+pretrained_module:
+  _target_: ptls.lightning_modules.rtd_module.RtdModule
+  seq_encoder:
+    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    type: gru
+    hidden_size: 100
+    bidir: false
+    trainable_starter: static
+    trx_encoder: 
+      _target_: ptls.trx_encoder.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        event_id: 
+          in: 500
+          out: 16
+        event_code: 
+          in: 50
+          out: 8
+        event_type: 
+          in: 6
+          out: 8
+        title: 
+          in: 50
+          out: 8
+        world: 
+          in: 6
+          out: 8
+        correct: 
+          in: 4
+          out: 2
+      numeric_values: {}
 
 pl_module:
   _target_: ptls.seq_to_target.SequenceToTarget
@@ -64,7 +100,7 @@ pl_module:
   pretrained_lr: 0.001
   head:
     _target_: ptls.models.Head
-    input_size: 777
+    input_size: 100
     use_batch_norm: true
     objective: classification
     num_classes: 4
