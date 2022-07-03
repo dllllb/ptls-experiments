@@ -16,6 +16,7 @@ experiments/*/conf/embeddings_validation*.work
 dist
 build
 outputs
+.p
 
 *.log
 *.code-workspace
