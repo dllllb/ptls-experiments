@@ -51,7 +51,7 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 10
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: target_scores
@@ -59,15 +59,15 @@ logger_name: target_scores
 col_target_name: target_age
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   metric_list:
     accuracy:
       _target_: torchmetrics.Accuracy
-      compute_on_step: false
+
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -89,7 +89,7 @@ pl_module:
     bidir: false
     trainable_starter: static
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     input_size: ${pl_module.seq_encoder.hidden_size}
     objective: classification
     num_classes: 4

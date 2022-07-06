@@ -39,7 +39,7 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 30
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: cpc_v2_model
@@ -47,7 +47,7 @@ logger_name: cpc_v2_model
 pl_module:
   _target_: ptls.lightning_modules.cpc_v2_module.CpcV2Module
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     type: gru
     hidden_size: 512
     bidir: false
@@ -58,7 +58,7 @@ pl_module:
     bidir: false
     trainable_starter: static
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -85,7 +85,7 @@ pl_module:
     lr: 0.0005
     weight_decay: 0.0
 
-model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_gender/cpc_v2_model.p
+model_path: models/cpc_v2_model.p
 
 inference_dataloader: 
   col_id: customer_id

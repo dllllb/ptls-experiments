@@ -44,7 +44,7 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 13
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: barlow_twins_finetuning
@@ -56,15 +56,15 @@ logger_name: barlow_twins_finetuning
 pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/barlow_twins_model_for_finetuning.p
 
 pretrained_module:
-  _target_: ptls.lightning_modules.coles_module.CoLESModule
+  _target_: ptls.frames.coles.CoLESModule
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     type: gru
     hidden_size: 160
     bidir: false
     trainable_starter: static
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -78,14 +78,13 @@ pretrained_module:
         amount_rur: identity
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   metric_list:
     accuracy:
       _target_: torchmetrics.Accuracy
-      compute_on_step: false
   pretrained_lr: 0.0001
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     input_size: 160
     use_batch_norm: true
     objective: classification

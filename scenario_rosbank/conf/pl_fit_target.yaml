@@ -49,23 +49,23 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 10
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: target_scores
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   metric_list:
   - auroc
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     hidden_size: 48
     type: gru
     bidir: false
     trainable_starter: static
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       use_batch_norm_with_lens: true
       norm_embeddings: false
       embeddings_noise: 0.0003
@@ -90,7 +90,7 @@ pl_module:
     step_size: 3
     gamma: 0.25
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     input_size: ${pl_module.seq_encoder.hidden_size}
     hidden_layers_sizes: [1]
     use_batch_norm: true

@@ -3,15 +3,15 @@ seed_everything: 42
 device: cuda
 
 pl_module:
-  _target_: ptls.lightning_modules.coles_module.CoLESModule
+  _target_: ptls.frames.coles.CoLESModule
   validation_metric:
-    _target_: ptls.metric_learn.metric.BatchRecallTopPL
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
     K: 4
     metric: cosine
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -68,7 +68,7 @@ pl_module:
     bidir: false
     trainable_starter: static
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     use_norm_encoder: true
     input_size: ${pl_module.seq_encoder.hidden_size}
   loss:

@@ -44,11 +44,11 @@ trainer:
 logger_name: sop_model
 
 pl_module:
-  _target_: ptls.lightning_modules.sop_nsp_module.SopNspModule
+  _target_: ptls.frames.bert.SopNspModule
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -116,7 +116,7 @@ pl_module:
     lr: 0.001
     weight_decay: 0.0
 
-model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/sop_model.p
+model_path: models/sop_model.p
 
 inference_dataloader: 
   col_id: app_id

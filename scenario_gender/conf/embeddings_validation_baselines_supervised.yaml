@@ -1,3 +1,7 @@
+defaults:
+  - override hydra/hydra_logging: none
+  - override hydra/job_logging: none
+
 conf_path: conf/embeddings_validation_baselines_supervised.yaml
 environment: 
   work_dir: embeddings_validation.work

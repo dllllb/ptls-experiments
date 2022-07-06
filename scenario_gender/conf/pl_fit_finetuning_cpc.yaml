@@ -1,4 +1,12 @@
-data_module: 
+defaults:
+  - _self_
+  - pl_module/defaults
+
+seed_everything: 42
+logger_name: cpc_finetuning
+pretrained_encoder_path: models/cpc_model.p
+
+data_module:
   _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   type: map
   setup: 
@@ -39,47 +47,19 @@ embedding_validation_results:
   feature_name: cpc_finetuning
   output_path: ${hydra:runtime.cwd}/results/cpc_finetuning_results.json
 
-seed_everything: 42
-
 trainer: 
   gpus: 1
   auto_select_gpus: false
   max_epochs: 5
   log_every_n_steps: 10
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
-logger_name: cpc_finetuning
-
-pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_gender/cpc_model.p
-pretrained_module_cls:
-  _target_: hydra.utils.get_class
-  path: ptls.lightning_modules.cpc_module.CpcModule
-
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
-  metric_list:
-    auroc:
-      _target_: torchmetrics.AUROC
-      num_classes: 2
-      compute_on_step: false
-    accuracy:
-      _target_: torchmetrics.Accuracy
-      compute_on_step: false
+  _target_: ptls.frames.supervised.SequenceToTarget
+  seq_encoder:
+    _target_: torch.load
+    f: ${pretrained_encoder_path}
   pretrained_lr: 0.0001
   head:
-    _target_: ptls.models.Head
-    input_size: 777
-    hidden_layers_sizes: [1]
-  loss:
-    _target_: torch.nn.BCELoss
-  optimizer_partial:
-    _partial_: true
-    _target_: torch.optim.Adam
-    lr: 0.005
-    weight_decay: 0.0
-  lr_scheduler_partial:
-    _partial_: true
-    _target_: torch.optim.lr_scheduler.StepLR
-    step_size: 1
-    gamma: 0.6
+    input_size: 256

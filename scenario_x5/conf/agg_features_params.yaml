@@ -38,15 +38,15 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 2
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: agg_features_model
 
 pl_module:
-  _target_: ptls.lightning_modules.coles_module.CoLESModule
+  _target_: ptls.frames.coles.CoLESModule
   validation_metric:
-    _target_: ptls.metric_learn.metric.BatchRecallTopPL
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
     K: 4
     metric: cosine
   seq_encoder:
@@ -65,7 +65,7 @@ pl_module:
     was_logified: true
     log_scale_factor: 1
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     use_norm_encoder: true
     input_size: 777
     use_batch_norm: true
@@ -86,7 +86,7 @@ pl_module:
     lr: 0.002
     weight_decay: 0.0
 
-model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_x5/agg_features_model.p
+model_path: models/agg_features_model.p
 
 inference_dataloader: 
   col_id: client_id

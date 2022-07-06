@@ -16,6 +16,6 @@ SPARK_LOCAL_IP="127.0.0.1" spark-submit \
     --output_train_path "data/train_trx.parquet" \
     --output_test_path "data/test_trx.parquet" \
     --output_test_ids_path "data/test_ids.csv" \
-    --log_file "results/dataset_shoppers.log"
+    --log_file "results/dataset_shoppers.txt"
 
 # ??? sec with

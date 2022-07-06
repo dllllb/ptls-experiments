@@ -80,7 +80,7 @@ metrics:
       needs_proba: false
 report_file: ${hydra:runtime.cwd}/results/scenario_bowl2019_baselines_supervised.txt
 features: 
-external_scores: 
+external_scores: {}
   fit_target: ${hydra:runtime.cwd}/results/fit_target_results.json
   mles_finetuning: ${hydra:runtime.cwd}/results/mles_finetuning_results.json
   cpc_finetuning: ${hydra:runtime.cwd}/results/cpc_finetuning_results.json

@@ -24,7 +24,7 @@ split:
   is_stratify: true
   random_state: 42
 
-external_scores: 
+external_scores: {}
 
 models: 
   lgbm: 

@@ -88,7 +88,7 @@ features:
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/transf_embeddings.pickle
     target_options: {}
-external_scores: 
+external_scores: {}
 report: 
   is_check_train: false
   error_handling: fail

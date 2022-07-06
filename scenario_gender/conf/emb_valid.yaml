@@ -64,13 +64,13 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 10
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: target_scores
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   test_frequency: 5
   ckpts_path: models
   save_step_frequency: 5
@@ -88,7 +88,7 @@ pl_module:
   seq_encoder:
     _target_: ptls.seq_encoder.dummy_encoder.DummyEncoder
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -113,7 +113,7 @@ pl_module:
     bidir: false
     trainable_starter: static
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
   loss:
   optimizer_partial:
     _partial_: true

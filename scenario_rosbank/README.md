@@ -4,10 +4,10 @@
 cd experiments/scenario_rosbank
 
 # download datasets
-bin/get-data.sh
+sh bin/get-data.sh
 
 # convert datasets from transaction list to features for metric learning
-bin/make-datasets-spark.sh
+sh bin/make-datasets-spark.sh
 ```
 
 # Main scenario, best params

@@ -47,7 +47,7 @@ trainer:
   auto_select_gpus: false
   max_epochs: 10
   log_every_n_steps: 10
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: barlow_twins_finetuning
@@ -58,14 +58,14 @@ pretrained_module_cls:
   path: ptls.lightning_modules.coles_module.CoLESModule
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   metric_list:
     accuracy:
       _target_: torchmetrics.Accuracy
-      compute_on_step: false
+
   pretrained_lr: 0.001
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     input_size: 777
     use_batch_norm: true
     objective: classification

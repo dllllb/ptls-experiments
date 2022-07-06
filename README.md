@@ -1,4 +1,4 @@
-Experiments on public dastasets for `pytorch-lifestream` library
+Experiments on public datasets for `pytorch-lifestream` library
 
 # Setup and test using pipenv
 

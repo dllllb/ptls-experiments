@@ -45,7 +45,7 @@ trainer:
   auto_select_gpus: false
   max_epochs: 13
   log_every_n_steps: 10
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: cpc_finetuning
@@ -59,13 +59,13 @@ pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/
 pretrained_module:
   _target_: ptls.lightning_modules.cpc_module.CpcModule
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     type: gru
     hidden_size: 512
     bidir: false
     trainable_starter: static
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -79,14 +79,13 @@ pretrained_module:
         amount_rur: identity
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   metric_list:
     accuracy:
       _target_: torchmetrics.Accuracy
-      compute_on_step: false
   pretrained_lr: 0.0001
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     input_size: 512
     objective: classification
     num_classes: 4

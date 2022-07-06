@@ -13,4 +13,4 @@ python -m ptls.make_datasets \
     --output_train_path "data/train_trx.p" \
     --output_test_path "data/test_trx.p" \
     --output_test_ids_path "data/test_ids.csv" \
-    --log_file "results/dataset_age_pred.log"
+    --log_file "results/dataset_age_pred.txt"

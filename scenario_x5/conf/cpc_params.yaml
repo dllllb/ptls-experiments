@@ -40,7 +40,7 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 28
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: cpc_model
@@ -48,9 +48,9 @@ logger_name: cpc_model
 pl_module:
   _target_: ptls.lightning_modules.cpc_module.CpcModule
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -86,7 +86,7 @@ pl_module:
     lr: 0.001
     weight_decay: 0.0
 
-model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_x5/cpc_model.p
+model_path: models/cpc_model.p
 
 inference_dataloader: 
   col_id: client_id

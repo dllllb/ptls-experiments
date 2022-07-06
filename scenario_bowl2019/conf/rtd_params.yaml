@@ -39,21 +39,21 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 100
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: rtd_model
 
 pl_module:
-  _target_: ptls.lightning_modules.rtd_module.RtdModule
+  _target_: ptls.frames.bert.RtdModule
   seq_encoder:
-    _target_: ptls.seq_encoder.rnn_encoder.RnnSeqEncoder
+    _target_: ptls.nn.RnnSeqEncoder
     type: gru
     hidden_size: 100
     bidir: false
     trainable_starter: static
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -82,14 +82,14 @@ pl_module:
     ReduceLROnPlateau: true
     patience: 15
   loss:
-    _target_: torch.nn.BCELoss
+    _target_: ptls.loss.BCELoss
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
 
-model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/rtd_model.p
+model_path: models/rtd_model.p
 
 inference_dataloader: 
   col_id: game_session

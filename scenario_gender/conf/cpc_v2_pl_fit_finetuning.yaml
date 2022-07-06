@@ -45,29 +45,29 @@ trainer:
   auto_select_gpus: false
   max_epochs: 15
   log_every_n_steps: 10
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: cpc_v2_finetuning
 
-pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_gender/cpc_v2_model.p
+pretrained_encoder_path: models/cpc_v2_model.p
 pretrained_module_cls:
   _target_: hydra.utils.get_class
   path: ptls.lightning_modules.cpc_v2_module.CpcV2Module
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   metric_list:
     auroc:
       _target_: torchmetrics.AUROC
       num_classes: 2
-      compute_on_step: false
+
     accuracy:
       _target_: torchmetrics.Accuracy
-      compute_on_step: false
+
   pretrained_lr: 0.0001
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     input_size: 777
     hidden_layers_sizes: [2]
   loss:
