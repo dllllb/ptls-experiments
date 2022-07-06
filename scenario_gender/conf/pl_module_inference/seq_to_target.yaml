@@ -1,4 +1,0 @@
-_target_: ptls.frames.supervised.SequenceToTarget
-seq_encoder:
-  _target_: torch.load
-  f: ${model_path}

@@ -1,8 +1,7 @@
 defaults:
   - _self_
-  - pl_module_inference/seq_to_target
-  - inference_dataloader/default
-  - output/pickle
+  - inference/default
+  - inference/seq_encoder/pretrained
 
 seed_everything: 42
 logger_name: nsp_model
