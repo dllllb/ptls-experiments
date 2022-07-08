@@ -1,5 +1,6 @@
 defaults:
   - _self_
+  - dataset_unsupervised/parquet
   - inference/default
   - inference/seq_encoder/pretrained
 
@@ -9,38 +10,27 @@ model_path: models/nsp_model.p
 embed_file_name: nsp_embeddings
 
 data_module:
-  _target_: ptls.data_load.data_module.nsp_data_module.NspDataModuleTrain
-  type: map
-  setup: 
-    col_id: customer_id
-    dataset_files: 
-      data_path: ${hydra:runtime.cwd}/data/train_trx.parquet
-    split_by: files
-    valid_size: 0.05
-    valid_split_seed: 42
-  train: 
-    min_seq_len: 25
-    split_strategy: 
-      split_strategy: SampleSlices
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.bert.NspDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
       split_count: 4
       cnt_min: 25
       cnt_max: 200
-    augmentations: 
-      - 
-        - DropoutTrx
-        - 
-          trx_dropout: 0.01
-    num_workers: 8
-    batch_size: 256
-  valid: 
-    split_strategy: 
-      split_strategy: SampleSlices
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.bert.NspDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
       split_count: 4
       cnt_min: 25
       cnt_max: 200
-    augmentations: []
-    num_workers: 16
-    batch_size: 1024
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 256
+  train_num_workers: 8
+  valid_batch_size: 1024
+  valid_num_workers: 16
 
 trainer: 
   gpus: 1
