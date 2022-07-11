@@ -1,7 +1,7 @@
 # Get data
 
 ```sh
-cd experiments/scenario_rosbank
+cd scenario_rosbank
 
 # download datasets
 sh bin/get-data.sh
@@ -13,7 +13,7 @@ sh bin/make-datasets-spark.sh
 # Main scenario, best params
 
 ```sh
-cd experiments/scenario_rosbank
+cd scenario_rosbank
 export CUDA_VISIBLE_DEVICES=0  # define here one gpu device number
 
 sh bin/run_all_scenarios.sh

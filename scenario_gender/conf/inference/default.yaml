@@ -1,6 +1,3 @@
-defaults:
-  - _self_
-
 num_workers: 4
 batch_size: 1000
 
@@ -12,11 +9,9 @@ dataset:
       - data/train_trx.parquet
       - data/test_trx.parquet
   i_filters:
-    -
-      _target_: ptls.data_load.iterable_processing.FeatureFilter
+    - _target_: ptls.data_load.iterable_processing.FeatureFilter
       keep_feature_names: customer_id
-    -
-      _target_: ptls.data_load.iterable_processing.ISeqLenLimit
+    - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
       max_seq_len: 2000
 
 output:

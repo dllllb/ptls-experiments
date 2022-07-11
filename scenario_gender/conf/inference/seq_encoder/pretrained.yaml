@@ -1,3 +1,2 @@
 _target_: torch.load
 f: ${model_path}
-

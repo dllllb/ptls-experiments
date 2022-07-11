@@ -1,10 +1,10 @@
-# Prepare agg feature encoder and take embedidngs; inference
+# Prepare agg feature encoder and take embeddings; inference
 python -m ptls.pl_inference    --config-dir conf --config-name agg_features_params
 
 # Random encoder
 python -m ptls.pl_inference    --config-dir conf --config-name random_params
 
-# Train the MeLES encoder and take embedidngs; inference
+# Train the MeLES encoder and take embeddings; inference
 python -m ptls.pl_train_module --config-dir conf --config-name mles_params
 python -m ptls.pl_inference    --config-dir conf --config-name mles_params
 
@@ -41,7 +41,7 @@ python -m ptls.pl_inference \
 python -m ptls.pl_train_module --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference    --config-dir conf --config-name barlow_twins_params
 
-Compare
+# Compare
 rm results/scenario_gender_baselines_unsupervised.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \

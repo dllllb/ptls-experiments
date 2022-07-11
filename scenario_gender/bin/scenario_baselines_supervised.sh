@@ -26,7 +26,7 @@ python -m ptls.pl_train_module \
 # Fine tune the RTD model in supervised mode and save scores to the file
 python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_barlow_twins
 
-Compare
+# Compare
 rm results/scenario_gender_baselines_supervised.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \

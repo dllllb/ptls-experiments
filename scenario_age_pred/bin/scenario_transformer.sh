@@ -1,4 +1,4 @@
-# Train the MeLES encoder and take embedidngs; inference
+# Train the MeLES encoder and take embeddings; inference
 # python -m ptls.pl_train_module --config-dir conf --config-name mles_params
 # python -m ptls.pl_inference --config-dir conf --config-name mles_params
 
