@@ -1,0 +1,8 @@
+_target_: ptls.nn.AggFeatureSeqEncoder
+embeddings:
+  small_group:
+    in: 250
+numeric_values:
+  amount_rur: identity
+was_logified: true
+log_scale_factor: 1

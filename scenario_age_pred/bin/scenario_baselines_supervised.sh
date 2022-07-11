@@ -15,9 +15,9 @@ python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_r
 
 # cp "../../artifacts/scenario_age_pred/barlow_twins_model.p" "../../artifacts/scenario_age_pred/barlow_twins_model_for_finetuning.p"
 python -m ptls.pl_train_module \
-  params.rnn.hidden_size=160 \
+  pl_module.seq_encoder.hidden_size=160 \
   trainer.max_epochs=100 \
-  model_path="${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/barlow_twins_model_for_finetuning.p" \
+  model_path="models/barlow_twins_model_for_finetuning.p" \
   --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_barlow_twins
 

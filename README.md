@@ -33,7 +33,7 @@ tensorboard --logdir lightning_logs/
 
 # Final results
 ```
-All results are stored in `experiments/*/results` folder.
+All results are stored in `*/results` folder.
 Here are the copy of them.
 
 Unsupervised learned embeddings with LightGBM model downstream evaluations:

@@ -1,4 +1,4 @@
-# start with working directory: experiments/scenario_gender
+# start with working directory: scenario_gender
 # dataset should be prepared before this script
 echo "==== Folds split"
 rm -r lightning_logs/

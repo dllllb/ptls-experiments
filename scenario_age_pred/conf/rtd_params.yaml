@@ -1,43 +1,34 @@
-device: cuda
-
-data_module: 
-  _target_: ptls.data_load.data_module.rtd_data_module.RtdDataModuleTrain
-  type: map
-  setup: 
-    col_id: client_id
-    dataset_files: 
-      data_path: ${hydra:runtime.cwd}/data/train_trx_file.parquet
-    split_by: files
-    valid_size: 0.05
-    valid_split_seed: 42
-  train: 
-    min_seq_len: 25
-    augmentations: 
-      - 
-        - DropoutTrx
-        - 
-          trx_dropout: 0.01
-      - 
-        - RandomSlice
-        - 
-          min_len: 600
-          max_len: 600
-    num_workers: 16
-    batch_size: 64
-  valid: 
-    augmentations: 
-      - 
-        - RandomSlice
-        - 
-          min_len: 600
-          max_len: 600
-    num_workers: 16
-    batch_size: 512
-  replace_token: 
-    replace_prob: 0.15
-    skip_first: 1
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
+  - inference/default
+  - inference/seq_encoder/pretrained
 
 seed_everything: 42
+logger_name: rtd_model
+model_path: models/rtd_model.p
+embed_file_name: rtd_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.bert.RtdDataset
+    min_len: 600
+    max_len: 600
+    replace_prob: 0.15
+    skip_first: 1
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.bert.RtdDataset
+    min_len: 600
+    max_len: 600
+    replace_prob: 0.15
+    skip_first: 1
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 64
+  train_num_workers: 16
+  valid_batch_size: 512
+  valid_num_workers: 16
 
 trainer: 
   gpus: 1
@@ -46,17 +37,11 @@ trainer:
   enable_checkpointing: false
   deterministic: true
 
-logger_name: rtd_model
-
 pl_module:
   _target_: ptls.frames.bert.RtdModule
   seq_encoder:
     _target_: ptls.nn.RnnSeqEncoder
-    type: gru
-    hidden_size: 800
-    bidir: false
-    trainable_starter: static
-    trx_encoder: 
+    trx_encoder:
       _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
@@ -66,31 +51,20 @@ pl_module:
           out: 16
       numeric_values: 
         amount_rur: identity
-  lr_scheduler_partial:
-    _partial_: true
-    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
-    patience: 15
-  loss:
-    _target_: ptls.loss.BCELoss
+    type: gru
+    hidden_size: 800
+    bidir: false
+    trainable_starter: static
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
-
-model_path: models/rtd_model.p
-
-inference_dataloader: 
-  col_id: client_id
-  dataset_files: 
-    - ${hydra:runtime.cwd}/data/train_trx_file.parquet
-    - ${hydra:runtime.cwd}/data/test_trx_file.parquet
-  SeqLenLimit: 
-    max_seq_len: 1600
-  loader: 
-    num_workers: 4
-    batch_size: 1000
-
-output: 
-  path: ${hydra:runtime.cwd}/data/rtd_embeddings
-  format: pickle
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+    mode: max
+    patience: 15
+    threshold: 0.001
+    min_lr: 1e-6
+    verbose: true
