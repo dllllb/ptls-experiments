@@ -57,7 +57,7 @@ logger_name: cpc_finetuning
 pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/cpc_model.p
 
 pretrained_module:
-  _target_: ptls.lightning_modules.cpc_module.CpcModule
+  _target_: ptls.frames.cpc.CpcModule
   seq_encoder:
     _target_: ptls.nn.RnnSeqEncoder
     type: gru

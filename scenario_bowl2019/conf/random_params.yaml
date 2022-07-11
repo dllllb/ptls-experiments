@@ -43,10 +43,10 @@ pl_module:
     use_norm_encoder: true
     input_size: ${pl_module.seq_encoder.hidden_size}
   loss:
-    _target_: ptls.metric_learn.losses.ContrastiveLoss
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
     margin: 0.5
     sampling_strategy:
-      _target_: ptls.metric_learn.sampling_strategies.HardNegativePairSelector
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
       neg_count: 2
   optimizer_partial:
     _partial_: true

@@ -25,7 +25,6 @@ trainer:
   deterministic: true
 
 pl_module:
-  _target_: ptls.frames.supervised.SequenceToTarget
   seq_encoder:
     _target_: torch.load
     f: ${pretrained_encoder_path}

@@ -88,10 +88,10 @@ pl_module:
     input_size: ${pl_module.seq_encoder.input_size}
     use_batch_norm: true
   loss:
-    _target_: ptls.metric_learn.losses.ContrastiveLoss
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
     margin: 0.5
     sampling_strategy:
-      _target_: ptls.metric_learn.sampling_strategies.HardNegativePairSelector
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
       neg_count: 5
   optimizer_partial:
     _partial_: true

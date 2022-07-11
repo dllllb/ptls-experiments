@@ -68,11 +68,6 @@ pl_module:
     _target_: ptls.nn.Head
     input_size: ${pl_module.seq_encoder.hidden_size}
     use_batch_norm: true
-  lr_scheduler_partial:
-    _partial_: true
-    _target_: torch.optim.lr_scheduler.StepLR
-    step_size: 10
-    gamma: 0.9025
   loss:
     _target_: ptls.frames.coles.losses.BarlowTwinsLoss
     lambd: 0.04
@@ -81,3 +76,8 @@ pl_module:
     _target_: torch.optim.Adam
     lr: 0.002
     weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 10
+    gamma: 0.9025

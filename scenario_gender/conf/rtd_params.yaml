@@ -34,6 +34,7 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 100
+  enable_checkpointing: false
   deterministic: true
 
 pl_module:
@@ -57,6 +58,11 @@ pl_module:
     hidden_size: 256
     bidir: false
     trainable_starter: static
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.001
+    weight_decay: 0.0
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
@@ -65,8 +71,3 @@ pl_module:
     threshold: 0.001
     min_lr: 1e-6
     verbose: true
-  optimizer_partial:
-    _partial_: true
-    _target_: torch.optim.Adam
-    lr: 0.001
-    weight_decay: 0.0

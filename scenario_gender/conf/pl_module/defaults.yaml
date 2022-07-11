@@ -1,3 +1,4 @@
+_target_: ptls.frames.supervised.SequenceToTarget
 metric_list:
   auroc:
     _target_: torchmetrics.AUROC
@@ -20,4 +21,4 @@ lr_scheduler_partial:
   _partial_: true
   _target_: torch.optim.lr_scheduler.StepLR
   step_size: 1
-  gamma: 0.6
+  gamma: 0.4

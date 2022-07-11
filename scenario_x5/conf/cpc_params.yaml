@@ -46,7 +46,7 @@ trainer:
 logger_name: cpc_model
 
 pl_module:
-  _target_: ptls.lightning_modules.cpc_module.CpcModule
+  _target_: ptls.frames.cpc.CpcModule
   seq_encoder:
     _target_: ptls.nn.RnnSeqEncoder
     trx_encoder: 
