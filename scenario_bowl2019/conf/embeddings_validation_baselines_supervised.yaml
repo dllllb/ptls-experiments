@@ -21,17 +21,16 @@ split:
 models: 
   linear: 
     enabled: false
-    cls_name: sklearn.linear_model.LogisticRegression
-    params: {}
+    model:
+      _target_: sklearn.linear_model.LogisticRegression
     cpu_count: 1
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
   lgbm: 
     enabled: true
-    cls_name: lightgbm.LGBMClassifier
-    params: 
+    model:
+      _target_: lightgbm.LGBMClassifier
       n_estimators: 1000
       boosting_type: gbdt
       objective: multiclass
@@ -49,13 +48,12 @@ models:
       n_jobs: 4
     cpu_count: 4
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
   xgb: 
     enabled: false
-    cls_name: xgboost.XGBClassifier
-    params: 
+    model:
+      _target_: xgboost.XGBClassifier
       objective: multi:softprob
       n_jobs: 4
       seed: 42
@@ -69,9 +67,8 @@ models:
       alpha: 1
     cpu_count: 4
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
 metrics: 
   accuracy: 
     enabled: true
