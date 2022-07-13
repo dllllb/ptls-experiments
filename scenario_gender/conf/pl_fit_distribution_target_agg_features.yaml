@@ -70,7 +70,7 @@ pl_module:
     - CEn
     - CEp
   seq_encoder:
-    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
+    _target_: ptls.nn.AggFeatureSeqEncoder
     trx_encoder: 
       _target_: ptls.nn.TrxEncoder
     distribution_target_task: true

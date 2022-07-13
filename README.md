@@ -51,15 +51,15 @@ mean from test, std from valid
         barlow_twins     |    0.865 \pm 0.007    |
                          
     Age group (age_pred) accuracy:
-        baseline         |    0.629 \pm 0.006    |
-        cpc_embeddings   |    0.596 \pm 0.004    |
-        mles2_embeddings |    0.637 \pm 0.006    |
+        baseline         |    0.629 \pm 0.002    |
+        cpc_embeddings   |    0.602 \pm 0.004    |
+        mles2_embeddings |    0.643 \pm 0.003    |
         mles_embeddings  |    0.640 \pm 0.004    |
-        nsp_embeddings   |    0.618 \pm 0.005    |
-        random_encoder   |    0.375 \pm 0.008    |
-        rtd_embeddings   |    0.632 \pm 0.008    |
-        sop_embeddings   |    0.533 \pm 0.005    |
-        barlow_twins     |    0.624 \pm 0.002    |
+        nsp_embeddings   |    0.621 \pm 0.005    |
+        random_encoder   |    0.375 \pm 0.003    |
+        rtd_embeddings   |    0.631 \pm 0.006    |
+        sop_embeddings   |    0.512 \pm 0.002    |
+        barlow_twins     |    0.634 \pm 0.003    |
     
     Churn (rosbank) auroc:
         baseline         |    0.825  \pm 0.005   |
@@ -109,11 +109,11 @@ Supervised finetuned encoder with MLP head evaluation:
         target_scores    |    0.867 \pm 0.008    |
 
     Age group (age_pred) accuracy:
-        barlow_twins     |    0.616 \pm 0.004    |
-        cpc_finetuning   |    0.619 \pm 0.005    |
-        mles_finetuning  |    0.618 \pm 0.008    |
-        rtd_finetuning   |    0.595 \pm 0.009    |
-        target_scores    |    0.621 \pm 0.008    |
+        barlow_twins     |    0.619 \pm 0.004    |
+        cpc_finetuning   |    0.625 \pm 0.005    |
+        mles_finetuning  |    0.624 \pm 0.005    |
+        rtd_finetuning   |    0.622 \pm 0.003    |
+        target_scores    |    0.620 \pm 0.006    |
     
     Churn (rosbank) auroc:
         barlow_twins     |    0.822 \pm 0.002    |

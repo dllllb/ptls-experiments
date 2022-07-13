@@ -19,7 +19,7 @@ embedding_validation_results:
 trainer:
   gpus: 1
   auto_select_gpus: false
-  max_epochs: 2
+  max_epochs: 13
   enable_checkpointing: false
   deterministic: true
 

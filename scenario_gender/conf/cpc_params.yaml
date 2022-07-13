@@ -56,13 +56,13 @@ pl_module:
     trainable_starter: static
   n_forward_steps: 6
   n_negatives: 40
-  lr_scheduler_partial:
-    _partial_: true
-    _target_: torch.optim.lr_scheduler.StepLR
-    step_size: 5
-    gamma: 0.5
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 5
+    gamma: 0.5

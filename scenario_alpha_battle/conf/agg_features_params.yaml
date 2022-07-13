@@ -59,7 +59,7 @@ pl_module:
     K: 4
     metric: cosine
   seq_encoder:
-    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
+    _target_: ptls.nn.AggFeatureSeqEncoder
     embeddings: 
       currency: 
         in: 13

@@ -17,7 +17,7 @@ data_module:
       _target_: ptls.frames.coles.split_strategy.SampleSlices
       split_count: 5
       cnt_min: 25
-      cnt_max: 600
+      cnt_max: 200
     data: ${dataset_unsupervised.train}
   valid_data:
     _target_: ptls.frames.coles.ColesDataset
@@ -27,15 +27,15 @@ data_module:
       cnt_min: 25
       cnt_max: 100
     data: ${dataset_unsupervised.valid}
-  train_batch_size: 512
+  train_batch_size: 64
   train_num_workers: 16
-  valid_batch_size: 1024
+  valid_batch_size: 512
   valid_num_workers: 16
 
 trainer:
   gpus: 1
   auto_select_gpus: false
-  max_epochs: 1
+  max_epochs: 100
   enable_checkpointing: false
   deterministic: true
 
@@ -51,11 +51,11 @@ pl_module:
       _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
-      embeddings: 
-        trans_date: 
+      embeddings:
+        trans_date:
           in: 800
           out: 16
-        small_group: 
+        small_group:
           in: 250
           out: 16
       numeric_values: 
@@ -67,9 +67,6 @@ pl_module:
   head:
     _target_: ptls.nn.Head
     use_norm_encoder: true
-    input_size: ${pl_module.seq_encoder.hidden_size}
-    hidden_layers_sizes: [256, 256]
-    use_batch_norm: true
   loss:
     _target_: ptls.frames.coles.losses.ContrastiveLoss
     margin: 0.5
@@ -79,7 +76,7 @@ pl_module:
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
-    lr: 0.002
+    lr: 0.001
     weight_decay: 0.0
   lr_scheduler_partial:
     _partial_: true
