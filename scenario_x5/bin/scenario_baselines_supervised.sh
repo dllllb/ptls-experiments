@@ -3,8 +3,8 @@ python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_target_rnn
 
 # Train a special MeLES model for fine-tuning
 # it is quite smaller, than one which is used for embeddings extraction, due to insufficiency labeled data to fine-tune a big model.
-python -m ptls.pl_train_module --config-dir conf --config-name mles_params_for_finetuning
 # Fine tune the MeLES model in supervised mode and save scores to the file
+python -m ptls.pl_train_module --config-dir conf --config-name mles_params_for_finetuning
 python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_on_mles
 
 # Fine tune the CPC model in supervised mode and save scores to the file
@@ -12,11 +12,11 @@ python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_o
 
 # Train a special MeLES model for fine-tuning
 # it is quite smaller, than one which is used for embeddings extraction, due to insufficiency labeled data to fine-tune a big model.
-python -m ptls.pl_train_module --config-dir conf --config-name rtd_params_for_finetuning
 # Fine tune the RTD model in supervised mode and save scores to the file
+python -m ptls.pl_train_module --config-dir conf --config-name rtd_params_for_finetuning
 python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_on_rtd
 
-cp "../../artifacts/scenario_x5/barlow_twins_model.p" "../../artifacts/scenario_x5/barlow_twins_model_ft.p"
+cp "models/barlow_twins_model.p" "models/barlow_twins_model_ft.p"
 # lightning_logs/bt_tuning_base/version_0/checkpoints/epoch\=20-step\=23750.ckpt
 #python -m ptls.pl_train_module \
 #  params.rnn.hidden_size=160 \

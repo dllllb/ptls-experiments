@@ -1,0 +1,83 @@
+_target_: ptls.frames.PtlsDataModule
+train_data:
+  _target_: ptls.frames.supervised.seq_to_target_dataset.SeqToTargetDataset
+  target_col_name: target_age
+  target_dtype: long
+  data:
+    _target_: ptls.data_load.datasets.AugmentationDataset
+    f_augmentations:
+      - _target_: ptls.data_load.augmentations.DropoutTrx
+        trx_dropout: 0.03
+      - _target_: ptls.data_load.augmentations.DropDay
+      - _target_: ptls.data_load.augmentations.RandomSlice
+        min_len: 50
+        max_len: 150
+        rate_for_min: 0.9
+      - _target_: ptls.data_load.augmentations.AllTimeShuffle
+    data:
+      _target_: ptls.data_load.datasets.MemoryMapDataset
+      data:
+        _target_: ptls.data_load.datasets.ParquetDataset
+        i_filters:
+          - _target_: ptls.data_load.iterable_processing.IdFilterDf
+            df_relevant_ids:
+              _target_: embeddings_validation.get_fold_ids
+              config_path: conf/embeddings_validation_baselines_supervised.yaml
+              kind: train
+              fold_id: ${fold_id}
+          - _target_: ptls.data_load.iterable_processing.FeatureTypeCast
+            feature_types:
+              target_age:
+                _target_: builtins.int
+                _partial_: true
+        data_files:
+          _target_: ptls.data_load.datasets.parquet_file_scan
+          file_path: data/train_trx.parquet
+valid_data:
+  _target_: ptls.frames.supervised.seq_to_target_dataset.SeqToTargetDataset
+  target_col_name: target_age
+  target_dtype: long
+  data:
+    _target_: ptls.data_load.datasets.MemoryMapDataset
+    data:
+      _target_: ptls.data_load.datasets.ParquetDataset
+      i_filters:
+        - _target_: ptls.data_load.iterable_processing.IdFilterDf
+          df_relevant_ids:
+            _target_: embeddings_validation.get_fold_ids
+            config_path: conf/embeddings_validation_baselines_supervised.yaml
+            kind: valid
+            fold_id: ${fold_id}
+        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
+          max_seq_len: 800
+        - _target_: ptls.data_load.iterable_processing.FeatureTypeCast
+          feature_types:
+            target_age:
+              _target_: builtins.int
+              _partial_: true
+      data_files:
+        _target_: ptls.data_load.datasets.parquet_file_scan
+        file_path: data/train_trx.parquet
+test_data:
+  _target_: ptls.frames.supervised.seq_to_target_dataset.SeqToTargetDataset
+  target_col_name: target_age
+  target_dtype: long
+  data:
+    _target_: ptls.data_load.datasets.MemoryMapDataset
+    data:
+      _target_: ptls.data_load.datasets.ParquetDataset
+      i_filters:
+        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
+          max_seq_len: 800
+        - _target_: ptls.data_load.iterable_processing.FeatureTypeCast
+          feature_types:
+            target_age:
+              _target_: builtins.int
+              _partial_: true
+      data_files:
+        _target_: ptls.data_load.datasets.parquet_file_scan
+        file_path: data/test_trx.parquet
+train_batch_size: 32
+train_num_workers: 16
+valid_batch_size: 256
+valid_num_workers: 8

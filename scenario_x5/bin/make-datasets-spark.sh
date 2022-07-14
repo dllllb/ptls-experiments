@@ -19,7 +19,7 @@ SPARK_LOCAL_IP="127.0.0.1" spark-submit \
     --cols_event_time "#datetime" "transaction_datetime" \
     --cols_category store_id product_id level_1 level_2 level_3 level_4 segment_id brand_id vendor_id is_own_trademark is_alcohol \
     --cols_log_norm netto regular_points_received express_points_received regular_points_spent express_points_spent purchase_sum product_quantity trn_sum_from_iss trn_sum_from_red \
-    --target_files clients.csv \
+    --target_files clients_target.csv \
     --col_target age gender \
     --test_size 0.1 \
     --output_train_path "data/train_trx.parquet" \
