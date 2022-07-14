@@ -5,23 +5,23 @@ python -m ptls.pl_inference    --config-dir conf --config-name agg_features_para
 python -m ptls.pl_inference    --config-dir conf --config-name random_params
 
 # Train the MeLES encoder and take embeddings; inference
-python -m ptls.pl_train_module --config-dir conf --config-name mles_params +trainer.max_steps=250
+python -m ptls.pl_train_module --config-dir conf --config-name mles_params
 python -m ptls.pl_inference    --config-dir conf --config-name mles_params
 
 # Train the Contrastive Predictive Coding (CPC) model; inference
-python -m ptls.pl_train_module --config-dir conf --config-name cpc_params +trainer.max_steps=250
+python -m ptls.pl_train_module --config-dir conf --config-name cpc_params
 python -m ptls.pl_inference    --config-dir conf --config-name cpc_params
 
 # Train the Sequence Order Prediction (SOP) model; inference
-python -m ptls.pl_train_module --config-dir conf --config-name sop_params +trainer.max_steps=250
+python -m ptls.pl_train_module --config-dir conf --config-name sop_params
 python -m ptls.pl_inference    --config-dir conf --config-name sop_params
 
 # Train the Next Sequence Prediction (NSP) model; inference
-python -m ptls.pl_train_module --config-dir conf --config-name nsp_params +trainer.max_steps=250
+python -m ptls.pl_train_module --config-dir conf --config-name nsp_params
 python -m ptls.pl_inference    --config-dir conf --config-name nsp_params
 
 # Train the Replaced Token Detection (RTD) model; inference
-python -m ptls.pl_train_module --config-dir conf --config-name rtd_params +trainer.max_steps=250
+python -m ptls.pl_train_module --config-dir conf --config-name rtd_params
 python -m ptls.pl_inference    --config-dir conf --config-name rtd_params
 
 # Check COLEs with split_count=2
@@ -34,7 +34,6 @@ python -m ptls.pl_train_module \
     pl_module.lr_scheduler_partial.step_size=6 \
     model_path="models/mles_model2.p" \
     logger_name="mles_model2" \
-    +trainer.max_steps=250 \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference    \
     model_path="models/mles_model2.p" \
@@ -42,7 +41,7 @@ python -m ptls.pl_inference    \
     --config-dir conf --config-name mles_params
 
 # Train the Replaced Token Detection (RTD) model; inference
-python -m ptls.pl_train_module --config-dir conf --config-name barlow_twins_params  +trainer.max_steps=250
+python -m ptls.pl_train_module --config-dir conf --config-name barlow_twins_params
 python -m ptls.pl_inference --config-dir conf --config-name barlow_twins_params
 
 
