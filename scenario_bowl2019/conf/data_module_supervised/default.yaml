@@ -7,7 +7,7 @@ train_data:
     _target_: ptls.data_load.datasets.AugmentationDataset
     f_augmentations:
       - _target_: ptls.data_load.augmentations.RandomSlice
-        min_len: 180
+        min_len: 250
         max_len: 500
       - _target_: ptls.data_load.augmentations.DropoutTrx
         trx_dropout: 0.005
@@ -48,8 +48,8 @@ valid_data:
             config_path: conf/embeddings_validation_baselines_supervised.yaml
             kind: valid
             fold_id: ${fold_id}
-#        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
-#          max_seq_len: 5000
+        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
+          max_seq_len: 5000
         - _target_: ptls.data_load.iterable_processing.FeatureTypeCast
           feature_types:
             accuracy_group:
@@ -67,8 +67,8 @@ test_data:
         _target_: ptls.data_load.datasets.parquet_file_scan
         file_path: data/test_trx.parquet
       i_filters:
-#        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
-#          max_seq_len: 5000
+        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
+          max_seq_len: 5000
         - _target_: ptls.data_load.iterable_processing.FeatureTypeCast
           feature_types:
             accuracy_group:

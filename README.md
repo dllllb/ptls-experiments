@@ -73,12 +73,15 @@ mean from test, std from valid
         barlow_twins     |    0.839  \pm 0.010   |
         
     Assessment (bowl2019) accuracy:
-        baseline         |    0.602 \pm 0.005    |    
-        cpc_embeddings   |    0.588 \pm 0.002    |    
-        mles_embeddings  |    0.601 \pm 0.002    |    
-        nsp_embeddings   |    0.581 \pm 0.003    |    
-        rtd_embeddings   |    0.580 \pm 0.003    |    
-        sop_embeddings   |    0.577 \pm 0.002    |    
+        barlow_twins     |    0.595 \pm 0.005    |    
+        baseline         |    0.592 \pm 0.004    |    
+        cpc_embeddings   |    0.593 \pm 0.004    |    
+        mles2_embeddings |    0.588 \pm 0.008    |    
+        mles_embeddings  |    0.597 \pm 0.001    |    
+        nsp_embeddings   |    0.579 \pm 0.002    |    
+        random_encoder   |    0.574 \pm 0.004    |
+        rtd_embeddings   |    0.574 \pm 0.004    |
+        sop_embeddings   |    0.567 \pm 0.005    |
     
     Retail (x5) accuracy:
         baseline         |    0.547 \pm 0.001    |
@@ -124,10 +127,11 @@ Supervised finetuned encoder with MLP head evaluation:
         target_scores    |    0.818 \pm 0.005    |
         
     Assessment (bowl2019) accuracy:
-        cpc_finetuning   |    0.606 \pm 0.004    |    
-        mles_finetuning  |    0.615 \pm 0.003    |    
-        rtd_finetuning   |    0.586 \pm 0.003    |    
-        target_scores    |    0.602 \pm 0.005    |    
+        barlow_twins     |    0.561 \pm 0.007    |    
+        cpc_finetuning   |    0.594 \pm 0.002    |    
+        mles_finetuning  |    0.577 \pm 0.007    |    
+        rtd_finetuning   |    0.571 \pm 0.003    |    
+        target_scores    |    0.585 \pm 0.002    |
     
     Retail (x5) accuracy:
         cpc_finetuning   |    0.549 \pm 0.001    |
