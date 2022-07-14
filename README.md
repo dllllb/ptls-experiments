@@ -62,15 +62,15 @@ mean from test, std from valid
         barlow_twins     |    0.634 \pm 0.003    |
     
     Churn (rosbank) auroc:
-        baseline         |    0.825  \pm 0.005   |
-        cpc_embeddings   |    0.798  \pm 0.007   |
-        mles2_embeddings |    0.843  \pm 0.007   |
-        mles_embeddings  |    0.846  \pm 0.005   |
-        nsp_embeddings   |    0.837  \pm 0.003   |
-        random_encoder   |    0.724  \pm 0.009   |
-        rtd_embeddings   |    0.807  \pm 0.003   |
-        sop_embeddings   |    0.781  \pm 0.010   |
-        barlow_twins     |    0.835  \pm 0.004   |
+        baseline         |    0.827  \pm 0.010   |
+        cpc_embeddings   |    0.792  \pm 0.015   |
+        mles2_embeddings |    0.837  \pm 0.006   |
+        mles_embeddings  |    0.841  \pm 0.010   |
+        nsp_embeddings   |    0.828  \pm 0.012   |
+        random_encoder   |    0.725  \pm 0.013   |
+        rtd_embeddings   |    0.771  \pm 0.016   |
+        sop_embeddings   |    0.780  \pm 0.012   |
+        barlow_twins     |    0.839  \pm 0.010   |
         
     Assessment (bowl2019) accuracy:
         baseline         |    0.602 \pm 0.005    |    
@@ -116,12 +116,12 @@ Supervised finetuned encoder with MLP head evaluation:
         target_scores    |    0.620 \pm 0.006    |
     
     Churn (rosbank) auroc:
-        barlow_twins     |    0.822 \pm 0.002    |
-        cpc_finetuning   |    0.821 \pm 0.004    |
-        mles_finetuning  |    0.829 \pm 0.008    |
-        nsp_finetuning   |    0.818 \pm 0.002    |
-        rtd_finetuning   |    0.803 \pm 0.008    |
-        target_scores    |    0.820 \pm 0.005    |
+        barlow_twins     |    0.830 \pm 0.006    |
+        cpc_finetuning   |    0.804 \pm 0.017    |
+        mles_finetuning  |    0.819 \pm 0.011    |
+        nsp_finetuning   |    0.806 \pm 0.010    |
+        rtd_finetuning   |    0.791 \pm 0.016    |
+        target_scores    |    0.818 \pm 0.005    |
         
     Assessment (bowl2019) accuracy:
         cpc_finetuning   |    0.606 \pm 0.004    |    

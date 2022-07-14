@@ -92,6 +92,6 @@ trx_to_features        : Prepared features for 10217 clients
 update_with_target     : Target updated for 10217 clients
 split_dataset          : Train size: 9717 clients
 split_dataset          : Test size: 500 clients
-save_features          : Saved to: "/home/kireev/pycharm-deploy/ptls-experiments/scenario_rosbank/data/train_trx.parquet"
-save_features          : Saved to: "/home/kireev/pycharm-deploy/ptls-experiments/scenario_rosbank/data/test_trx.parquet"
+save_features          : Saved to: "ptls-experiments/scenario_rosbank/data/train_trx.parquet"
+save_features          : Saved to: "ptls-experiments/scenario_rosbank/data/test_trx.parquet"
 run                    : Data collected in 117 sec (0:01:57.535014)
