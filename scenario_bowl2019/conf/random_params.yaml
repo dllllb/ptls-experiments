@@ -1,72 +1,7 @@
+defaults:
+  - _self_
+  - inference/default
+  - inference/seq_encoder/random_rnn
+
 seed_everything: 42
-
-device: cuda
-
-pl_module:
-  _target_: ptls.frames.coles.CoLESModule
-  validation_metric:
-    _target_: ptls.frames.coles.metric.BatchRecallTopK
-    K: 4
-    metric: cosine
-  seq_encoder:
-    _target_: ptls.nn.RnnSeqEncoder
-    type: gru
-    hidden_size: 100
-    bidir: false
-    trainable_starter: static
-    trx_encoder: 
-      _target_: ptls.nn.TrxEncoder
-      norm_embeddings: false
-      embeddings_noise: 0.003
-      embeddings: 
-        event_id: 
-          in: 500
-          out: 16
-        event_code: 
-          in: 50
-          out: 8
-        event_type: 
-          in: 6
-          out: 8
-        title: 
-          in: 50
-          out: 8
-        world: 
-          in: 6
-          out: 8
-        correct: 
-          in: 4
-          out: 2
-      numeric_values: {}
-  head:
-    _target_: ptls.nn.Head
-    use_norm_encoder: true
-    input_size: ${pl_module.seq_encoder.hidden_size}
-  loss:
-    _target_: ptls.frames.coles.losses.ContrastiveLoss
-    margin: 0.5
-    sampling_strategy:
-      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
-      neg_count: 2
-  optimizer_partial:
-    _partial_: true
-    _target_: torch.optim.Adam
-    lr: 0.002
-    weight_decay: 0.0
-
-random_model: true
-
-inference_dataloader: 
-  col_id: game_session
-  dataset_files: 
-    - ${hydra:runtime.cwd}/data/train_trx.parquet
-    - ${hydra:runtime.cwd}/data/test_trx.parquet
-  SeqLenLimit: 
-    max_seq_len: 1600
-  loader: 
-    num_workers: 4
-    batch_size: 1000
-
-output: 
-  path: ${hydra:runtime.cwd}/data/random_embeddings
-  format: pickle
+embed_file_name: random_embeddings

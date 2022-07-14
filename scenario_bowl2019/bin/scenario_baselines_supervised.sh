@@ -1,29 +1,29 @@
 # Train a supervised model and save scores to the file
-python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_target
+python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_target trainer.max_epochs=2
 
 # Fine tune the MeLES model in supervised mode and save scores to the file
 python -m ptls.pl_train_module \
-    params.train.neg_count=5 \
-    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles_model_ft.p" \
+    pl_module.loss.sampling_strategy.neg_count=5 \
+    model_path="models/mles_model_ft.p" \
+    trainer.max_epochs=2 \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_fit_target \
-    params.pretrained.model_path="${hydra:runtime.cwd}/../../artifacts/scenario_bowl2019/mles_model_ft.p" \
-    data_module.train.drop_last=true \
+    pretrained_encoder_path="models/mles_model_ft.p" \
+    +data_module.train_drop_last=true \
+    trainer.max_epochs=2 \
     --config-dir conf --config-name pl_fit_finetuning_mles
 
 # Train a special CPC model for fine-tuning
 # it is quite smaller, than one which is used for embeddings extraction, due to insufficiency labeled data to fine-tune a big model.
-python -m ptls.pl_train_module --config-dir conf --config-name cpc_params_for_finetuning
-
-# Fine tune the CPC model in supervised mode and save scores to the file
-python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_cpc
+python -m ptls.pl_train_module --config-dir conf --config-name cpc_params_for_finetuning trainer.max_epochs=2
+python -m ptls.pl_fit_target --config-dir conf --config-name pl_fit_finetuning_cpc trainer.max_epochs=2
 
 # Fine tune the RTD model in supervised mode and save scores to the file
-python -m ptls.pl_fit_target data_module.train.drop_last=true --config-dir conf --config-name pl_fit_finetuning_rtd
+python -m ptls.pl_fit_target +data_module.train_drop_last=true trainer.max_epochs=2 --config-dir conf --config-name pl_fit_finetuning_rtd
 
-cp "../../artifacts/scenario_bowl2019/barlow_twins_model.p" "../../artifacts/scenario_bowl2019/barlow_twins_model_ft.p"
+cp "models/barlow_twins_model.p" "models/barlow_twins_model_ft.p"
 # Fine tune the RTD model in supervised mode and save scores to the file
-python -m ptls.pl_fit_target data_module.train.drop_last=true --config-dir conf --config-name pl_fit_finetuning_barlow_twins
+python -m ptls.pl_fit_target +data_module.train_drop_last=true trainer.max_epochs=2 --config-dir conf --config-name pl_fit_finetuning_barlow_twins
 
 
 # Compare

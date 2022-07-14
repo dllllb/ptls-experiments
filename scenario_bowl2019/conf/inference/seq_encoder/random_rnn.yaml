@@ -1,0 +1,29 @@
+_target_: ptls.nn.RnnSeqEncoder
+trx_encoder:
+  _target_: ptls.nn.TrxEncoder
+  norm_embeddings: false
+  embeddings_noise: 0.003
+  embeddings:
+    event_id:
+      in: 500
+      out: 16
+    event_code:
+      in: 50
+      out: 8
+    event_type:
+      in: 6
+      out: 8
+    title:
+      in: 50
+      out: 8
+    world:
+      in: 6
+      out: 8
+    correct:
+      in: 4
+      out: 2
+  numeric_values: {}
+type: gru
+hidden_size: 100
+bidir: false
+trainable_starter: static
