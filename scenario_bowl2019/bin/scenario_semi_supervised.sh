@@ -13,7 +13,7 @@ do
     python -m ptls.pl_fit_target \
         logger_name="mles_finetuning_${SC_AMOUNT}" \
         data_module.train.labeled_amount=$SC_AMOUNT \
-        data_module.train.drop_last=true \
+        data_module.train_drop_last=true \
         params.labeled_amount=$SC_AMOUNT \
         params.train.frooze_trx_encoder=true \
         params.train.n_epoch=15 \

@@ -52,9 +52,7 @@ models:
       min_child_samples: null
     cpu_count: 8
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
   xgb: 
     enabled: false
     model:
@@ -64,9 +62,7 @@ models:
       n_estimators: 300
     cpu_count: 4
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
 metrics: 
   auroc: 
     enabled: true

@@ -1,55 +1,40 @@
-data_module: 
-  _target_: ptls.data_load.data_module.cpc_data_module.CpcDataModuleTrain
-  type: map
-  setup: 
-    col_id: game_session
-    dataset_files: 
-      data_path: ${hydra:runtime.cwd}/data/train_trx.parquet
-    split_by: files
-    valid_size: 0.05
-    valid_split_seed: 42
-  train: 
-    min_seq_len: 25
-    augmentations: 
-      - 
-        - DropoutTrx
-        - 
-          trx_dropout: 0.01
-      - 
-        - SeqLenLimit
-        - 
-          max_seq_len: 5000
-    num_workers: 16
-    batch_size: 64
-  valid: 
-    augmentations: 
-      - 
-        - SeqLenLimit
-        - 
-          max_seq_len: 5000
-    num_workers: 16
-    batch_size: 64
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
 
 seed_everything: 42
+logger_name: cpc_model
+model_path: models/cpc_model_ft.p
 
-trainer: 
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.cpc.CpcDataset
+    min_len: 1000
+    max_len: 5000
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.cpc.CpcDataset
+    min_len: 1000
+    max_len: 5000
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 64
+  train_num_workers: 16
+  valid_batch_size: 64
+  valid_num_workers: 16
+
+trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 15
   enable_checkpointing: false
   deterministic: true
 
-logger_name: cpc_model
-
 pl_module:
   _target_: ptls.frames.cpc.CpcModule
   seq_encoder:
     _target_: ptls.nn.RnnSeqEncoder
-    type: gru
-    hidden_size: 128
-    bidir: false
-    trainable_starter: static
-    trx_encoder: 
+    trx_encoder:
       _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
@@ -73,34 +58,19 @@ pl_module:
           in: 4
           out: 2
       numeric_values: {}
-  loss:
-    _target_: ptls.lightning_modules.cpc_module.CPC_Loss
-    n_forward_steps: 6
-    n_negatives: 40
-  lr_scheduler_partial:
-    _partial_: true
-    _target_: torch.optim.lr_scheduler.StepLR
-    step_size: 5
-    gamma: 0.5
+    type: gru
+    hidden_size: 128
+    bidir: false
+    trainable_starter: static
+  n_forward_steps: 6
+  n_negatives: 40
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
     lr: 0.002
     weight_decay: 0.0
-
-model_path: models/cpc_model_ft.p
-
-inference_dataloader: 
-  col_id: game_session
-  dataset_files: 
-    - ${hydra:runtime.cwd}/data/train_trx.parquet
-    - ${hydra:runtime.cwd}/data/test_trx.parquet
-  SeqLenLimit: 
-    max_seq_len: 1600
-  loader: 
-    num_workers: 4
-    batch_size: 1000
-
-output: 
-  path: ${hydra:runtime.cwd}/data/cpc_embeddings
-  format: pickle
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 5
+    gamma: 0.5

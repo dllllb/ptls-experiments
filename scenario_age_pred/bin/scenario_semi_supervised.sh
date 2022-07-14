@@ -11,7 +11,7 @@ do
     python -m ptls.pl_fit_target \
         logger_name="fit_target_${SC_AMOUNT}" \
         trainer.max_epochs=20 \
-        +data_module.train.drop_last=true \
+        +data_module.train_drop_last=true \
         +data_module.train.labeled_amount=$SC_AMOUNT \
         embedding_validation_results.feature_name="target_scores_${SC_AMOUNT}" \
         embedding_validation_results.output_path="${hydra:runtime.cwd}/results/fit_target_${SC_AMOUNT}_results.json" \
