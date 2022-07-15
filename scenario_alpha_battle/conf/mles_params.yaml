@@ -1,48 +1,43 @@
-data_module: 
-  _target_: ptls.data_load.data_module.coles_data_module.ColesDataModuleTrain
-  type: iterable
-  setup: 
-    col_id: app_id
-    dataset_files: 
-      data_path: ${hydra:runtime.cwd}/data/train_trx.parquet
-    split_by: files
-    valid_size: 0.05
-    valid_split_seed: 42
-  train: 
-    min_seq_len: 30
-    buffer_size: 10000
-    split_strategy: 
-      split_strategy: SampleSlices
-      split_count: 5
-      cnt_min: 20
-      cnt_max: 60
-    augmentations: 
-      - 
-        - DropoutTrx
-        - 
-          trx_dropout: 0.01
-    num_workers: 8
-    batch_size: 256
-  valid: 
-    split_strategy: 
-      split_strategy: SampleSlices
-      split_count: 5
-      cnt_min: 20
-      cnt_max: 60
-    augmentations: []
-    num_workers: 16
-    batch_size: 256
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
+  - inference/default
+  - inference/seq_encoder/pretrained
 
 seed_everything: 42
+logger_name: mles_model
+model_path: models/mles_model.p
+embed_file_name: mles_embeddings
 
-trainer: 
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.coles.ColesIterableDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 20
+      cnt_max: 60
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.coles.ColesIterableDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 20
+      cnt_max: 60
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 256
+  train_num_workers: 8
+  valid_batch_size: 256
+  valid_num_workers: 16
+
+trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 30
-  enable_checkpointing: false
   deterministic: true
-
-logger_name: mles_model
+  checkpoints_every_n_val_epochs: 1
 
 pl_module:
   _target_: ptls.frames.coles.CoLESModule
@@ -110,14 +105,7 @@ pl_module:
     bidir: false
     trainable_starter: static
   head:
-    _target_: ptls.nn.Head
-    use_norm_encoder: true
-    input_size: ${pl_module.seq_encoder.hidden_size}
-  lr_scheduler_partial:
-    _partial_: true
-    _target_: torch.optim.lr_scheduler.StepLR
-    step_size: 1
-    gamma: 0.8
+    _target_: ptls.nn.L2NormEncoder
   loss:
     _target_: ptls.frames.coles.losses.ContrastiveLoss
     margin: 0.5
@@ -129,21 +117,8 @@ pl_module:
     _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
-
-model_path: models/mles_model.p
-
-inference_dataloader: 
-  col_id: app_id
-  dataset_files: 
-    - ${hydra:runtime.cwd}/data/train_trx.parquet
-    - ${hydra:runtime.cwd}/data/test_trx.parquet
-  SeqLenLimit: 
-    max_seq_len: 1600
-  loader: 
-    num_workers: 8
-    batch_size: 1000
-  torch_multiprocessing_sharing_strategy: file_system
-
-output: 
-  path: ${hydra:runtime.cwd}/data/mles_embeddings
-  format: pickle
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 1
+    gamma: 0.8
