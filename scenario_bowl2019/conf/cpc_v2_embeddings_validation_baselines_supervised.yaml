@@ -25,8 +25,8 @@ split:
 models: 
   lgbm: 
     enabled: true
-    cls_name: lightgbm.LGBMClassifier
-    params: 
+    model:
+      _target_: lightgbm.LGBMClassifier
       n_estimators: 1000
       boosting_type: gbdt
       objective: multiclass
@@ -44,9 +44,7 @@ models:
       n_jobs: 4
     cpu_count: 4
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
 
 metrics: 
   accuracy: 
@@ -57,7 +55,7 @@ metrics:
 
 report_file: ${hydra:runtime.cwd}/results/scenario_bowl_baselines_supervised_cpc_v2.txt
 
-features: 
+features: {}
 
 external_scores: 
   fit_target: ${hydra:runtime.cwd}/results/fit_target_results.json

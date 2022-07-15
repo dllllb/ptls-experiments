@@ -1,3 +1,7 @@
+defaults:
+  - override hydra/hydra_logging: none
+  - override hydra/job_logging: none
+
 conf_path: conf/embeddings_validation_baselines_supervised.yaml
 environment: 
   work_dir: embeddings_validation.work
@@ -20,17 +24,16 @@ split:
 models: 
   linear: 
     enabled: false
-    cls_name: sklearn.linear_model.LogisticRegression
-    params: {}
+    model:
+      _target_: sklearn.linear_model.LogisticRegression
     cpu_count: 1
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
   lgbm: 
     enabled: true
-    cls_name: lightgbm.LGBMClassifier
-    params: 
+    model:
+      _target_: lightgbm.LGBMClassifier
       n_estimators: 500
       boosting_type: gbdt
       objective: binary
@@ -51,21 +54,19 @@ models:
       min_child_samples: null
     cpu_count: 8
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
   xgb: 
     enabled: false
-    cls_name: xgboost.XGBClassifier
-    params: 
+    model:
+      _target_: xgboost.XGBClassifier
       n_jobs: 4
       seed: 42
       n_estimators: 300
     cpu_count: 4
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
 metrics: 
   auroc: 
     enabled: true
@@ -78,7 +79,7 @@ metrics:
     scorer_params: 
       needs_proba: false
 report_file: ${hydra:runtime.cwd}/results/scenario_gender_baselines_supervised.txt
-features: 
+features: {}
 external_scores: 
   fit_target: ${hydra:runtime.cwd}/results/fit_target_results.json
   mles_finetuning: ${hydra:runtime.cwd}/results/mles_finetuning_results.json

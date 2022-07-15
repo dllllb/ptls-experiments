@@ -26,12 +26,12 @@ features:
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
     target_options: {}
-external_scores: 
+external_scores: {}
 models: 
   lgbm: 
     enabled: true
-    cls_name: lightgbm.LGBMClassifier
-    params: 
+    model:
+      _target_: lightgbm.LGBMClassifier
       n_estimators: 500
       boosting_type: gbdt
       objective: binary
@@ -52,9 +52,8 @@ models:
       min_child_samples: null
     cpu_count: 8
     preprocessing: 
-      - 
-        - sklearn.preprocessing.MaxAbsScaler
-        - {}
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
 metrics: 
   auroc: 
     enabled: true

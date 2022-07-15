@@ -1,0 +1,16 @@
+_target_: ptls.nn.AggFeatureSeqEncoder
+embeddings:
+  event_id:
+    in: 500
+  event_code:
+    in: 50
+  event_type:
+    in: 6
+  title:
+    in: 50
+  world:
+    in: 6
+numeric_values:
+  "#ones": identity
+was_logified: false
+log_scale_factor: 1

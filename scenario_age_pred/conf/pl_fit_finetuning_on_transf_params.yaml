@@ -44,7 +44,7 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 6
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: mles_finetuning
@@ -56,9 +56,9 @@ logger_name: mles_finetuning
 pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/transf_model.p
 
 pretrained_module:
-  _target_: ptls.lightning_modules.coles_module.CoLESModule
+  _target_: ptls.frames.coles.CoLESModule
   validation_metric:
-    _target_: ptls.metric_learn.metric.BatchRecallTopPL
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
     K: 4
     metric: cosine
   seq_encoder:
@@ -75,7 +75,7 @@ pretrained_module:
     use_after_mask: false
     use_src_key_padding_mask: false
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -89,14 +89,13 @@ pretrained_module:
         amount_rur: identity
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   metric_list:
     accuracy:
       _target_: torchmetrics.Accuracy
-      compute_on_step: false
   pretrained_lr: 0.0001
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     input_size: 256
     use_batch_norm: true
     objective: classification

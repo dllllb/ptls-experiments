@@ -1,0 +1,15 @@
+_target_: ptls.frames.supervised.SequenceToTarget
+metric_list:
+  accuracy:
+    _target_: torchmetrics.Accuracy
+head:
+  _target_: ptls.nn.Head
+  objective: classification
+  num_classes: 4
+loss:
+  _target_: torch.nn.NLLLoss
+optimizer_partial:
+  _partial_: true
+  _target_: torch.optim.Adam
+  lr: 0.01
+  weight_decay: 0.0

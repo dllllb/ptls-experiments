@@ -1,0 +1,17 @@
+_target_: ptls.frames.supervised.SequenceToTarget
+metric_list:
+  auroc:
+    _target_: torchmetrics.AUROC
+    num_classes: 2
+head:
+  _target_: ptls.nn.Head
+  use_batch_norm: true
+  objective: classification
+  num_classes: 1
+loss:
+  _target_: ptls.loss.BCELoss
+optimizer_partial:
+  _partial_: true
+  _target_: torch.optim.Adam
+  lr: 0.005
+  weight_decay: 0.0

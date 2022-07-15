@@ -40,15 +40,15 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 60
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: transformer_model
 
 pl_module:
-  _target_: ptls.lightning_modules.coles_module.CoLESModule
+  _target_: ptls.frames.coles.CoLESModule
   validation_metric:
-    _target_: ptls.metric_learn.metric.BatchRecallTopPL
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
     K: 4
     metric: cosine
   seq_encoder:
@@ -65,7 +65,7 @@ pl_module:
     use_after_mask: false
     use_src_key_padding_mask: false
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
       embeddings_noise: 0.003
       embeddings: 
@@ -83,15 +83,15 @@ pl_module:
     num_warmup_steps: 20
     num_training_steps: 60
   head:
-    _target_: ptls.models.Head
+    _target_: ptls.nn.Head
     use_norm_encoder: true
     input_size: ${pl_module.seq_encoder.input_size}
     use_batch_norm: true
   loss:
-    _target_: ptls.metric_learn.losses.ContrastiveLoss
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
     margin: 0.5
     sampling_strategy:
-      _target_: ptls.metric_learn.sampling_strategies.HardNegativePairSelector
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
       neg_count: 5
   optimizer_partial:
     _partial_: true
@@ -99,7 +99,7 @@ pl_module:
     lr: 0.001
     weight_decay: 0.0
 
-model_path: ${hydra:runtime.cwd}/../../artifacts/scenario_age_pred/transf_model.p
+model_path: models/transf_model.p
 
 inference_dataloader: 
   col_id: client_id

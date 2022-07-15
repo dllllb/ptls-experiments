@@ -1,4 +1,4 @@
-Experiments on public dastasets for `pytorch-lifestream` library
+Experiments on public datasets for `pytorch-lifestream` library
 
 # Setup and test using pipenv
 
@@ -33,51 +33,55 @@ tensorboard --logdir lightning_logs/
 
 # Final results
 ```
-All results are stored in `experiments/*/results` folder.
+All results are stored in `*/results` folder.
 Here are the copy of them.
 
 Unsupervised learned embeddings with LightGBM model downstream evaluations:
+mean from test, std from valid
                          |     mean \pm std      |
     Gender auroc:
-        baseline         |    0.877 \pm 0.003    |
-        cpc_embeddings   |    0.850 \pm 0.004    |
-        mles2_embeddings |    0.885 \pm 0.003    |
-        mles_embeddings  |    0.884 \pm 0.003    |
-        nsp_embeddings   |    0.857 \pm 0.003    |
-        random_encoder   |    0.589 \pm 0.008    |
-        rtd_embeddings   |    0.860 \pm 0.003    |
-        sop_embeddings   |    0.776 \pm 0.007    |                         
-        barlow_twins     |    0.858 \pm 0.002    |
+        baseline         |    0.877 \pm 0.010    |
+        cpc_embeddings   |    0.851 \pm 0.006    |
+        mles2_embeddings |    0.882 \pm 0.006    |
+        mles_embeddings  |    0.881 \pm 0.006    |
+        nsp_embeddings   |    0.852 \pm 0.011    |
+        random_encoder   |    0.593 \pm 0.020    |
+        rtd_embeddings   |    0.855 \pm 0.008    |
+        sop_embeddings   |    0.785 \pm 0.007    |
+        barlow_twins     |    0.865 \pm 0.007    |
                          
     Age group (age_pred) accuracy:
-        baseline         |    0.629 \pm 0.006    |
-        cpc_embeddings   |    0.596 \pm 0.004    |
-        mles2_embeddings |    0.637 \pm 0.006    |
+        baseline         |    0.629 \pm 0.002    |
+        cpc_embeddings   |    0.602 \pm 0.004    |
+        mles2_embeddings |    0.643 \pm 0.003    |
         mles_embeddings  |    0.640 \pm 0.004    |
-        nsp_embeddings   |    0.618 \pm 0.005    |
-        random_encoder   |    0.375 \pm 0.008    |
-        rtd_embeddings   |    0.632 \pm 0.008    |
-        sop_embeddings   |    0.533 \pm 0.005    |
-        barlow_twins     |    0.624 \pm 0.002    |
+        nsp_embeddings   |    0.621 \pm 0.005    |
+        random_encoder   |    0.375 \pm 0.003    |
+        rtd_embeddings   |    0.631 \pm 0.006    |
+        sop_embeddings   |    0.512 \pm 0.002    |
+        barlow_twins     |    0.634 \pm 0.003    |
     
     Churn (rosbank) auroc:
-        baseline         |    0.825  \pm 0.005   |
-        cpc_embeddings   |    0.798  \pm 0.007   |
-        mles2_embeddings |    0.843  \pm 0.007   |
-        mles_embeddings  |    0.846  \pm 0.005   |
-        nsp_embeddings   |    0.837  \pm 0.003   |
-        random_encoder   |    0.724  \pm 0.009   |
-        rtd_embeddings   |    0.807  \pm 0.003   |
-        sop_embeddings   |    0.781  \pm 0.010   |
-        barlow_twins     |    0.835  \pm 0.004   |
+        baseline         |    0.827  \pm 0.010   |
+        cpc_embeddings   |    0.792  \pm 0.015   |
+        mles2_embeddings |    0.837  \pm 0.006   |
+        mles_embeddings  |    0.841  \pm 0.010   |
+        nsp_embeddings   |    0.828  \pm 0.012   |
+        random_encoder   |    0.725  \pm 0.013   |
+        rtd_embeddings   |    0.771  \pm 0.016   |
+        sop_embeddings   |    0.780  \pm 0.012   |
+        barlow_twins     |    0.839  \pm 0.010   |
         
     Assessment (bowl2019) accuracy:
-        baseline         |    0.602 \pm 0.005    |    
-        cpc_embeddings   |    0.588 \pm 0.002    |    
-        mles_embeddings  |    0.601 \pm 0.002    |    
-        nsp_embeddings   |    0.581 \pm 0.003    |    
-        rtd_embeddings   |    0.580 \pm 0.003    |    
-        sop_embeddings   |    0.577 \pm 0.002    |    
+        barlow_twins     |    0.595 \pm 0.005    |    
+        baseline         |    0.592 \pm 0.004    |    
+        cpc_embeddings   |    0.593 \pm 0.004    |    
+        mles2_embeddings |    0.588 \pm 0.008    |    
+        mles_embeddings  |    0.597 \pm 0.001    |    
+        nsp_embeddings   |    0.579 \pm 0.002    |    
+        random_encoder   |    0.574 \pm 0.004    |
+        rtd_embeddings   |    0.574 \pm 0.004    |
+        sop_embeddings   |    0.567 \pm 0.005    |
     
     Retail (x5) accuracy:
         baseline         |    0.547 \pm 0.001    |
@@ -101,32 +105,33 @@ Unsupervised learned embeddings with LightGBM model downstream evaluations:
 Supervised finetuned encoder with MLP head evaluation:
                          |     mean \pm std      |
     Gender auroc:
-        barlow_twins     |    0.853 \pm 0.003    |
-        cpc_finetuning   |    0.865 \pm 0.002    |
-        mles_finetuning  |    0.871 \pm 0.003    |
-        rtd_finetuning   |    0.869 \pm 0.003    |
-        target_scores    |    0.858 \pm 0.005    |
+        barlow_twins     |    0.865 \pm 0.011    |
+        cpc_finetuning   |    0.865 \pm 0.007    |
+        mles_finetuning  |    0.879 \pm 0.007    |
+        rtd_finetuning   |    0.868 \pm 0.006    |
+        target_scores    |    0.867 \pm 0.008    |
 
     Age group (age_pred) accuracy:
-        barlow_twins     |    0.616 \pm 0.004    |
-        cpc_finetuning   |    0.619 \pm 0.005    |
-        mles_finetuning  |    0.618 \pm 0.008    |
-        rtd_finetuning   |    0.595 \pm 0.009    |
-        target_scores    |    0.621 \pm 0.008    |
+        barlow_twins     |    0.619 \pm 0.004    |
+        cpc_finetuning   |    0.625 \pm 0.005    |
+        mles_finetuning  |    0.624 \pm 0.005    |
+        rtd_finetuning   |    0.622 \pm 0.003    |
+        target_scores    |    0.620 \pm 0.006    |
     
     Churn (rosbank) auroc:
-        barlow_twins     |    0.822 \pm 0.002    |
-        cpc_finetuning   |    0.821 \pm 0.004    |
-        mles_finetuning  |    0.829 \pm 0.008    |
-        nsp_finetuning   |    0.818 \pm 0.002    |
-        rtd_finetuning   |    0.803 \pm 0.008    |
-        target_scores    |    0.820 \pm 0.005    |
+        barlow_twins     |    0.830 \pm 0.006    |
+        cpc_finetuning   |    0.804 \pm 0.017    |
+        mles_finetuning  |    0.819 \pm 0.011    |
+        nsp_finetuning   |    0.806 \pm 0.010    |
+        rtd_finetuning   |    0.791 \pm 0.016    |
+        target_scores    |    0.818 \pm 0.005    |
         
     Assessment (bowl2019) accuracy:
-        cpc_finetuning   |    0.606 \pm 0.004    |    
-        mles_finetuning  |    0.615 \pm 0.003    |    
-        rtd_finetuning   |    0.586 \pm 0.003    |    
-        target_scores    |    0.602 \pm 0.005    |    
+        barlow_twins     |    0.561 \pm 0.007    |    
+        cpc_finetuning   |    0.594 \pm 0.002    |    
+        mles_finetuning  |    0.577 \pm 0.007    |    
+        rtd_finetuning   |    0.571 \pm 0.003    |    
+        target_scores    |    0.585 \pm 0.002    |
     
     Retail (x5) accuracy:
         cpc_finetuning   |    0.549 \pm 0.001    |

@@ -1,11 +1,10 @@
-# Prepare agg feature encoder and take embedidngs; inference
-python -m ptls.pl_train_module --config-dir conf --config-name agg_features_params
+# Prepare agg feature encoder and take embeddings; inference
 python -m ptls.pl_inference    --config-dir conf --config-name agg_features_params
 
 # Random encoder
 python -m ptls.pl_inference    --config-dir conf --config-name random_params
 
-# Train the MeLES encoder and take embedidngs; inference
+# Train the MeLES encoder and take embeddings; inference
 python -m ptls.pl_train_module --config-dir conf --config-name mles_params
 python -m ptls.pl_inference    --config-dir conf --config-name mles_params
 
@@ -28,17 +27,17 @@ python -m ptls.pl_inference    --config-dir conf --config-name rtd_params
 # Check COLEs with split_count=2
 # was
 python -m ptls.pl_train_module \
-    data_module.train.split_strategy.split_count=2 \
-    data_module.valid.split_strategy.split_count=2 \
-    params.validation_metric_params.K=1 \
+    data_module.train_data.splitter.split_count=2 \
+    data_module.valid_data.splitter.split_count=2 \
+    pl_module.validation_metric.K=1 \
     trainer.max_epochs=60 \
-    params.lr_scheduler.step_size=6 \
-    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles_model2.p" \
+    pl_module.lr_scheduler_partial.step_size=6 \
+    model_path="models/mles_model2.p" \
     logger_name="mles_model2" \
     --config-dir conf --config-name mles_params
 python -m ptls.pl_inference    \
-    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_x5/mles_model2.p" \
-    output.path="${hydra:runtime.cwd}/data/mles2_embeddings" \
+    model_path="models/mles_model2.p" \
+    embed_file_name="mles2_embeddings" \
     --config-dir conf --config-name mles_params
 
 # Train the Replaced Token Detection (RTD) model; inference

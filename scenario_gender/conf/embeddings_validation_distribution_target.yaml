@@ -19,7 +19,7 @@ split:
   random_state: 42
 models: {}
 report_file: ${hydra:runtime.cwd}/results/scenario_gender_distibution_target.txt
-features: 
+features: {}
 external_scores: 
   nn: ${hydra:runtime.cwd}/results/fit_target_distribution_results.json
   half_stats: ${hydra:runtime.cwd}/results/fit_target_distribution_results_statistics.json

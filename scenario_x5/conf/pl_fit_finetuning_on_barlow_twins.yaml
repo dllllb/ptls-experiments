@@ -1,77 +1,37 @@
-data_module: 
-  _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
-  type: map
-  setup: 
-    dataset_files: 
-      train_data_path: ${hydra:runtime.cwd}/data/train_trx.parquet
-      test_data_path: ${hydra:runtime.cwd}/data/test_trx.parquet
-    col_id: client_id
-    col_id_dtype: str
-    col_target: age
-    split_by: embeddings_validation
-    fold_info: ${hydra:runtime.cwd}/conf/embeddings_validation.work/folds/folds.json
-  train: 
-    min_seq_len: 0
-    augmentations: 
-      - 
-        - SeqLenLimit
-        - 
-          max_seq_len: 800
-      - 
-        - DropoutTrx
-        - 
-          trx_dropout: 0.01
-      - 
-        - AllTimeShuffle
-        - {}
-    num_workers: 16
-    batch_size: 64
-  valid: 
-    augmentations: 
-      - 
-        - SeqLenLimit
-        - 
-          max_seq_len: 800
-    num_workers: 8
-    batch_size: 512
+defaults:
+  - _self_
+  - data_module_supervised/default@data_module
+  - pl_module/defaults
+
+seed_everything: 42
+logger_name: barlow_twins_finetuning
+pretrained_encoder_path: models/barlow_twins_model_ft.p
+fold_list:
+  _target_: embeddings_validation.get_fold_list
+  config_path: conf/embeddings_validation_baselines_supervised.yaml
+fold_id: _
 
 embedding_validation_results: 
   model_name: nn
   feature_name: barlow_twins_finetuning
   output_path: ${hydra:runtime.cwd}/results/barlow_twins_finetuning_results.json
 
-seed_everything: 42
-
-trainer: 
+trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 10
   log_every_n_steps: 10
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
-logger_name: barlow_twins_finetuning
-
-pretrained_encoder_path: ${hydra:runtime.cwd}/../../artifacts/scenario_x5/barlow_twins_model_ft.p
-pretrained_module_cls:
-  _target_: hydra.utils.get_class
-  path: ptls.lightning_modules.coles_module.CoLESModule
-
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
-  metric_list:
-    accuracy:
-      _target_: torchmetrics.Accuracy
-      compute_on_step: false
+  seq_encoder:
+    _target_: torch.load
+    f: ${pretrained_encoder_path}
   pretrained_lr: 0.001
   head:
-    _target_: ptls.models.Head
-    input_size: 777
+    input_size: 800
     use_batch_norm: true
-    objective: classification
-    num_classes: 4
-  loss:
-    _target_: torch.nn.NLLLoss
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam

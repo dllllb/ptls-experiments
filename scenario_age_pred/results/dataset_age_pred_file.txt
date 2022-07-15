@@ -1,0 +1,72 @@
+load_source_data       : Loaded 26450577 rows from "ptls-experiments/scenario_age_pred/data/transactions_train.csv"
+load_source_data       : Loaded 17667328 rows from "ptls-experiments/scenario_age_pred/data/transactions_test.csv"
+load_source_data       : Loaded 44117905 rows in total
+_td_float              : To-float time transformation
+trx_to_features        : Found 50000 unique clients
+trx_to_features        : Encoder stat for "amount_rur":
+codes | trx_count
+                   cnt    % of total
+amount_rur                          
+[0.0, 1.4)     2466241  5.590114e-02
+[1.4, 2.7)    14677264  3.326827e-01
+[2.7, 4.1)    18511187  4.195845e-01
+[4.1, 5.5)     7077280  1.604174e-01
+[5.5, 6.9)     1188129  2.693077e-02
+[6.9, 8.2)      171094  3.878108e-03
+[8.2, 9.6)       24473  5.547181e-04
+[9.6, 11.0)       2062  4.673839e-05
+[11.0, 12.3)       165  3.739978e-06
+[12.3, 13.7)         9  2.039988e-07
+trx_to_features        : Encoder stat for "trans_date":
+codes | trx_count
+                cnt  % of total
+trans_date                     
+[2, 81)     5951516    0.134900
+[81, 161)   5604756    0.127040
+[161, 241)  5417575    0.122798
+[241, 320)  5062781    0.114756
+[320, 400)  4848380    0.109896
+[400, 480)  4628310    0.104908
+[480, 559)  4327300    0.098085
+[559, 639)  4121286    0.093415
+[639, 719)  3679116    0.083393
+[719, 732)   476885    0.010809
+trx_to_features        : Encoder stat for "small_group":
+codes | trx_count
+                  cnt  % of total
+small_group                      
+[2, 10)      32108067    0.727779
+[10, 18)      5509832    0.124889
+[18, 27)      1886282    0.042755
+[27, 35)      1262772    0.028623
+[35, 44)      1093213    0.024779
+[44, 52)       689710    0.015633
+[52, 61)       558961    0.012670
+[61, 69)       296880    0.006729
+[69, 78)       251340    0.005697
+[78, 206)      460848    0.010446
+trx_to_features        : Trx count per clients:
+len(trx_list) | client_count
+               cnt  % of total
+trx_count                     
+[700, 749)    8419     0.16838
+[749, 798)    7659     0.15318
+[798, 847)    6782     0.13564
+[847, 896)    5996     0.11992
+[896, 945)    5283     0.10566
+[945, 994)    4595     0.09190
+[994, 1043)   4093     0.08186
+[1043, 1092)  3546     0.07092
+[1092, 1142)  3094     0.06188
+[1142, 1151)   533     0.01066
+trx_to_features        : Feature collection in progress ...
+trx_to_features        : Feature names: ['client_id', 'amount_rur', 'event_time', 'trans_date', 'small_group', 'trx_count']
+trx_to_features        : Prepared features for 50000 clients
+load_source_data       : Loaded 30000 rows from "ptls-experiments/scenario_age_pred/data/train_target.csv"
+load_source_data       : Loaded 30000 rows in total
+update_with_target     : Target updated for 50000 clients
+split_dataset          : Train size: 47000 clients
+split_dataset          : Test size: 3000 clients
+save_features          : Saved to: "ptls-experiments/scenario_age_pred/data/train_trx_file.parquet"
+save_features          : Saved to: "ptls-experiments/scenario_age_pred/data/test_trx_file.parquet"
+run                    : Data collected in 689 sec (0:11:29.190201)

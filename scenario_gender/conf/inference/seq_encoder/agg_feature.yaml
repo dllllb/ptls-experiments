@@ -1,0 +1,10 @@
+_target_: ptls.nn.AggFeatureSeqEncoder
+embeddings:
+  mcc_code:
+    in: 200
+  tr_type:
+    in: 100
+numeric_values:
+  amount: identity
+was_logified: true
+log_scale_factor: 1

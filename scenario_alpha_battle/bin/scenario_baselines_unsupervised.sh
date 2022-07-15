@@ -1,63 +1,28 @@
-# Prepare agg feature encoder and take embedidngs; inference
-python -m ptls.pl_train_module --config-dir conf --config-name agg_features_params
+# Prepare agg feature encoder and take embeddings; inference
 python -m ptls.pl_inference --config-dir conf --config-name agg_features_params
 
 # Random encoder
 python -m ptls.pl_inference --config-dir conf --config-name random_params
 
-## Train the MeLES encoder and take embedidngs; inference
-#python -m ptls.pl_train_module --config-dir conf --config-name mles_params
-#python -m ptls.pl_inference --config-dir conf --config-name mles_params
+# for inference customize and run scripts from `bin/embeddings_by_epochs`
+
+## Train the MeLES encoder and take embeddings; inference
+python -m ptls.pl_train_module --config-dir conf --config-name mles_params +trainer.limit_train_batches=100 trainer.max_epochs=5 +trainer.limit_val_batches=100
 #
 ## Train the Contrastive Predictive Coding (CPC) model; inference
-#python -m ptls.pl_train_module --config-dir conf --config-name cpc_params
-#python -m ptls.pl_inference --config-dir conf --config-name cpc_params
+python -m ptls.pl_train_module --config-dir conf --config-name cpc_params +trainer.limit_train_batches=100 trainer.max_epochs=5 +trainer.limit_val_batches=100
 #
 ## Train the Sequence Order Prediction (SOP) model; inference
-#python -m ptls.pl_train_module --config-dir conf --config-name sop_params
-#python -m ptls.pl_inference --config-dir conf --config-name sop_params
+python -m ptls.pl_train_module --config-dir conf --config-name sop_params +trainer.limit_train_batches=100 trainer.max_epochs=5 +trainer.limit_val_batches=100
 #
 ## Train the Next Sequence Prediction (NSP) model; inference
-#python -m ptls.pl_train_module --config-dir conf --config-name nsp_params
-#python -m ptls.pl_inference --config-dir conf --config-name nsp_params
+python -m ptls.pl_train_module --config-dir conf --config-name nsp_params +trainer.limit_train_batches=100 trainer.max_epochs=5 +trainer.limit_val_batches=100
 #
 ## Train the Replaced Token Detection (RTD) model; inference
-#python -m ptls.pl_train_module --config-dir conf --config-name rtd_params
-#python -m ptls.pl_inference --config-dir conf --config-name rtd_params
+python -m ptls.pl_train_module --config-dir conf --config-name rtd_params +trainer.limit_train_batches=100 trainer.max_epochs=5 +trainer.limit_val_batches=100
 
-# Check COLEs with split_count=2
-# was
-#python -m ptls.pl_train_module \
-#    data_module.train.split_strategy.split_count=2 \
-#    data_module.valid.split_strategy.split_count=2 \
-#    params.validation_metric_params.K=1 \
-#    trainer.max_epochs=30 \
-#    params.lr_scheduler.step_size=1 \
-#    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mles_model2.p" \
-#    logger_name="mles_model2" \
-#    --config-dir conf --config-name mles_params
-#python -m ptls.pl_inference    \
-#    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mles_model2.p" \
-#    output.path="${hydra:runtime.cwd}/data/mles2_embeddings" \
-#    --config-dir conf --config-name mles_params
-#
-## Check COLEs with transformer encoder
-#python -m ptls.pl_train_module \
-#    params.encoder_type=transf \
-#    trainer.max_epochs=3 \
-#    params.lr_scheduler.step_size=3 \
-#    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mles_modelt.p" \
-#    logger_name="mles_modelt" \
-#    --config-dir conf --config-name mles_params
-#python -m ptls.pl_inference    \
-#    inference_dataloader.loader.batch_size=128 \
-#    model_path="${hydra:runtime.cwd}/../../artifacts/scenario_alpha_battle/mles_modelt.p" \
-#    output.path="${hydra:runtime.cwd}/data/mlest_embeddings" \
-#    --config-dir conf --config-name mles_params
-
-## Train the Replaced Token Detection (RTD) model; inference
-#python -m ptls.pl_train_module --config-dir conf --config-name barlow_twins_params
-#python -m ptls.pl_inference --config-dir conf --config-name barlow_twins_params
+## Train the Barlow Twins model; inference
+python -m ptls.pl_train_module --config-dir conf --config-name barlow_twins_params +trainer.limit_train_batches=100 trainer.max_epochs=5 +trainer.limit_val_batches=100
 
 
 # Compare

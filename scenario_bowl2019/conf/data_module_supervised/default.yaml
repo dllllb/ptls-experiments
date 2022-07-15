@@ -1,0 +1,80 @@
+_target_: ptls.frames.PtlsDataModule
+train_data:
+  _target_: ptls.frames.supervised.seq_to_target_dataset.SeqToTargetDataset
+  target_col_name: accuracy_group
+  target_dtype: long
+  data:
+    _target_: ptls.data_load.datasets.AugmentationDataset
+    f_augmentations:
+      - _target_: ptls.data_load.augmentations.RandomSlice
+        min_len: 250
+        max_len: 500
+      - _target_: ptls.data_load.augmentations.DropoutTrx
+        trx_dropout: 0.005
+    data:
+      _target_: ptls.data_load.datasets.MemoryMapDataset
+      data:
+        _target_: ptls.data_load.datasets.ParquetDataset
+        data_files:
+          _target_: ptls.data_load.datasets.parquet_file_scan
+          file_path: data/train_trx.parquet
+        i_filters:
+          - _target_: ptls.data_load.iterable_processing.IdFilterDf
+            df_relevant_ids:
+              _target_: embeddings_validation.get_fold_ids
+              config_path: conf/embeddings_validation_baselines_supervised.yaml
+              kind: train
+              fold_id: ${fold_id}
+          - _target_: ptls.data_load.iterable_processing.FeatureTypeCast
+            feature_types:
+              accuracy_group:
+                _target_: builtins.int
+                _partial_: true
+valid_data:
+  _target_: ptls.frames.supervised.seq_to_target_dataset.SeqToTargetDataset
+  target_col_name: accuracy_group
+  target_dtype: long
+  data:
+    _target_: ptls.data_load.datasets.MemoryMapDataset
+    data:
+      _target_: ptls.data_load.datasets.ParquetDataset
+      data_files:
+        _target_: ptls.data_load.datasets.parquet_file_scan
+        file_path: data/train_trx.parquet
+      i_filters:
+        - _target_: ptls.data_load.iterable_processing.IdFilterDf
+          df_relevant_ids:
+            _target_: embeddings_validation.get_fold_ids
+            config_path: conf/embeddings_validation_baselines_supervised.yaml
+            kind: valid
+            fold_id: ${fold_id}
+        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
+          max_seq_len: 5000
+        - _target_: ptls.data_load.iterable_processing.FeatureTypeCast
+          feature_types:
+            accuracy_group:
+              _target_: builtins.int
+              _partial_: true
+test_data:
+  _target_: ptls.frames.supervised.seq_to_target_dataset.SeqToTargetDataset
+  target_col_name: accuracy_group
+  target_dtype: long
+  data:
+    _target_: ptls.data_load.datasets.MemoryMapDataset
+    data:
+      _target_: ptls.data_load.datasets.ParquetDataset
+      data_files:
+        _target_: ptls.data_load.datasets.parquet_file_scan
+        file_path: data/test_trx.parquet
+      i_filters:
+        - _target_: ptls.data_load.iterable_processing.ISeqLenLimit
+          max_seq_len: 5000
+        - _target_: ptls.data_load.iterable_processing.FeatureTypeCast
+          feature_types:
+            accuracy_group:
+              _target_: builtins.int
+              _partial_: true
+train_batch_size: 64
+train_num_workers: 16
+valid_batch_size: 64
+valid_num_workers: 8

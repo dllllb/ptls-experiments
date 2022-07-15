@@ -1,7 +1,7 @@
 # Get data
 
 ```sh
-cd experiments/scenario_alpha_battle
+cd scenario_alpha_battle
 
 # download datasets
 sh bin/get-data.sh
@@ -13,7 +13,7 @@ sh bin/make-datasets-spark.sh
 # Main scenario, baselines
 
 ```sh
-cd experiments/scenario_alpha_battle
+cd scenario_alpha_battle
 export CUDA_VISIBLE_DEVICES=0  # define here one gpu device number
 
 sh bin/run_all_scenarios.sh
@@ -26,7 +26,7 @@ cat results/*.csv
 # Main scenario, unsupervised methods
 
 ```sh
-cd experiments/scenario_alpha_battle
+cd scenario_alpha_battle
 export CUDA_VISIBLE_DEVICES=0  # define here one gpu device number
 
 ```

@@ -64,13 +64,13 @@ trainer:
   gpus: 0
   auto_select_gpus: false
   max_epochs: 0
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: target_scores
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   pos: true
   neg: false
   columns_ix: 
@@ -295,7 +295,7 @@ pl_module:
   seq_encoder:
     _target_: ptls.seq_encoder.statistics_encoder.StatisticsEncoder
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
     distribution_target_task: true
     norm_embeddings: false
     embeddings_noise: 0.003

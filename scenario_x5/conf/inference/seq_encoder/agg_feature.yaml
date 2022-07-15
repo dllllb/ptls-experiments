@@ -1,0 +1,14 @@
+_target_: ptls.nn.AggFeatureSeqEncoder
+embeddings:
+  level_3:
+    in: 200
+  level_4:
+    in: 800
+  segment_id:
+    in: 120
+numeric_values:
+  trn_sum_from_iss: identity
+  netto: identity
+  regular_points_received: identity
+was_logified: true
+log_scale_factor: 1

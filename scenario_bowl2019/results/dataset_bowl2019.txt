@@ -1,0 +1,9 @@
+load_transactions      : Loaded 11341042 records from "train.csv"
+load_transactions      : Loaded 1156414 records from "test.csv"
+load_source_data       : Loaded 17690 rows from "ptls-experiments/scenario_bowl2019/data/train_labels.csv"
+load_source_data       : Loaded 17690 rows in total
+split_dataset          : Train size: 15921 clients
+split_dataset          : Test size: 1769 clients
+save_features          : Saved to: "ptls-experiments/scenario_bowl2019/data/train_trx.parquet"
+save_features          : Saved to: "ptls-experiments/scenario_bowl2019/data/test_trx.parquet"
+run                    : Data collected in 264 sec (0:04:24.871383)

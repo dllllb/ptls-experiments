@@ -43,7 +43,7 @@ class LocalDatasetConverter(DatasetConverter):
 
     def load_target(self):
         df_target = self.spark_read_file(self.path_to_file(FILE_NAME_TRAIN))
-        f_agg = [F.first(col).alias(col) for col in self.config.col_target]
+        f_agg = [F.first(col).cast('float').alias(col) for col in self.config.col_target]
         df_target = df_target.groupby(self.config.col_client_id).agg(*f_agg)
         return df_target
 

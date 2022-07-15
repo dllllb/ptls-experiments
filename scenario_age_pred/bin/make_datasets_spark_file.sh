@@ -22,7 +22,7 @@ SPARK_LOCAL_IP="127.0.0.1" spark-submit \
     --output_train_path "data/train_trx_file.parquet" \
     --output_test_path "data/test_trx_file.parquet" \
     --output_test_ids_path "data/test_ids_file.csv" \
-    --log_file "results/dataset_age_pred_file.log"
+    --log_file "results/dataset_age_pred_file.txt"
 
 # 654 sec with    --print_dataset_info
 # 144 sec without --print_dataset_info

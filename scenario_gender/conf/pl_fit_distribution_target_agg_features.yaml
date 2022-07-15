@@ -53,13 +53,13 @@ trainer:
   gpus: 1
   auto_select_gpus: false
   max_epochs: 5
-  checkpoint_callback: false
+  enable_checkpointing: false
   deterministic: true
 
 logger_name: target_scores
 
 pl_module:
-  _target_: ptls.seq_to_target.SequenceToTarget
+  _target_: ptls.frames.supervised.SequenceToTarget
   metric_list:
     - R2n
     - R2p
@@ -70,9 +70,9 @@ pl_module:
     - CEn
     - CEp
   seq_encoder:
-    _target_: ptls.seq_encoder.agg_feature_model.AggFeatureSeqEncoder
+    _target_: ptls.nn.AggFeatureSeqEncoder
     trx_encoder: 
-      _target_: ptls.trx_encoder.TrxEncoder
+      _target_: ptls.nn.TrxEncoder
     distribution_target_task: true
     logify_sum_mean_seqlens: true
     norm_embeddings: false

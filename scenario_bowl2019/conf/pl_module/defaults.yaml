@@ -1,0 +1,10 @@
+_target_: ptls.frames.supervised.SequenceToTarget
+metric_list:
+  accuracy:
+    _target_: torchmetrics.Accuracy
+head:
+  _target_: ptls.nn.Head
+  objective: classification
+  num_classes: 4
+loss:
+  _target_: torch.nn.NLLLoss

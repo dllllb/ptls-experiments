@@ -1,0 +1,18 @@
+_target_: ptls.nn.RnnSeqEncoder
+trx_encoder:
+  _target_: ptls.nn.TrxEncoder
+  norm_embeddings: false
+  embeddings_noise: 0.003
+  embeddings:
+    mcc_code:
+      in: 200
+      out: 48
+    tr_type:
+      in: 100
+      out: 24
+  numeric_values:
+    amount: identity
+type: gru
+hidden_size: 1024
+bidir: false
+trainable_starter: static
