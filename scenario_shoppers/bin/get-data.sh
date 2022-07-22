@@ -2,9 +2,9 @@
 
 # https://www.kaggle.com/c/acquire-valued-shoppers-challenge/data
 
-mkdir data
+mkdir -p data
+mkdir -p results
 
 curl -OL https://storage.yandexcloud.net/di-datasets/acquire-valued-shoppers.zip
-
-unzip acquire-valued-shoppers.zip -d data/
-mv acquire-valued-shoppers.zip data/
+unzip -j acquire-valued-shoppers.zip "[ost]*.csv.gz" -d data
+rm -f acquire-valued-shoppers.zip
