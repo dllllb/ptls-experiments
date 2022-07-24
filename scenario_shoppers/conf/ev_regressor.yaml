@@ -15,7 +15,7 @@ split:
     file_name: ${hydra:runtime.cwd}/${data_path}/test_ids.csv
   cv_split_count: 5
   is_stratify: false
-  random_state: null
+  random_state: 42
 
 target:
   file_name: ${hydra:runtime.cwd}/${data_path}/train_target.csv
