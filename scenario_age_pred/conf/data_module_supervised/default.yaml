@@ -12,7 +12,7 @@ train_data:
       - _target_: ptls.data_load.augmentations.DropoutTrx
         trx_dropout: 0.005
     data:
-      _target_: ptls.data_load.datasets.MemoryMapDataset
+      _target_: ptls.data_load.datasets.PersistDataset
       data:
         _target_: ptls.data_load.datasets.ParquetDataset
         i_filters:
@@ -30,7 +30,7 @@ valid_data:
   target_col_name: target
   target_dtype: long
   data:
-    _target_: ptls.data_load.datasets.MemoryMapDataset
+    _target_: ptls.data_load.datasets.PersistDataset
     data:
       _target_: ptls.data_load.datasets.ParquetDataset
       i_filters:
@@ -50,7 +50,7 @@ test_data:
   target_col_name: target
   target_dtype: long
   data:
-    _target_: ptls.data_load.datasets.MemoryMapDataset
+    _target_: ptls.data_load.datasets.PersistDataset
     data:
       _target_: ptls.data_load.datasets.ParquetDataset
       i_filters:

@@ -32,5 +32,5 @@ rm results/epochs_mles.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
     --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
-    +report_file="../results/epochs_mles.txt" \
-    +auto_features=["../data/mles__???.pickle"]
+    +report_file="results/epochs_mles.txt" \
+    +auto_features=["data/mles__???.pickle"]

@@ -92,14 +92,14 @@ mean from test, std from valid
         sop_embeddings   |    0.428 \pm 0.001    |
     
     Scoring (alpha battle) auroc:
-        baseline         |    0.7792 \pm 0.0006  |
-        random_encoder   |    0.6456 \pm 0.0009  |
-        barlow_twins     |    0.7878 \pm 0.0009  |
-        cpc              |    0.7919 \pm 0.0004  |
-        mles             |    0.7921 \pm 0.0003  |
-        nsp              |    0.7655 \pm 0.0006  |
-        rtd              |    0.7910 \pm 0.0006  |
-        sop              |    0.7238 \pm 0.0010  |
+        baseline         |    0.7818 \pm 0.0033  |
+        random_encoder   |    0.6479 \pm 0.0035  |
+        barlow_twins     |    0.7868 \pm 0.0017  |
+        mles             |    0.7926 \pm 0.0023  |
+        cpc              |    0.7940 \pm 0.0023  |
+        nsp              |    0.7661 \pm 0.0037  |
+        rtd              |    0.7885 \pm 0.0022  |
+        sop              |    0.7063 \pm 0.0015  |
 
 
 Supervised finetuned encoder with MLP head evaluation:

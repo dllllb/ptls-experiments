@@ -1,6 +1,6 @@
 # Barlow twins
 checkpoints_folder="lightning_logs/barlow_twins_model/version_0/checkpoints/*.ckpt"
-output_file_prefix="barlow_twins_v1__"
+output_file_prefix="barlow_twins__"
 conf_file="barlow_twins_params"
 batch_size=800
 
@@ -31,6 +31,6 @@ done
 rm results/epochs_barlow_twins.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
-    --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
-    +report_file="../results/epochs_barlow_twins.txt" \
-    +auto_features=["../data/barlow_twins_v1_???.pickle"]
+    --config-dir conf --config-name embeddings_validation_short +workers=1 +total_cpu_count=20 \
+    +report_file="results/epochs_barlow_twins.txt" \
+    +auto_features=["data/barlow_twins_v1__???.pickle"]

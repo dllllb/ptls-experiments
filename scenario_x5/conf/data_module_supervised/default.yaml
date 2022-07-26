@@ -15,7 +15,7 @@ train_data:
         rate_for_min: 0.9
       - _target_: ptls.data_load.augmentations.AllTimeShuffle
     data:
-      _target_: ptls.data_load.datasets.MemoryMapDataset
+      _target_: ptls.data_load.datasets.PersistDataset
       data:
         _target_: ptls.data_load.datasets.ParquetDataset
         i_filters:
@@ -38,7 +38,7 @@ valid_data:
   target_col_name: target_age
   target_dtype: long
   data:
-    _target_: ptls.data_load.datasets.MemoryMapDataset
+    _target_: ptls.data_load.datasets.PersistDataset
     data:
       _target_: ptls.data_load.datasets.ParquetDataset
       i_filters:
@@ -63,7 +63,7 @@ test_data:
   target_col_name: target_age
   target_dtype: long
   data:
-    _target_: ptls.data_load.datasets.MemoryMapDataset
+    _target_: ptls.data_load.datasets.PersistDataset
     data:
       _target_: ptls.data_load.datasets.ParquetDataset
       i_filters:

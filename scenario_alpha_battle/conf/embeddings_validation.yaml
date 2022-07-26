@@ -1,6 +1,5 @@
-conf_path: conf/embeddings_validation.yaml
-environment: 
-  work_dir: embeddings_validation.work
+environment:
+  work_dir: conf/embeddings_validation.work
 target: 
   file_name: ${hydra:runtime.cwd}/data/train_target.csv
   cols_id: 

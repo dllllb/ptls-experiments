@@ -5,7 +5,7 @@ train:
     - _target_: ptls.data_load.augmentations.DropoutTrx
       trx_dropout: 0.01
   data:
-    _target_: ptls.data_load.datasets.MemoryMapDataset
+    _target_: ptls.data_load.datasets.PersistDataset
     data:
       _target_: ptls.data_load.datasets.parquet_dataset.ParquetDataset
       i_filters:
@@ -19,7 +19,7 @@ train:
         return_part: train
 
 valid:
-  _target_: ptls.data_load.datasets.MemoryMapDataset
+  _target_: ptls.data_load.datasets.PersistDataset
   data:
     _target_: ptls.data_load.datasets.parquet_dataset.ParquetDataset
     i_filters:

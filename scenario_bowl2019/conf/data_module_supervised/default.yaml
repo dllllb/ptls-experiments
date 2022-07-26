@@ -12,7 +12,7 @@ train_data:
       - _target_: ptls.data_load.augmentations.DropoutTrx
         trx_dropout: 0.005
     data:
-      _target_: ptls.data_load.datasets.MemoryMapDataset
+      _target_: ptls.data_load.datasets.PersistDataset
       data:
         _target_: ptls.data_load.datasets.ParquetDataset
         data_files:
@@ -35,7 +35,7 @@ valid_data:
   target_col_name: accuracy_group
   target_dtype: long
   data:
-    _target_: ptls.data_load.datasets.MemoryMapDataset
+    _target_: ptls.data_load.datasets.PersistDataset
     data:
       _target_: ptls.data_load.datasets.ParquetDataset
       data_files:
@@ -60,7 +60,7 @@ test_data:
   target_col_name: accuracy_group
   target_dtype: long
   data:
-    _target_: ptls.data_load.datasets.MemoryMapDataset
+    _target_: ptls.data_load.datasets.PersistDataset
     data:
       _target_: ptls.data_load.datasets.ParquetDataset
       data_files:

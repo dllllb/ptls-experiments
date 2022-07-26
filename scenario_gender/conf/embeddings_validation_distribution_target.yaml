@@ -1,6 +1,5 @@
-conf_path: conf/embeddings_validation_distribution_target.yaml
-environment: 
-  work_dir: embeddings_validation.work
+environment:
+  work_dir: conf/embeddings_validation.work
 target: 
   file_name: ${hydra:runtime.cwd}/data/gender_train_distribution_target.csv
   cols_id: 
