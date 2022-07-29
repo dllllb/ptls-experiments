@@ -9,9 +9,8 @@ data_module:
     col_id: id
     col_id_dtype: int
     col_target: target_bin
-    drop_feature_names: target_dist
     split_by: embeddings_validation
-    fold_info: ${hydra:runtime.cwd}/lightning_logs/${logger_name}/folds/folds.json
+    fold_info: ${hydra:runtime.cwd}/${logger_name}/folds/folds.json
   train:
     min_seq_len: 0
     augmentations:
@@ -57,7 +56,7 @@ pl_module:
       embeddings_noise: 0.003
       embeddings:
         category:
-          in: 141
+          in: 133
           out: 64
       numeric_values:
         purchasequantity: identity
@@ -85,26 +84,21 @@ trainer:
   accelerator: gpu
   accumulate_grad_batches: 1
   auto_select_gpus: false
-  auto_lr_find: false
   deterministic: true
   devices: 1
-  enable_checkpointing: true
-  enable_progress_bar: true
-  fast_dev_run: false
-  log_every_n_steps: 50
-  max_epochs: 10
+  max_epochs: 100
   precision: 32
 
 embedding_validation_results:
   model_name: nn
   feature_name: cv_score
-  output_path: ${hydra:runtime.cwd}/lightning_logs/${logger_name}/cv_result.json
+  output_path: ${hydra:runtime.cwd}/${logger_name}/cv_result.json
 
 data_path: data
-logger_name: task_${now:%Y%m%d%H%M}
+logger_name: lightning_logs/task_${now:%Y%m%d%H%M}
 seed_everything: 42
 
 hydra:
   output_subdir: null
   run:
-    dir: ${hydra:runtime.cwd}/lightning_logs/${logger_name}
+    dir: ${hydra:runtime.cwd}/${logger_name}
