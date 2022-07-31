@@ -1,0 +1,36 @@
+mc:
+  chunk: 10000
+  cvdict: data/sample/train_cvdict.csv
+  path: lightning_logs/test
+  repeats: 1000
+  states: 40
+  steps: 12
+  version: 0
+
+seq_encoder:
+  _target_: ptls.nn.RnnSeqEncoder
+  hidden_size: 128
+  type: gru
+  bidir: false
+  trainable_starter: static
+  trx_encoder:
+    _target_: ptls.nn.TrxEncoder
+    norm_embeddings: false
+    embeddings_noise: 0.003
+    embeddings:
+      category:
+        in: 41
+        out: 64
+    numeric_values:
+      purchasequantity: identity
+
+head:
+  _target_: ptls.nn.Head
+  input_size: ${seq_encoder.hidden_size}
+  hidden_layers_sizes: ["${seq_encoder.hidden_size}"]
+  num_classes: 40
+  objective: softplus
+  use_batch_norm: true
+
+device: cpu
+rng_seed: 137137137

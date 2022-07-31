@@ -3,7 +3,7 @@ import hydra
 import numpy as np
 import pandas as pd
 import pytorch_lightning as pl
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 from pytorch_lightning.callbacks import TQDMProgressBar
 from pytorch_lightning.loggers import TensorBoardLogger
 
@@ -35,22 +35,23 @@ def fold_fit_test(conf, fold_id):
 
 @hydra.main(version_base=None)
 def main(conf: DictConfig):
-    OmegaConf.set_struct(conf, False)
     pl.seed_everything(conf.seed_everything)
-
     with open(conf.data_module.setup.fold_info) as fo:
         fold_info = json.load(fo)
-    fold_list = [k for k in sorted(fold_info.keys()) if not k.startswith('_')]
 
-    res = [fold_fit_test(conf, fold_id) for fold_id in fold_list]
-    with open(conf.embedding_validation_results.output_path, "w") as fo:
-        json.dump(res, fo, indent=2)
+    avg = []
+    res = [fold_fit_test(conf, k) for k in sorted(fold_info.keys()) if not k.startswith('_')]
 
     for name in res[0]["scores_valid"].keys():
-        valid_scores = np.array([x["scores_valid"][name]for x in res])
+        valid_scores = np.array([x["scores_valid"][name] for x in res])
         test_scores = np.array([x["scores_test"][name] for x in res])
+        avg.append({f"mean_valid_{name}": valid_scores.mean(), f"std_valid_{name}": valid_scores.std(),
+                    f"mean_test_{name}": test_scores.mean(), f"std_test_{name}": test_scores.std()})
         print(f'Valid {name:10}: {valid_scores.mean():.3f} [{", ".join(f"{t:.3f}" for t in valid_scores)}], '
               f'Test  {name:10}: {test_scores.mean():.3f} [{", ".join(f"{t:.3f}" for t in test_scores)}]')
+
+    with open(conf.embedding_validation_results.output_path, "w") as fo:
+        json.dump(avg + res, fo, indent=2)
 
 
 if __name__ == "__main__":
