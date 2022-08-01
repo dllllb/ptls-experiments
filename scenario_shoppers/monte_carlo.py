@@ -1,4 +1,4 @@
-import hydra, logging, os
+import ast, hydra, logging, os
 import numpy as np
 import pandas as pd
 import torch
@@ -16,16 +16,27 @@ logger = logging.getLogger(__name__)
 class ChunkedDataset:
     def __init__(self, conf):
         self.device = torch.device(conf.device)
-        self.cvdict = pd.read_csv(conf.mc.cvdict)
+        self.k = conf.mc.states
 
         df = pd.concat([pd.read_csv(fn) for fn in glob(os.path.join(conf.mc.path, "version_*/test_prediction.csv"))])
         df = df.groupby("seq_id").mean().reset_index()
-        self.ids = torch.from_numpy(df["seq_id"].values).long().to(self.device)
+        self.ids = df["seq_id"].values
         self.data = torch.from_numpy(df.values[:, 1:]).float().to(self.device)
 
         self.chunk_size = conf.mc.chunk
         self.n_chunks, rest = divmod(len(self.ids), self.chunk_size)
         self.n_chunks += rest > 0
+
+        cw = pd.read_csv(os.path.join(conf.mc.target, "train_cvdict.csv"))
+        df = pd.read_csv(os.path.join(conf.mc.target, "train_target.csv"))
+        if self.k < cw.shape[0]:
+            df["target_dist"] = df["target_dist"].apply(lambda x: np.array(ast.literal_eval(x), dtype=np.float32))
+            w = df["target_dist"].sum()[self.k - 1:]
+            w = np.hstack((np.ones(self.k - 1), w / w.sum())) * cw["ppu"].values
+            self.cat_weight = np.hstack((w[:self.k - 1], w[self.k - 1:].sum()))
+        else:
+            self.cat_weight = cw["ppu"].values
+        self.target = df.drop(columns=["target_sum","target_dist"])
 
     def __len__(self):
         return self.n_chunks
@@ -33,8 +44,7 @@ class ChunkedDataset:
     def __getitem__(self, i):
         if i < 0 or i >= self.n_chunks:
             raise IndexError("index out of range")
-        return (self.ids[i * self.chunk_size:(i + 1) * self.chunk_size],
-                self.data[i * self.chunk_size:(i + 1) * self.chunk_size])
+        return self.data[i * self.chunk_size:(i + 1) * self.chunk_size]
 
 
 class OneStepPredictor:
@@ -117,7 +127,7 @@ def monte_carlo(chunk, sampler, predictor, n_repeats, n_steps=12):
 @hydra.main(version_base=None)
 def main(conf: DictConfig):
     # hydra.initialize(version_base=None, config_path="conf")
-    # conf = hydra.compose("pt_inference")
+    # conf = hydra.compose("pt_inference", overrides=["device=cpu"])
 
     predictor = OneStepPredictor(conf)
     logger.info(f"Model weights restored from: {predictor.ckpt}.")
@@ -130,13 +140,13 @@ def main(conf: DictConfig):
     sampler = Sampler(conf)
     res = []
     for i in range(dataset.n_chunks):
-        ids, chunk = dataset[i]
-        # monte_carlo(chunk, sampler, predictor, 10)
-        res.append(monte_carlo(chunk, sampler, predictor, conf.mc.repeats, conf.mc.steps))
+        res.append(monte_carlo(dataset[i], sampler, predictor, conf.mc.repeats, conf.mc.steps))
         logger.info(f"Done chunk {i + 1} from {dataset.n_chunks}.")
 
-    res = torch.cat(res, dim=0)
-    return res
+    res = torch.cat(res, dim=0).cpu().numpy()
+    df = {"id": dataset.ids, "target_mc": res.dot(dataset.cat_weight)}
+    df.update({f"n_{i}": res[:, i] for i in range(res.shape[1])})
+    pd.DataFrame(df).merge(dataset.target, on="id").to_csv("monte_carlo.csv", header=True, index=False)
 
 
 if __name__ == "__main__":

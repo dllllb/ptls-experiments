@@ -1,10 +1,10 @@
 mc:
   chunk: 10000
-  cvdict: data/sample/train_cvdict.csv
   path: lightning_logs/test
   repeats: 1000
   states: 40
   steps: 12
+  target: data/sample
   version: 0
 
 seq_encoder:
@@ -32,5 +32,10 @@ head:
   objective: softplus
   use_batch_norm: true
 
-device: cpu
+device: cuda:0
 rng_seed: 137137137
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
