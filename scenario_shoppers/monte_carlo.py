@@ -1,11 +1,10 @@
-import ast, hydra, logging, os
+import ast, hydra, json, logging, os
 import numpy as np
 import pandas as pd
 import torch
 import torch.nn.functional as F
 
 from collections import OrderedDict
-from glob import glob
 from omegaconf import DictConfig
 from ptls.data_load import PaddedBatch
 from tqdm import tqdm
@@ -14,21 +13,20 @@ logger = logging.getLogger(__name__)
 
 
 class ChunkedDataset:
-    def __init__(self, conf):
+    def __init__(self, conf, fold_id=0):
         self.device = torch.device(conf.device)
-        self.k = conf.mc.states
+        self.k = conf.pl_module.seq_encoder.trx_encoder.embeddings.category["in"] - 1
 
-        df = pd.concat([pd.read_csv(fn) for fn in glob(os.path.join(conf.mc.path, "version_*/test_prediction.csv"))])
-        df = df.groupby("seq_id").mean().reset_index()
+        df = pd.read_csv(os.path.join(conf.work_dir, f"version_{fold_id}/prediction.csv"))
         self.ids = df["seq_id"].values
         self.data = torch.from_numpy(df.values[:, 1:]).float().to(self.device)
 
-        self.chunk_size = conf.mc.chunk
+        self.chunk_size = conf.monte_carlo.chunk
         self.n_chunks, rest = divmod(len(self.ids), self.chunk_size)
         self.n_chunks += rest > 0
 
-        cw = pd.read_csv(os.path.join(conf.mc.target, "train_cvdict.csv"))
-        df = pd.read_csv(os.path.join(conf.mc.target, "train_target.csv"))
+        cw = pd.read_csv(os.path.join(conf.data_path, "train_cvdict.csv"))
+        df = pd.read_csv(os.path.join(conf.data_path, "train_target.csv"))
         if self.k < cw.shape[0]:
             df["target_dist"] = df["target_dist"].apply(lambda x: np.array(ast.literal_eval(x), dtype=np.float32))
             w = df["target_dist"].sum()[self.k - 1:]
@@ -48,16 +46,14 @@ class ChunkedDataset:
 
 
 class OneStepPredictor:
-    def __init__(self, conf):
+    def __init__(self, conf, fold_id=0):
         self.device = torch.device(conf.device)
         self.models = ("head", "seq_encoder")
-        self.head = hydra.utils.instantiate(conf.head)
-        self.seq_encoder = hydra.utils.instantiate(conf.seq_encoder)
+        self.head = hydra.utils.instantiate(conf.pl_module.head)
+        self.seq_encoder = hydra.utils.instantiate(conf.pl_module.seq_encoder)
 
-        if conf.mc.version == "best":
-            raise NotImplementedError()
-        self.ckpt = sorted(glob(os.path.join(conf.mc.path, "version_*/checkpoints/*.ckpt")))[conf.mc.version]
-        params = torch.load(self.ckpt, map_location=self.device)["state_dict"]
+        self.ckpt_path = os.path.join(conf.work_dir, f"version_{fold_id}/checkpoints/epoch={conf.monte_carlo.ckpt:02d}.ckpt")
+        params = torch.load(self.ckpt_path, map_location=self.device)["state_dict"]
         new_params = {name: OrderedDict() for name in self.models}
         for k, v in params.items():
             pref, new_k = k.split(".", 1)
@@ -70,18 +66,20 @@ class OneStepPredictor:
         self.head.load_state_dict(new_params["head"])
         self.head.eval().requires_grad_(False).to(self.device)
 
-    def __call__(self, x, h=None):
+    def __call__(self, x, h0=None):
         with torch.no_grad():
-            h = self.seq_encoder(x, h)
+            h = self.seq_encoder(x, h0)
+            if h0 is not None:
+                h = torch.where((x.seq_lens == 0).unsqueeze(1), h0, h)
             y = self.head(h)
         return y, h
 
 
 class Sampler:
     def __init__(self, conf):
-        self.k = conf.mc.states
+        self.k = conf.pl_module.seq_encoder.trx_encoder.embeddings.category["in"] - 1
         self.rng = torch.Generator(conf.device)
-        self.rng.manual_seed(conf.rng_seed)
+        self.rng.manual_seed(conf.seed_everything)
         self.vars = ("category", "purchasequantity")
 
     def __call__(self, x):
@@ -90,9 +88,9 @@ class Sampler:
             res = torch.poisson(x, generator=self.rng)
         elif extra_size in (2, 3):
             if extra_size == 2:
-                nums, dist = x[:, 0].long(), F.softmax(x[:, 1:])
+                nums, dist = x[:, 0].long(), F.softmax(x[:, 1:], dim=1)
             else:
-                nums, dist = (0.5 + torch.exp(x[:, 0])).long(), F.softmax(x[:, 2:])
+                nums, dist = (0.5 + torch.exp(x[:, 0])).long(), F.softmax(x[:, 2:], dim=1)
             res = torch.multinomial(dist, num_samples=nums.max().item(), replacement=True, generator=self.rng)
             res = self.bincount(res, nums)[:, 1:]
         else:
@@ -126,27 +124,30 @@ def monte_carlo(chunk, sampler, predictor, n_repeats, n_steps=12):
 
 @hydra.main(version_base=None)
 def main(conf: DictConfig):
-    # hydra.initialize(version_base=None, config_path="conf")
-    # conf = hydra.compose("pt_inference", overrides=["device=cpu"])
-
-    predictor = OneStepPredictor(conf)
-    logger.info(f"Model weights restored from: {predictor.ckpt}.")
-    logger.info(repr(predictor.seq_encoder))
-    logger.info(repr(predictor.head))
-
-    dataset = ChunkedDataset(conf)
-    logger.info(f"Initial dataset {dataset.data.shape} splitted into {dataset.n_chunks} chunks.")
+    with open(conf.data_module.setup.fold_info) as fi:
+        fold_ids = [int(k) for k in sorted(json.load(fi).keys()) if not k.startswith('_')]
 
     sampler = Sampler(conf)
-    res = []
-    for i in range(dataset.n_chunks):
-        res.append(monte_carlo(dataset[i], sampler, predictor, conf.mc.repeats, conf.mc.steps))
-        logger.info(f"Done chunk {i + 1} from {dataset.n_chunks}.")
+    total_res = list()
+    for fold_id in fold_ids:
+        predictor = OneStepPredictor(conf, fold_id)
+        logger.info(f"Model weights restored from: {predictor.ckpt_path}.")
+        logger.info("\n" + repr(predictor.seq_encoder) + repr(predictor.head))
+        dataset = ChunkedDataset(conf, fold_id)
+        logger.info(f"Dataset {dataset.data.shape} splitted into {dataset.n_chunks} chunks.")
+        res = list()
+        for i in range(dataset.n_chunks):
+            res.append(monte_carlo(dataset[i], sampler, predictor, conf.monte_carlo.repeats, conf.monte_carlo.steps))
+            pred = torch.cat(res, dim=0).cpu().numpy()
+            df = {"id": dataset.ids[:pred.shape[0]], "target_mc": pred.dot(dataset.cat_weight)}
+            df.update({f"n_{i}": pred[:, i] for i in range(pred.shape[1])})
+            df = pd.DataFrame(df).merge(dataset.target, on="id")
+            df.to_csv(os.path.join(conf.work_dir, f"monte_carlo_{fold_id}.csv"), header=True, index=False)
+            logger.info(f"Done chunk [{1 + i}/{dataset.n_chunks}] for fold [{1 + fold_id}/{len(fold_ids)}].")
+        total_res.append(df)
 
-    res = torch.cat(res, dim=0).cpu().numpy()
-    df = {"id": dataset.ids, "target_mc": res.dot(dataset.cat_weight)}
-    df.update({f"n_{i}": res[:, i] for i in range(res.shape[1])})
-    pd.DataFrame(df).merge(dataset.target, on="id").to_csv("monte_carlo.csv", header=True, index=False)
+    df = pd.concat(total_res).groupby("id").mean().reset_index()
+    df.to_csv(os.path.join(conf.work_dir, "monte_carlo.csv"), header=True, index=False)
 
 
 if __name__ == "__main__":

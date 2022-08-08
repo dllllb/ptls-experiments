@@ -10,7 +10,7 @@ data_module:
     col_id_dtype: int
     col_target: target_bin
     split_by: embeddings_validation
-    fold_info: ${hydra:runtime.cwd}/${logger_name}/folds/folds.json
+    fold_info: ${hydra:runtime.cwd}/${work_dir}/folds/folds.json
   train:
     min_seq_len: 0
     augmentations:
@@ -41,8 +41,14 @@ pl_module:
     acc:
       _target_: ptls.frames.supervised.metrics.BucketAccuracy
       scaler: null
+    auc:
+      _target_: ptls.frames.supervised.metrics.RankAUC
+      scaler: null
     err:
       _target_: ptls.frames.supervised.metrics.UnivMeanError
+      scaler: null
+    jsd:
+      _target_: ptls.frames.supervised.metrics.JSDiv
       scaler: null
   seq_encoder:
     _target_: ptls.nn.RnnSeqEncoder
@@ -69,6 +75,7 @@ pl_module:
     use_batch_norm: true
   loss:
     _target_: ptls.loss.ZILNLoss
+  pretrained_lr: 0.01
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
@@ -77,28 +84,31 @@ pl_module:
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR
-    step_size: 2
-    gamma: 0.7
+    step_size: 1
+    gamma: 0.87
 
 trainer:
   accelerator: gpu
   accumulate_grad_batches: 1
+  auto_lr_find: false
   auto_select_gpus: false
   deterministic: true
   devices: 1
   max_epochs: 100
   precision: 32
 
-embedding_validation_results:
-  model_name: nn
-  feature_name: cv_score
-  output_path: ${hydra:runtime.cwd}/${logger_name}/cv_result.json
+monte_carlo:
+  chunk: 20000
+  ckpt: null
+  repeats: 1000
+  steps: 12
 
-data_path: data
-logger_name: lightning_logs/task_${now:%Y%m%d%H%M}
-seed_everything: 42
+data_path: data/sample
+device: cuda
+seed_everything: 137137137
+work_dir: lightning_logs/test
 
 hydra:
   output_subdir: null
   run:
-    dir: ${hydra:runtime.cwd}/${logger_name}
+    dir: ${hydra:runtime.cwd}/${work_dir}

@@ -1,11 +1,11 @@
 conf_path: conf/ev_regressor.yaml
-data_path: data
+data_path: data/sample
 split_only: true
 total_cpu_count: 16
 workers: 8
 
 environment:
-  work_dir: embeddings_validation.work
+  work_dir: lightning_logs/test
 
 split:
   fit_ids: true
