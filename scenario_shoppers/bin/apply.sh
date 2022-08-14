@@ -1,13 +1,27 @@
 #!/usr/bin/env bash
-DATA_PATH="data/sample"
+DATA_PATH="data"
 INS=133
 EMB=64
 HID=128
 REPEATS=1000
+BENCHMARK_TARGET="target_logvar"
 export CUDA_VISIBLE_DEVICES=0
 
-CKPT=6
-WORK_DIR="lightning_logs/loss_pois132_target_dist_in133_1659983233"
+echo
+CKPT=10
+WORK_DIR="lightning_logs/"
+echo "================== ${WORK_DIR} =================="
+python3 pl_trainer.py --config-dir conf --config-name pl_regressor \
+    hydra/hydra_logging=disabled hydra.run.dir="." data_path=${DATA_PATH} work_dir=${WORK_DIR} \
+    data_module.setup.col_target=${BENCHMARK_TARGET} \
+    ~pl_module.metric_list.jsd pl_module.seq_encoder.hidden_size=${HID} \
+    pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS} \
+    pl_module.seq_encoder.trx_encoder.embeddings.category.out=${EMB} \
+    monte_carlo.ckpt=${CKPT}
+
+echo
+CKPT=10
+WORK_DIR="lightning_logs/"
 echo "================== ${WORK_DIR} =================="
 python3 pl_trainer.py --config-dir conf --config-name pl_regressor \
     hydra/hydra_logging=disabled hydra.run.dir="." data_path=${DATA_PATH} work_dir=${WORK_DIR} \
@@ -31,9 +45,12 @@ python3 monte_carlo.py --config-dir conf --config-name pl_regressor \
     pl_module.seq_encoder.trx_encoder.embeddings.category.out=${EMB} \
     monte_carlo.ckpt=${CKPT} monte_carlo.repeats=${REPEATS}
 
+python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
+    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR}
+
 echo
-CKPT=11
-WORK_DIR="lightning_logs/loss_ziln135_target_dist_in133_1659985822"
+CKPT=10
+WORK_DIR="lightning_logs/"
 echo "================== ${WORK_DIR} =================="
 python3 pl_trainer.py --config-dir conf --config-name pl_regressor \
     hydra/hydra_logging=disabled hydra.run.dir="." data_path=${DATA_PATH} work_dir=${WORK_DIR} \
@@ -53,3 +70,6 @@ python3 monte_carlo.py --config-dir conf --config-name pl_regressor \
     pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS} \
     pl_module.seq_encoder.trx_encoder.embeddings.category.out=${EMB} \
     monte_carlo.ckpt=${CKPT} monte_carlo.repeats=${REPEATS}
+
+python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
+    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR}

@@ -11,8 +11,6 @@ split:
   fit_ids: true
   train_id:
     file_name: ${hydra:runtime.cwd}/${data_path}/train_target.csv
-  test_id:
-    file_name: ${hydra:runtime.cwd}/${data_path}/test_ids.csv
   cv_split_count: 5
   is_stratify: false
   random_state: 42

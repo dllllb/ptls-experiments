@@ -1,5 +1,9 @@
-import ast, hydra, json, logging, os
+import ast
+import hydra
+import json
+import logging
 import numpy as np
+import os
 import pandas as pd
 import torch
 import torch.nn.functional as F
@@ -34,7 +38,7 @@ class ChunkedDataset:
             self.cat_weight = np.hstack((w[:self.k - 1], w[self.k - 1:].sum()))
         else:
             self.cat_weight = cw["ppu"].values
-        self.target = df.drop(columns=["target_sum","target_dist"])
+        self.target = df.drop(columns=["target_sum", "target_dist"])
 
     def __len__(self):
         return self.n_chunks
@@ -128,26 +132,25 @@ def main(conf: DictConfig):
         fold_ids = [int(k) for k in sorted(json.load(fi).keys()) if not k.startswith('_')]
 
     sampler = Sampler(conf)
-    total_res = list()
+    col_id, total_res = conf.data_module.setup.col_id, list()
     for fold_id in fold_ids:
         predictor = OneStepPredictor(conf, fold_id)
+        if fold_id == fold_ids[0]:
+            logger.info("\n" + repr(predictor.seq_encoder) + "\n" + repr(predictor.head))
         logger.info(f"Model weights restored from: {predictor.ckpt_path}.")
-        logger.info("\n" + repr(predictor.seq_encoder) + repr(predictor.head))
         dataset = ChunkedDataset(conf, fold_id)
         logger.info(f"Dataset {dataset.data.shape} splitted into {dataset.n_chunks} chunks.")
         res = list()
         for i in range(dataset.n_chunks):
             res.append(monte_carlo(dataset[i], sampler, predictor, conf.monte_carlo.repeats, conf.monte_carlo.steps))
             pred = torch.cat(res, dim=0).cpu().numpy()
-            df = {"id": dataset.ids[:pred.shape[0]], "target_mc": pred.dot(dataset.cat_weight)}
+            df = {col_id: dataset.ids[:pred.shape[0]], conf.monte_carlo.col: pred.dot(dataset.cat_weight)}
             df.update({f"n_{i}": pred[:, i] for i in range(pred.shape[1])})
-            df = pd.DataFrame(df).merge(dataset.target, on="id")
+            df = pd.DataFrame(df).merge(dataset.target, on=col_id)
             df.to_csv(os.path.join(conf.work_dir, f"monte_carlo_{fold_id}.csv"), header=True, index=False)
             logger.info(f"Done chunk [{1 + i}/{dataset.n_chunks}] for fold [{1 + fold_id}/{len(fold_ids)}].")
         total_res.append(df)
-
-    df = pd.concat(total_res).groupby("id").mean().reset_index()
-    df.to_csv(os.path.join(conf.work_dir, "monte_carlo.csv"), header=True, index=False)
+    pd.concat(total_res).to_csv(os.path.join(conf.work_dir, "monte_carlo.csv"), header=True, index=False)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,7 @@
-import hydra, json, os
+import hydra
+import json
 import numpy as np
+import os
 import pandas as pd
 import pytorch_lightning as pl
 from omegaconf import DictConfig
@@ -19,7 +21,8 @@ def fold_fit_predict(conf, fold_id):
     for fn in sorted(os.listdir(os.path.join(trainer.log_dir, "checkpoints"))):
         ckpt_path = os.path.join(trainer.log_dir, "checkpoints", fn)
         m = trainer.validate(model=model, dataloaders=dm.val_dataloader(), ckpt_path=ckpt_path)[0]
-        m.update(trainer.test(model=model, dataloaders=dm.test_dataloader(), ckpt_path=ckpt_path)[0])
+        if "test_data_path" in conf.data_module.setup.dataset_files:
+            m.update(trainer.test(model=model, dataloaders=dm.test_dataloader(), ckpt_path=ckpt_path)[0])
         res.update({fn.split(".")[0]: m})
     return res
 

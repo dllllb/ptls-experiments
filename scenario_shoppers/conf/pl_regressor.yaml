@@ -5,7 +5,6 @@ data_module:
   setup:
     dataset_files:
       train_data_path: ${hydra:runtime.cwd}/${data_path}/train
-      test_data_path: ${hydra:runtime.cwd}/${data_path}/test
     col_id: id
     col_id_dtype: int
     col_target: target_bin
@@ -98,8 +97,12 @@ trainer:
   precision: 32
 
 monte_carlo:
+  benchmark:
+    dir: lightning_logs/benchmark
+    col: target_var
   chunk: 20000
   ckpt: null
+  col: mcpred
   repeats: 1000
   steps: 12
 

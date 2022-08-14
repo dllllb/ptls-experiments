@@ -223,7 +223,7 @@ if __name__ == "__main__":
     p.add_argument("--fsum", type=float, help="total sum fraction to limit max.category number ", metavar="[1.0]", default=1)
     p.add_argument("--steps", type=int, help="forward steps for (long) target", metavar="[12]", default=12)
     p.add_argument("--bins", type=int, help="bins for target quantization", metavar="[10]", default=10)
-    p.add_argument("--frac", type=float, help="test sample fraction", metavar="[0.1]", default=0.1)
+    p.add_argument("--frac", type=float, help="test sample fraction", metavar="[0.0]", default=0)
     p.add_argument("--qlim", type=float, help="quantile for target distribution up-limit", metavar="[0.0]", default=0)
     p.add_argument("--seed", type=int, help="RNG seed", metavar="[42]", default=42)
     p.add_argument("--size", type=int, help="sample from raw CSV-data if size > 0", metavar="[0]", default=0)
