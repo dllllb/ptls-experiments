@@ -4,6 +4,7 @@ INS=133
 EMB=64
 HID=128
 REPEATS=1000
+BENCHMARK_DIR="lightning_logs/benchmark"
 BENCHMARK_TARGET="target_logvar"
 export CUDA_VISIBLE_DEVICES=0
 
@@ -46,7 +47,7 @@ python3 monte_carlo.py --config-dir conf --config-name pl_regressor \
     monte_carlo.ckpt=${CKPT} monte_carlo.repeats=${REPEATS}
 
 python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR}
+    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} monte_carlo.benchmark.dir=${BENCHMARK_DIR}
 
 echo
 CKPT=10
@@ -72,4 +73,4 @@ python3 monte_carlo.py --config-dir conf --config-name pl_regressor \
     monte_carlo.ckpt=${CKPT} monte_carlo.repeats=${REPEATS}
 
 python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR}
+    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} monte_carlo.benchmark.dir=${BENCHMARK_DIR}
