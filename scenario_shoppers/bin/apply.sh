@@ -8,12 +8,10 @@ BENCHMARK_DIR="lightning_logs/benchmark"
 BENCHMARK_TARGET="target_logvar"
 export CUDA_VISIBLE_DEVICES=0
 
-echo
 CKPT=10
-WORK_DIR="lightning_logs/"
-echo "================== ${WORK_DIR} =================="
+echo "================== ${BENCHMARK_DIR} =================="
 python3 pl_trainer.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." data_path=${DATA_PATH} work_dir=${WORK_DIR} \
+    hydra/hydra_logging=disabled hydra.run.dir="." data_path=${DATA_PATH} work_dir=${BENCHMARK_DIR} \
     data_module.setup.col_target=${BENCHMARK_TARGET} \
     ~pl_module.metric_list.jsd pl_module.seq_encoder.hidden_size=${HID} \
     pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS} \
@@ -47,7 +45,8 @@ python3 monte_carlo.py --config-dir conf --config-name pl_regressor \
     monte_carlo.ckpt=${CKPT} monte_carlo.repeats=${REPEATS}
 
 python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} monte_carlo.benchmark.dir=${BENCHMARK_DIR}
+    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} \
+    monte_carlo.benchmark.dir=${BENCHMARK_DIR}
 
 echo
 CKPT=10
@@ -73,4 +72,5 @@ python3 monte_carlo.py --config-dir conf --config-name pl_regressor \
     monte_carlo.ckpt=${CKPT} monte_carlo.repeats=${REPEATS}
 
 python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} monte_carlo.benchmark.dir=${BENCHMARK_DIR}
+    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} \
+    monte_carlo.benchmark.dir=${BENCHMARK_DIR}

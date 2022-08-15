@@ -3,22 +3,21 @@
 ```sh
 cd scenario_shoppers
 
-# download datasets
+# download dataset
 sh bin/get-data.sh
 
-# convert datasets from transaction list to features for metric learning
-sh bin/make-datasets-spark.sh
+# convert dataset from transaction list to features
+sh bin/make-dataset.sh
 ```
 
 # Main scenario, best params
 
 ```sh
-cd scenario_shoppers
-export CUDA_VISIBLE_DEVICES=0  # define here one gpu device number
+export CUDA_VISIBLE_DEVICES=0
 
-sh bin/run_all_scenarios.sh
+sh bin/scan_loss.sh
+sh bin/scan_hparams.sh
 
-# check the results
-cat results/*.txt
-cat results/*.csv
+# one must insert actual paths and parameters into the script
+sh bin/apply.sh
 ```
