@@ -1,7 +1,14 @@
-import argparse, datetime, logging, os
-import functools, itertools, operator
+import datetime
+import functools
+import hydra
+import itertools
+import logging
 import numpy as np
+import operator
+import os
 import pandas as pd
+import sys
+from omegaconf import DictConfig
 
 numexpr_max_threads = int(os.environ.get("NUMEXPR_MAX_THREADS", 0))
 if not numexpr_max_threads:
@@ -17,7 +24,6 @@ pd.set_option("display.max_colwidth", 24)
 pd.set_option("display.width", None)
 logger = logging.getLogger(__name__)
 
-ID_COL = "id"
 DATE_COL = "date"
 FCAT_COL = "category"
 FNUM_COL = "purchasequantity"
@@ -26,10 +32,8 @@ EVENT_TIME = "event_time"
 SEQ_LEN = "seq_len"
 TARGET_BIN = "target_bin"
 TARGET_DIST = "target_dist"
-TARGET_SUM = "target_sum"
 TARGET_VAR = "target_var"
 TARGET_LOGVAR = "target_logvar"
-USECOLS = [ID_COL, DATE_COL, FCAT_COL, FNUM_COL, FVAL_COL]
 
 
 @functools.lru_cache(maxsize=None)
@@ -91,20 +95,42 @@ def forward_window(group, event_time, target, dt):
     return ser.subtract(group[target]).where(group[event_time] <= end_t, None)
 
 
-def main(args):
-    inp_file = os.path.abspath(args.data)
+def make_sample(inp_file, col_id, chunk):
+    import gzip
+    out_file = inp_file.rsplit(".", 2)[0] + "_sample.csv.gz"
+    assert os.path.exists(inp_file) and not os.path.exists(out_file), "check i/o files existence"
+    uids = set()
+    with gzip.open(inp_file, "rt") as fin, gzip.open(out_file, "wt") as fout:
+        header = next(fin)
+        uid_index = header.strip().split(",").index(col_id)
+        fout.write(header)
+        for line in fin:
+            uid = line.strip("\n").split(",")[uid_index]
+            if len(uids) < chunk:
+                uids.add(uid)
+            if uid in uids:
+                fout.write(line)
+
+
+@hydra.main(version_base=None)
+def main(conf: DictConfig):
+    col_id = conf.data_module.setup.col_id
+    inp_file = os.path.join(conf.data_path, "transactions.csv.gz")
+    if conf.monte_carlo.agg_time is None:
+        make_sample(inp_file, col_id, conf.monte_carlo.chunk)
+        sys.exit(0)
+
     target_file = os.path.join(os.path.dirname(inp_file), "train_target.csv")
     assert os.path.exists(inp_file) and not os.path.exists(target_file), "check i/o files existence"
 
-    logging.basicConfig(level=logging.INFO, handlers=[logging.FileHandler(f"{inp_file}.log", mode="w")])
-    data = pd.read_csv(inp_file, usecols=USECOLS).dropna()
+    data = pd.read_csv(inp_file, usecols=[col_id, DATE_COL, FCAT_COL, FNUM_COL, FVAL_COL]).dropna()
     logger.info(f"Total {data.shape[0]} rows loaded.")
 
     data.drop(index=data[(data[FNUM_COL] <= 0) | (data[FVAL_COL] <= 0)].index, inplace=True)
     logger.info(f"Total {data.shape[0]} rows after dropping neg.purchases.")
 
     data[DATE_COL] = data[DATE_COL].apply(str_to_number)
-    data[DATE_COL] = (data[DATE_COL] - data[DATE_COL].min()) // args.dt
+    data[DATE_COL] = (data[DATE_COL] - data[DATE_COL].min()) // conf.monte_carlo.agg_time
 
     data["ppu"] = data[FVAL_COL] / data[FNUM_COL]
     ppu = data.groupby(by=FCAT_COL)["ppu"].mean().reset_index()
@@ -112,16 +138,16 @@ def main(args):
     data[FVAL_COL] = data["ppu"] * data[FNUM_COL]
 
     vc = data.groupby(by=FCAT_COL)[FVAL_COL].sum().sort_values(ascending=False) / data[FVAL_COL].sum()
-    drop_cats = set(vc[vc.cumsum(0) > args.fsum].index)
+    drop_cats = set(vc[vc.cumsum(0) > conf.fsum].index)
     data.drop(index=data[data[FCAT_COL].isin(drop_cats)].index, inplace=True)
     data[FCAT_COL], MAX_CAT = encode_col(data[FCAT_COL])
-    logger.info(f"Max.category = {MAX_CAT} for total.sum.fraction = {args.fsum}.")
+    logger.info(f"Max.category = {MAX_CAT} for total.sum.fraction = {conf.fsum}.")
 
     ppu = data[[FCAT_COL, "ppu"]].groupby(by=FCAT_COL).first().reset_index()
     ppu.to_csv(os.path.join(os.path.dirname(inp_file), "train_cvdict.csv"), header=True, index=False)
     data.drop(columns=["ppu", "ppu_old"], inplace=True)
 
-    group = data.groupby(by=[ID_COL, DATE_COL], as_index=True)
+    group = data.groupby(by=[col_id, DATE_COL], as_index=True)
     data = pd.concat([
         group.apply(collapse_seq, [(FCAT_COL, FNUM_COL)]).transform({
             FCAT_COL: operator.itemgetter(0),
@@ -130,9 +156,9 @@ def main(args):
         ], axis=1, join="inner").reset_index()
 
     data[SEQ_LEN] = data[FCAT_COL].apply(len)
-    logger.info(f"Seqs collapsed within time window = {args.dt} (days).")
+    logger.info(f"Seqs collapsed within time window = {conf.monte_carlo.agg_time} (days).")
 
-    data = data.groupby(by=ID_COL, as_index=True).apply(chain_seq, n_cats=MAX_CAT, n_steps=args.steps)\
+    data = data.groupby(by=col_id, as_index=True).apply(chain_seq, n_cats=MAX_CAT, n_steps=conf.monte_carlo.steps)\
         .transform({
             EVENT_TIME: operator.itemgetter(0),
             FCAT_COL: operator.itemgetter(1),
@@ -142,20 +168,18 @@ def main(args):
             TARGET_VAR: operator.itemgetter(5)
         }).reset_index().dropna()
 
-    if 0 < args.qlim < 1:
-        max_tval = data[TARGET_VAR].quantile(args.qlim)
+    if 0 < conf.qlim < 1:
+        max_tval = data[TARGET_VAR].quantile(conf.qlim)
         data.drop(index=data[data[TARGET_VAR] > max_tval].index, inplace=True)
-        logger.info(f"Target distribution limited by {max_tval} within {args.qlim} quantile.")
+        logger.info(f"Target distribution limited by {max_tval} within {conf.qlim} quantile.")
 
     data[TARGET_LOGVAR] = np.log1p(data[TARGET_VAR])
-    data[TARGET_BIN] = pd.qcut(data[TARGET_VAR], q=args.bins, labels=False)
-    data[TARGET_SUM] = data[TARGET_DIST].apply(np.sum)
+    data[TARGET_BIN] = pd.qcut(data[TARGET_VAR], q=conf.qbin, labels=False)
     logger.info(f"Whole dataset {data.shape} constructed.")
 
     q_vals = [0.01, 0.1, 0.3, 0.5, 0.7, 0.9, 0.99, 1]
     q_tab = pd.concat([
         data[SEQ_LEN].quantile(q_vals),
-        data[TARGET_SUM].quantile(q_vals),
         data[TARGET_VAR].quantile(q_vals)
         ], axis=1)
     logger.info("Quantiles calculated:\n" + repr(q_tab))
@@ -166,14 +190,13 @@ def main(args):
     logger.info(f"Dataset sample:\n" + repr(data.head(10)))
 
     os.mkdir(os.path.join(os.path.dirname(inp_file), "train"))
-    if args.frac == 0:
+    if conf.test_fraction == 0:
         out_file = os.path.join(os.path.dirname(inp_file), f"train/{data.shape[0]}.parquet")
         data.to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
         logger.info(f"Whole dataset {data.shape} saved to [{out_file}].")
     else:
-        rs = np.random.RandomState(args.seed)
-        train_mask = rs.rand(data.shape[0])
-        train_mask = train_mask > np.percentile(train_mask, 100 * args.frac)
+        train_mask = np.random.rand(data.shape[0])
+        train_mask = train_mask > np.percentile(train_mask, 100 * conf.test_fraction)
 
         train_shape = (train_mask.sum(), data.shape[1])
         out_file = os.path.join(os.path.dirname(inp_file), f"train/{train_shape[0]}.parquet")
@@ -184,53 +207,16 @@ def main(args):
         test_shape = (data.shape[0] - train_mask.sum(), data.shape[1])
         out_file = os.path.join(os.path.dirname(inp_file), f"test/{test_shape[0]}.parquet")
         data[~train_mask].to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
-        data[~train_mask][ID_COL].to_csv(
+        data[~train_mask][col_id].to_csv(
             os.path.join(os.path.dirname(inp_file), "test_ids.csv"),
             header=True, index=False
         )
         logger.info(f"Test dataset {test_shape} saved to [{out_file}].")
 
-    target_cols = [ID_COL, TARGET_VAR, TARGET_LOGVAR, TARGET_BIN, TARGET_SUM, TARGET_DIST]
+    target_cols = [col_id, TARGET_VAR, TARGET_LOGVAR, TARGET_BIN, TARGET_DIST]
     data[target_cols].to_csv(target_file, header=True, index=False)
     logger.info(f"Whole target data ({data.shape[0]}, {len(target_cols)}) saved to [{target_file}].")
 
 
-def make_sample(args):
-    import gzip
-    inp_file = os.path.abspath(args.data)
-    out_file = inp_file.rsplit(".", 2)[0] + "_sample.csv.gz"
-    assert os.path.exists(inp_file) and not os.path.exists(out_file), "check i/o files existence"
-    uids = set()
-    with gzip.open(inp_file, "rt") as fin, gzip.open(out_file, "wt") as fout:
-        header = next(fin)
-        uid_index = header.strip().split(",").index(args.id)
-        fout.write(header)
-        for line in fin:
-            uid = line.strip("\n").split(",")[uid_index]
-            if len(uids) < args.size:
-                uids.add(uid)
-            if uid in uids:
-                fout.write(line)
-
-
 if __name__ == "__main__":
-    p = argparse.ArgumentParser(
-        description="Preprocessor for [kaggle.com/c/acquire-valued-shoppers-challenge] dataset.",
-        usage="%(prog)s [options]"
-    )
-    p.add_argument("--data", type=os.path.abspath, help="abspath to data (required)", metavar="<path>", required=True)
-    p.add_argument("--dt", type=int, help="time window for seq.collapse and distrib.target", metavar="[10]", default=10)
-    p.add_argument("--fsum", type=float, help="total sum fraction to limit max.category number ", metavar="[1.0]", default=1)
-    p.add_argument("--steps", type=int, help="forward steps for (long) target", metavar="[12]", default=12)
-    p.add_argument("--bins", type=int, help="bins for target quantization", metavar="[10]", default=10)
-    p.add_argument("--frac", type=float, help="test sample fraction", metavar="[0.0]", default=0)
-    p.add_argument("--qlim", type=float, help="quantile for target distribution up-limit", metavar="[0.0]", default=0)
-    p.add_argument("--seed", type=int, help="RNG seed", metavar="[42]", default=42)
-    p.add_argument("--size", type=int, help="sample from raw CSV-data if size > 0", metavar="[0]", default=0)
-    p.add_argument("--id", type=str, help="column name to count sample", metavar=f"[{ID_COL}]", default=ID_COL)
-    args = p.parse_args()
-
-    if args.size > 0:
-        make_sample(args)
-    else:
-        main(args)
+    main()

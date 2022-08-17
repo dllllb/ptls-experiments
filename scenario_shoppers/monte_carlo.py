@@ -56,7 +56,7 @@ class OneStepPredictor:
         self.head = hydra.utils.instantiate(conf.pl_module.head)
         self.seq_encoder = hydra.utils.instantiate(conf.pl_module.seq_encoder)
 
-        self.ckpt_path = os.path.join(conf.work_dir, f"version_{fold_id}/checkpoints/epoch={conf.monte_carlo.ckpt:02d}.ckpt")
+        self.ckpt_path = os.path.join(conf.work_dir, f"version_{fold_id}/checkpoints/epoch={conf.ckpt:02d}.ckpt")
         params = torch.load(self.ckpt_path, map_location=self.device)["state_dict"]
         new_params = {name: OrderedDict() for name in self.models}
         for k, v in params.items():
@@ -82,20 +82,18 @@ class OneStepPredictor:
 class Sampler:
     def __init__(self, conf):
         self.k = conf.pl_module.seq_encoder.trx_encoder.embeddings.category["in"] - 1
-        self.rng = torch.Generator(conf.device)
-        self.rng.manual_seed(conf.seed_everything)
         self.vars = ("category", "purchasequantity")
 
     def __call__(self, x):
         extra_size = x.shape[1] - self.k
         if extra_size == 0:
-            res = torch.poisson(x, generator=self.rng)
+            res = torch.poisson(x)
         elif extra_size in (2, 3):
             if extra_size == 2:
                 nums, dist = x[:, 0].long(), F.softmax(x[:, 1:], dim=1)
             else:
                 nums, dist = (0.5 + torch.exp(x[:, 0])).long(), F.softmax(x[:, 2:], dim=1)
-            res = torch.multinomial(dist, num_samples=nums.max().item(), replacement=True, generator=self.rng)
+            res = torch.multinomial(dist, num_samples=nums.max().item(), replacement=True)
             res = self.bincount(res, nums)[:, 1:]
         else:
             raise Exception(f"{self.__class__} got incorrect input sizes")

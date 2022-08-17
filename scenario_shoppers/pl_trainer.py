@@ -34,18 +34,18 @@ def fold_predict(conf, fold_id):
     cwd = os.path.join(conf.work_dir, f"version_{fold_id}")
     pred = pl.Trainer(**conf.trainer, logger=False).predict(
         model=model, dataloaders=dm.predict_dataloader(),
-        ckpt_path=os.path.join(cwd, f"checkpoints/epoch={conf.monte_carlo.ckpt:02d}.ckpt")
+        ckpt_path=os.path.join(cwd, f"checkpoints/epoch={conf.ckpt:02d}.ckpt")
     )
     pd.concat(pred, axis=0).to_csv(os.path.join(cwd, "prediction.csv"), header=True, index=False)
 
 
 @hydra.main(version_base=None)
 def main(conf: DictConfig):
-    pl.seed_everything(conf.seed_everything)
+    pl.seed_everything()
     with open(conf.data_module.setup.fold_info) as fi:
         fold_ids = [k for k in sorted(json.load(fi).keys()) if not k.startswith('_')]
 
-    if conf.monte_carlo.ckpt is None:
+    if conf.ckpt is None:
         res = [fold_fit_predict(conf, fold_id) for fold_id in fold_ids]
         eks = sorted(res[0].keys() - {"fold_id"})
         avg = {mk: [np.array([x[ek][mk] for x in res]).mean() for ek in eks] for mk in res[0][eks[0]].keys()}

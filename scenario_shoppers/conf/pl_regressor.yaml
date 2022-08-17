@@ -1,3 +1,22 @@
+ckpt: null
+data_path: data/sample
+device: cuda
+fsum: 0.683
+qbin: 33
+qlim: 0.995
+test_fraction: 0
+work_dir: lightning_logs/test
+
+monte_carlo:
+  agg_time: null
+  benchmark:
+    col: target_var
+    dir: lightning_logs/benchmark
+  chunk: 20000
+  col: mcpred
+  repeats: 1000
+  steps: 12
+
 data_module:
   _target_: ptls.data_load.data_module.cls_data_module.ClsDataModuleTrain
   distribution_target_size: 0
@@ -7,7 +26,7 @@ data_module:
       train_data_path: ${hydra:runtime.cwd}/${data_path}/train
     col_id: id
     col_id_dtype: int
-    col_target: target_bin
+    col_target: target_dist
     split_by: embeddings_validation
     fold_info: ${hydra:runtime.cwd}/${work_dir}/folds/folds.json
   train:
@@ -61,7 +80,7 @@ pl_module:
       embeddings_noise: 0.003
       embeddings:
         category:
-          in: 133
+          in: 111
           out: 64
       numeric_values:
         purchasequantity: identity
@@ -91,25 +110,10 @@ trainer:
   accumulate_grad_batches: 1
   auto_lr_find: false
   auto_select_gpus: false
-  deterministic: true
+  deterministic: false
   devices: 1
-  max_epochs: 100
+  max_epochs: 20
   precision: 32
-
-monte_carlo:
-  benchmark:
-    dir: lightning_logs/benchmark
-    col: target_var
-  chunk: 20000
-  ckpt: null
-  col: mcpred
-  repeats: 1000
-  steps: 12
-
-data_path: data/sample
-device: cuda
-seed_everything: 137137137
-work_dir: lightning_logs/test
 
 hydra:
   output_subdir: null

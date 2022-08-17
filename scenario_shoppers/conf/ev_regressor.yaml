@@ -1,4 +1,3 @@
-conf_path: conf/ev_regressor.yaml
 data_path: data/sample
 split_only: true
 total_cpu_count: 16
@@ -13,7 +12,7 @@ split:
     file_name: ${hydra:runtime.cwd}/${data_path}/train_target.csv
   cv_split_count: 5
   is_stratify: false
-  random_state: 42
+  random_state: null
 
 target:
   file_name: ${hydra:runtime.cwd}/${data_path}/train_target.csv
@@ -21,7 +20,7 @@ target:
     - id
   cols_id_type:
     - int
-  col_target: target_bin
+  col_target: target_dist
 
 hydra:
   output_subdir: null
