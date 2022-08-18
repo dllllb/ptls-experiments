@@ -1,5 +1,5 @@
 ckpt: null
-data_path: data/sample
+data_path: data
 device: cuda
 fsum: 0.683
 qbin: 33
@@ -12,9 +12,9 @@ monte_carlo:
   benchmark:
     col: target_var
     dir: lightning_logs/benchmark
-  chunk: 20000
+  chunk: 25000
   col: mcpred
-  repeats: 1000
+  repeats: 100
   steps: 12
 
 data_module:

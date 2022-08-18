@@ -29,16 +29,17 @@ class ChunkedDataset:
         self.n_chunks, rest = divmod(len(self.ids), self.chunk_size)
         self.n_chunks += rest > 0
 
+        col_target = conf.data_module.setup.col_target
         cw = pd.read_csv(os.path.join(conf.data_path, "train_cvdict.csv"))
         df = pd.read_csv(os.path.join(conf.data_path, "train_target.csv"))
         if self.k < cw.shape[0]:
-            df["target_dist"] = df["target_dist"].apply(lambda x: np.array(ast.literal_eval(x), dtype=np.float32))
-            w = df["target_dist"].sum()[self.k - 1:]
+            df[col_target] = df[col_target].apply(lambda x: np.array(ast.literal_eval(x), dtype=np.float32))
+            w = df[col_target].sum()[self.k - 1:]
             w = np.hstack((np.ones(self.k - 1), w / w.sum())) * cw["ppu"].values
             self.cat_weight = np.hstack((w[:self.k - 1], w[self.k - 1:].sum()))
         else:
             self.cat_weight = cw["ppu"].values
-        self.target = df.drop(columns=["target_sum", "target_dist"])
+        self.target = df.drop(columns=[col_target])
 
     def __len__(self):
         return self.n_chunks

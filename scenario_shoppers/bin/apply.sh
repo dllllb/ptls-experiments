@@ -33,10 +33,12 @@ python3 monte_carlo.py --config-dir conf --config-name pl_regressor \
     pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS} \
     ckpt=${CKPT}
 
-python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} \
-    monte_carlo.benchmark.dir=${BENCHMARK_DIR}
-
+if [ -f ${WORK_DIR}/monte_carlo.csv ]; then
+    rm -f ${WORK_DIR}/monte_carlo_*.csv
+    python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
+        hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} \
+        monte_carlo.benchmark.dir=${BENCHMARK_DIR}
+fi
 echo
 CKPT=10
 WORK_DIR="lightning_logs/"
@@ -58,6 +60,9 @@ python3 monte_carlo.py --config-dir conf --config-name pl_regressor \
     pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS} \
     ckpt=${CKPT}
 
-python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} \
-    monte_carlo.benchmark.dir=${BENCHMARK_DIR}
+if [ -f ${WORK_DIR}/monte_carlo.csv ]; then
+    rm -f ${WORK_DIR}/monte_carlo_*.csv
+    python3 eval_metrics.py --config-dir conf --config-name pl_regressor \
+        hydra/hydra_logging=disabled hydra.run.dir="." work_dir=${WORK_DIR} \
+        monte_carlo.benchmark.dir=${BENCHMARK_DIR}
+fi

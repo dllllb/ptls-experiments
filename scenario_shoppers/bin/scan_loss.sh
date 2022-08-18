@@ -26,7 +26,7 @@ python3 pl_trainer.py --config-dir conf --config-name pl_regressor work_dir=${WO
     pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS}
 
 echo
-WORK_DIR="lightning_logs/loss_ziln2_var_in${INS}_$(date +%s)"
+WORK_DIR="lightning_logs/loss_ln_var_in${INS}_$(date +%s)"
 echo "================== ${WORK_DIR} =================="
 python3 -m embeddings_validation --config-dir conf --config-name ev_regressor \
     hydra/job_logging=disabled hydra/hydra_logging=disabled environment.work_dir=${WORK_DIR} \
@@ -37,24 +37,7 @@ python3 pl_trainer.py --config-dir conf --config-name pl_regressor work_dir=${WO
     +pl_module.metric_list.acc.scaler._target_=ptls.nn.trx_encoder.scalers.ExpScaler \
     +pl_module.metric_list.auc.scaler._target_=ptls.nn.trx_encoder.scalers.ExpScaler \
     +pl_module.metric_list.err.scaler._target_=ptls.nn.trx_encoder.scalers.ExpScaler \
-    ~pl_module.metric_list.jsd \
-    pl_module.head.num_classes=2 \
-    pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS}
-
-echo
-WORK_DIR="lightning_logs/loss_ziln3_var_in${INS}_$(date +%s)"
-echo "================== ${WORK_DIR} =================="
-python3 -m embeddings_validation --config-dir conf --config-name ev_regressor \
-    hydra/job_logging=disabled hydra/hydra_logging=disabled environment.work_dir=${WORK_DIR} \
-    target.col_target="target_var"
-
-python3 pl_trainer.py --config-dir conf --config-name pl_regressor work_dir=${WORK_DIR} \
-    data_module.setup.col_target="target_var" \
-    +pl_module.metric_list.acc.scaler._target_=ptls.nn.trx_encoder.scalers.ExpScaler \
-    +pl_module.metric_list.auc.scaler._target_=ptls.nn.trx_encoder.scalers.ExpScaler \
-    +pl_module.metric_list.err.scaler._target_=ptls.nn.trx_encoder.scalers.ExpScaler \
-    ~pl_module.metric_list.jsd \
-    pl_module.head.num_classes=3 \
+    ~pl_module.metric_list.jsd pl_module.head.num_classes=2 \
     pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS}
 
 echo
