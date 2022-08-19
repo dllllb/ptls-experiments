@@ -32,8 +32,8 @@ CLTV and its evaluation by 12 one-step predictions of corresponding 10-day APV.
 sh bin/scan_loss.sh
 sh bin/scan_hparams.sh
 
-# after those one must insert actual {WORK_DIR} and {CKPT} into <bin/apply.sh>
-# for both benchmark and one-step predictors
+# after those one must analyze <cv_result.json> and insert the actual checkpoint
+# numbers {*_CKPT} into <bin/apply.sh> for every benchmark and one-step predictors
 ```
 
 # Imitation Learning Monte-Carlo

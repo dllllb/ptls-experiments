@@ -3,7 +3,7 @@ INS=111
 export CUDA_VISIBLE_DEVICES=0
 
 for HID in 128 256 512; do
-    WORK_DIR="lightning_logs/hid${HID}_mse_logvar_in${INS}_$(date +%s)"
+    WORK_DIR="lightning_logs/hid${HID}_mse_logvar_in${INS}"
     echo "================== ${WORK_DIR} =================="
     python3 -m embeddings_validation --config-dir conf --config-name ev_regressor \
         hydra/job_logging=disabled hydra/hydra_logging=disabled environment.work_dir=${WORK_DIR} \
@@ -16,7 +16,7 @@ for HID in 128 256 512; do
         pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS}
 
     echo
-    WORK_DIR="lightning_logs/hid${HID}_pois$((${INS}-1))_in${INS}_$(date +%s)"
+    WORK_DIR="lightning_logs/hid${HID}_pois$((${INS}-1))_in${INS}"
     echo "================== ${WORK_DIR} =================="
     python3 -m embeddings_validation --config-dir conf --config-name ev_regressor \
         hydra/job_logging=disabled hydra/hydra_logging=disabled environment.work_dir=${WORK_DIR}
@@ -34,7 +34,7 @@ for HID in 128 256 512; do
 done
 
 for BATCH in 128 256 512; do
-    WORK_DIR="lightning_logs/batch${BATCH}_mse_logvar_in${INS}_$(date +%s)"
+    WORK_DIR="lightning_logs/batch${BATCH}_mse_logvar_in${INS}"
     echo "================== ${WORK_DIR} =================="
     python3 -m embeddings_validation --config-dir conf --config-name ev_regressor \
         hydra/job_logging=disabled hydra/hydra_logging=disabled environment.work_dir=${WORK_DIR} \
@@ -47,7 +47,7 @@ for BATCH in 128 256 512; do
         pl_module.seq_encoder.trx_encoder.embeddings.category.in=${INS}
 
     echo
-    WORK_DIR="lightning_logs/batch${BATCH}_pois$((${INS}-1))_in${INS}_$(date +%s)"
+    WORK_DIR="lightning_logs/batch${BATCH}_pois$((${INS}-1))_in${INS}"
     echo "================== ${WORK_DIR} =================="
     python3 -m embeddings_validation --config-dir conf --config-name ev_regressor \
         hydra/job_logging=disabled hydra/hydra_logging=disabled environment.work_dir=${WORK_DIR}
