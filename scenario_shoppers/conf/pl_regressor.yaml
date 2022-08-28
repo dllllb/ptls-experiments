@@ -1,9 +1,10 @@
 ckpt: null
-data_path: data
+data_path: data/70
 device: cuda
-fsum: 0.683
+fsum: 70
 qbin: 33
 qlim: 0.995
+raw_data: data/transactions.csv.gz
 test_fraction: 0
 work_dir: lightning_logs/test
 

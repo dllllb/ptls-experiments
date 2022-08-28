@@ -1,4 +1,4 @@
-data_path: data
+data_path: data/70
 split_only: true
 total_cpu_count: 16
 workers: 8

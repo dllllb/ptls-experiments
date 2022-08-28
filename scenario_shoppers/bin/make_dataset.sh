@@ -14,10 +14,13 @@ python3 make_dataset.py --config-dir conf --config-name pl_regressor \
 mkdir -p data/sample
 mv data/transactions_sample.csv.gz data/sample/transactions.csv.gz
 
-python3 make_dataset.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." \
-    monte_carlo.agg_time=10 data_path="data/sample"
+for INS in 20 30 50 70 100 130; do
+    python3 make_dataset.py --config-dir conf --config-name pl_regressor \
+        hydra/hydra_logging=disabled hydra.run.dir="." \
+        raw_data="data/sample/transactions.csv.gz" \
+        monte_carlo.agg_time=10 fsum=${INS} data_path="data/sample/${INS}"
 
-python3 make_dataset.py --config-dir conf --config-name pl_regressor \
-    hydra/hydra_logging=disabled hydra.run.dir="." \
-    monte_carlo.agg_time=10 data_path="data"
+    python3 make_dataset.py --config-dir conf --config-name pl_regressor \
+        hydra/hydra_logging=disabled hydra.run.dir="." \
+        monte_carlo.agg_time=10 fsum=${INS} data_path="data/${INS}"
+done

@@ -17,9 +17,10 @@ logger = logging.getLogger(__name__)
 
 
 class ChunkedDataset:
-    def __init__(self, conf, fold_id=0):
+    def __init__(self, conf, fold_id=0, q=0.995):
         self.device = torch.device(conf.device)
         self.k = conf.pl_module.seq_encoder.trx_encoder.embeddings.category["in"] - 1
+        self.q = q
 
         df = pd.read_csv(os.path.join(conf.work_dir, f"version_{fold_id}/prediction.csv"))
         self.ids = df["seq_id"].values
@@ -32,8 +33,9 @@ class ChunkedDataset:
         col_target = conf.data_module.setup.col_target
         cw = pd.read_csv(os.path.join(conf.data_path, "train_cvdict.csv"))
         df = pd.read_csv(os.path.join(conf.data_path, "train_target.csv"))
+        df[col_target] = df[col_target].apply(lambda x: np.array(ast.literal_eval(x), dtype=np.float32))
+        self.qval = int(np.quantile(df[col_target].apply(lambda x: x.sum()), self.q))
         if self.k < cw.shape[0]:
-            df[col_target] = df[col_target].apply(lambda x: np.array(ast.literal_eval(x), dtype=np.float32))
             w = df[col_target].sum()[self.k - 1:]
             w = np.hstack((np.ones(self.k - 1), w / w.sum())) * cw["ppu"].values
             self.cat_weight = np.hstack((w[:self.k - 1], w[self.k - 1:].sum()))
@@ -85,7 +87,7 @@ class Sampler:
         self.k = conf.pl_module.seq_encoder.trx_encoder.embeddings.category["in"] - 1
         self.vars = ("category", "purchasequantity")
 
-    def __call__(self, x):
+    def __call__(self, x, num_max=None):
         extra_size = x.shape[1] - self.k
         if extra_size == 0:
             res = torch.poisson(x)
@@ -94,6 +96,7 @@ class Sampler:
                 nums, dist = x[:, 0].long(), F.softmax(x[:, 1:], dim=1)
             else:
                 nums, dist = (0.5 + torch.exp(x[:, 0])).long(), F.softmax(x[:, 2:], dim=1)
+            nums = torch.clamp(nums, min=0, max=num_max)
             res = torch.multinomial(dist, num_samples=nums.max().item(), replacement=True)
             res = self.bincount(res, nums)[:, 1:]
         else:
@@ -113,13 +116,13 @@ class Sampler:
         return out
 
 
-def monte_carlo(chunk, sampler, predictor, n_repeats, n_steps=12):
+def monte_carlo(chunk, sampler, predictor, n_repeats, n_steps=12, num_max=None):
     res = torch.zeros(chunk.shape[0], sampler.k, dtype=torch.float32, device=predictor.device)
     for _ in tqdm(range(n_repeats)):
         h = None
         x = chunk.clone()
         for k in range(n_steps):
-            x, r = sampler(x)
+            x, r = sampler(x, num_max)
             x, h = predictor(x, h)
             res += r
     return res / n_repeats
@@ -131,7 +134,8 @@ def main(conf: DictConfig):
         fold_ids = [int(k) for k in sorted(json.load(fi).keys()) if not k.startswith('_')]
 
     sampler = Sampler(conf)
-    col_id, total_res = conf.data_module.setup.col_id, list()
+    col_id, n_repeats, n_steps = conf.data_module.setup.col_id, conf.monte_carlo.repeats, conf.monte_carlo.steps
+    total_res = list()
     for fold_id in fold_ids:
         predictor = OneStepPredictor(conf, fold_id)
         if fold_id == fold_ids[0]:
@@ -139,9 +143,10 @@ def main(conf: DictConfig):
         logger.info(f"Model weights restored from: {predictor.ckpt_path}.")
         dataset = ChunkedDataset(conf, fold_id)
         logger.info(f"Dataset {dataset.data.shape} splitted into {dataset.n_chunks} chunks.")
+        logger.info(f"Dataset sum(target_dist) {dataset.q}-quantile = {dataset.qval}.")
         res = list()
         for i in range(dataset.n_chunks):
-            res.append(monte_carlo(dataset[i], sampler, predictor, conf.monte_carlo.repeats, conf.monte_carlo.steps))
+            res.append(monte_carlo(dataset[i], sampler, predictor, n_repeats, n_steps, dataset.qval))
             pred = torch.cat(res, dim=0).cpu().numpy()
             df = {col_id: dataset.ids[:pred.shape[0]], conf.monte_carlo.col: pred.dot(dataset.cat_weight)}
             df.update({f"n_{i}": pred[:, i] for i in range(pred.shape[1])})

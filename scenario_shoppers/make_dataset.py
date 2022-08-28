@@ -115,15 +115,15 @@ def make_sample(inp_file, col_id, chunk):
 @hydra.main(version_base=None)
 def main(conf: DictConfig):
     col_id = conf.data_module.setup.col_id
-    inp_file = os.path.join(conf.data_path, "transactions.csv.gz")
     if conf.monte_carlo.agg_time is None:
-        make_sample(inp_file, col_id, conf.monte_carlo.chunk)
+        make_sample(conf.raw_data, col_id, conf.monte_carlo.chunk)
         sys.exit(0)
 
-    target_file = os.path.join(os.path.dirname(inp_file), "train_target.csv")
-    assert os.path.exists(inp_file) and not os.path.exists(target_file), "check i/o files existence"
+    target_file = os.path.join(conf.data_path, "train_target.csv")
+    assert os.path.exists(conf.raw_data) and not os.path.exists(target_file), "check i/o files existence"
+    os.makedirs(os.path.join(conf.data_path, "train"), exist_ok=True)
 
-    data = pd.read_csv(inp_file, usecols=[col_id, DATE_COL, FCAT_COL, FNUM_COL, FVAL_COL]).dropna()
+    data = pd.read_csv(conf.raw_data, usecols=[col_id, DATE_COL, FCAT_COL, FNUM_COL, FVAL_COL]).dropna()
     logger.info(f"Total {data.shape[0]} rows loaded.")
 
     data.drop(index=data[(data[FNUM_COL] <= 0) | (data[FVAL_COL] <= 0)].index, inplace=True)
@@ -138,13 +138,13 @@ def main(conf: DictConfig):
     data[FVAL_COL] = data["ppu"] * data[FNUM_COL]
 
     vc = data.groupby(by=FCAT_COL)[FVAL_COL].sum().sort_values(ascending=False) / data[FVAL_COL].sum()
-    drop_cats = set(vc[vc.cumsum(0) > conf.fsum].index)
+    drop_cats = set(vc[vc.cumsum(0) > conf.fsum].index) if conf.fsum <= 1 else set(vc.index[int(conf.fsum):])
     data.drop(index=data[data[FCAT_COL].isin(drop_cats)].index, inplace=True)
     data[FCAT_COL], MAX_CAT = encode_col(data[FCAT_COL])
-    logger.info(f"Max.category = {MAX_CAT} for total.sum.fraction = {conf.fsum}.")
+    logger.info(f"Max.category after limiting: {vc.shape[0]} ==> {MAX_CAT}.")
 
     ppu = data[[FCAT_COL, "ppu"]].groupby(by=FCAT_COL).first().reset_index()
-    ppu.to_csv(os.path.join(os.path.dirname(inp_file), "train_cvdict.csv"), header=True, index=False)
+    ppu.to_csv(os.path.join(conf.data_path, "train_cvdict.csv"), header=True, index=False)
     data.drop(columns=["ppu", "ppu_old"], inplace=True)
 
     group = data.groupby(by=[col_id, DATE_COL], as_index=True)
@@ -189,9 +189,8 @@ def main(conf: DictConfig):
     logger.info(f"Dataset total memory usage (MB): {mem_total}.")
     logger.info(f"Dataset sample:\n" + repr(data.head(10)))
 
-    os.mkdir(os.path.join(os.path.dirname(inp_file), "train"))
     if conf.test_fraction == 0:
-        out_file = os.path.join(os.path.dirname(inp_file), f"train/{data.shape[0]}.parquet")
+        out_file = os.path.join(conf.data_path, f"train/{data.shape[0]}.parquet")
         data.to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
         logger.info(f"Whole dataset {data.shape} saved to [{out_file}].")
     else:
@@ -199,16 +198,16 @@ def main(conf: DictConfig):
         train_mask = train_mask > np.percentile(train_mask, 100 * conf.test_fraction)
 
         train_shape = (train_mask.sum(), data.shape[1])
-        out_file = os.path.join(os.path.dirname(inp_file), f"train/{train_shape[0]}.parquet")
+        out_file = os.path.join(conf.data_path, f"train/{train_shape[0]}.parquet")
         data[train_mask].to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
         logger.info(f"Train dataset {train_shape} saved to [{out_file}].")
 
-        os.mkdir(os.path.join(os.path.dirname(inp_file), "test"))
+        os.makedirs(os.path.join(conf.data_path, "test"), exist_ok=True)
         test_shape = (data.shape[0] - train_mask.sum(), data.shape[1])
-        out_file = os.path.join(os.path.dirname(inp_file), f"test/{test_shape[0]}.parquet")
+        out_file = os.path.join(conf.data_path, f"test/{test_shape[0]}.parquet")
         data[~train_mask].to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
         data[~train_mask][col_id].to_csv(
-            os.path.join(os.path.dirname(inp_file), "test_ids.csv"),
+            os.path.join(conf.data_path, "test_ids.csv"),
             header=True, index=False
         )
         logger.info(f"Test dataset {test_shape} saved to [{out_file}].")
