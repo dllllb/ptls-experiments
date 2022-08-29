@@ -140,3 +140,13 @@ Supervised finetuned encoder with MLP head evaluation:
         target_scores    |    0.542 \pm 0.001    |
 
 ```
+
+# Other experiments
+
+- [Data Fusion Contest 2022. 1-st place on the Matching Task](https://github.com/ivkireev86/datafusion-contest-2022)
+- [American Express - Default Prediction](https://www.kaggle.com/competitions/amex-default-prediction)
+    - [Supervised training with RNN](https://www.kaggle.com/code/ivkireev/amex-ptls-baseline-supervised-neural-network)
+    - [Supervised training with Transformer](https://www.kaggle.com/code/ivkireev/amex-transformer-network-train-with-ptls)
+    - [CoLES Embedding preparation](https://www.kaggle.com/code/ivkireev/amex-contrastive-embeddings-with-ptls-coles)
+    - [CoLES Embedding usage as extra features for catboost](https://www.kaggle.com/code/ivkireev/catboost-classifier-with-coles-embeddings)
+
