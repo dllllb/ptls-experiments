@@ -1,0 +1,8 @@
+n_folds: 10  # 0, 1-9
+salt: '42'
+
+data_path: ./data/
+col_client_id: cl_id
+col_target: target_flag
+
+folds_path: ./data/folds/
