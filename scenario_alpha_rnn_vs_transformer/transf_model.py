@@ -105,7 +105,7 @@ downstream_model = SequenceToTarget(
     metric_list=torchmetrics.AUROC(num_classes=2, compute_on_step=False),
     pretrained_lr=0.001,
     optimizer_partial=partial(torch.optim.Adam, lr=0.001),
-    lr_scheduler_partial=partial(torch.optim.lr_scheduler.StepLR, step_size=2000, gamma=0),
+    lr_scheduler_partial=partial(torch.optim.lr_scheduler.StepLR, step_size=2000, gamma=1),
 )
 
 
