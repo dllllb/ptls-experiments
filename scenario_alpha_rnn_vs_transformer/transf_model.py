@@ -6,8 +6,8 @@ import torch
 import pytorch_lightning as pl
 import torchmetrics
 from ptls.frames.supervised import SequenceToTarget
-from ptls.nn import TrxEncoder, RnnSeqEncoder
-from ptls.nn import Head
+from ptls.nn import TrxEncoder, Head, PBLinear, PBL2Norm, PBLayerNorm, PBDropout
+from longformerMO import ContrastivePredictionHead, MLMCPCPretrainModule
 
 from ptls.data_load.datasets import ParquetDataset, ParquetFiles
 from ptls.data_load.iterable_processing import SeqLenFilter, FeatureFilter, ToTorch
@@ -22,7 +22,7 @@ import pickle
 from pyspark.sql import Window
 
 
-SparkAppName = 'alpha_rnn_model'
+SparkAppName = 'alpha_transf_model'
 
 spark = SparkSession.builder\
     .appName(SparkAppName)\
@@ -68,23 +68,35 @@ trx_encoder_params = dict(
     numeric_values=numeric_values,
     embeddings=embeddings,
     emb_dropout=0.3,
-    spatial_dropout=True
+    spatial_dropout=False
 )
+trx_encoder = TrxEncoder(**trx_encoder_params)
 
-seq_encoder = RnnSeqEncoder(
-    trx_encoder=TrxEncoder(**trx_encoder_params),
+seq_encoder = MLMCPCPretrainModule(
+    trx_encoder=torch.nn.Sequential(
+        trx_encoder,
+        PBLinear(trx_encoder.output_size, 64),
+        PBDropout(0.2)
+    ),
     hidden_size=64,
-    type='gru',
-    bidir=True,
-    reducer='last_max_avg'
+    loss_temperature=20.0,
+
+    total_steps=30000,
+
+    replace_proba=0.1,
+    neg_count=64,
+
+    log_logits=False,
+    
+    encode_seq=True
 )
 
 downstream_model = SequenceToTarget(
     seq_encoder=seq_encoder,
     head=Head(
-        input_size=seq_encoder.embedding_size * 6,
-        hidden_layers_sizes=[128, 32],
-        drop_probs=[0.2, 0],
+        input_size=64,
+        hidden_layers_sizes=[32, 8],
+        drop_probs=[0.1, 0],
         use_batch_norm=True,
         objective='classification',
         num_classes=2,
@@ -93,7 +105,7 @@ downstream_model = SequenceToTarget(
     metric_list=torchmetrics.AUROC(num_classes=2, compute_on_step=False),
     pretrained_lr=0.001,
     optimizer_partial=partial(torch.optim.Adam, lr=0.001),
-    lr_scheduler_partial=partial(torch.optim.lr_scheduler.StepLR, step_size=2000, gamma=1),
+    lr_scheduler_partial=partial(torch.optim.lr_scheduler.StepLR, step_size=2000, gamma=0),
 )
 
 
@@ -113,10 +125,10 @@ finetune_dm = PtlsDataModule(
 
 logger = pl.loggers.TensorBoardLogger(
                 save_dir='lightning_logs',
-                version='_bidir_RNN_emb_dropout_0.3_no_dropout_gru_head_drop_0.2_max&avg_pool_from_hidden'
+                version='_16_heads_2_layers_no_dropout_at_all_no_norm_emb_drop_0.3_PBDrop_0.2_no_transf_norm_drop_in_head_0.1'
 )
 
-checkpoint_callback = pl.callbacks.ModelCheckpoint(dirpath="./ckpts/_bidir_RNN_emb_dropout_0.3_no_dropout_gru_head_drop_0.2_max&avg_pool_from_hidden/", save_top_k=40, mode='max', monitor="val_AUROC")
+checkpoint_callback = pl.callbacks.ModelCheckpoint(dirpath="./ckpts/_16_heads_2_layers_no_dropout_at_all_no_norm_emb_drop_0.3_PBDrop_0.2_no_transf_norm_drop_in_head_0.1/", save_top_k=40, mode='max', monitor="val_AUROC")
 
 trainer_ft = pl.Trainer(
     max_epochs=100,
