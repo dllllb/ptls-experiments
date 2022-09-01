@@ -27,9 +27,12 @@ for column in train_data.columns:
         train_data = train_data.withColumn(column, F.col(column) + F.lit(1))
         test_data = test_data.withColumn(column, F.col(column) + F.lit(1))
 
+
 full_train_df = train_data.groupBy('id')\
     .agg(*[F.collect_list(col).alias(col) for col in train_data.columns if col != 'id'])\
     .join(train_target, ['id']).withColumn('rn', F.reverse('rn')).cache()
+
+# you also can use `ptls.preprocessing.pyspark.user_group_transformer.UserGroupTransformer.fit_transform` for collecting lists
 
 test_df = test_data.groupBy('id')\
     .agg(*[F.collect_list(col).alias(col) for col in test_data.columns if col != 'id'])\

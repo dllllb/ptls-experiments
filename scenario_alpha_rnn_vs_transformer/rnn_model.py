@@ -32,8 +32,8 @@ spark = SparkSession.builder\
     .getOrCreate()
 
 
-os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+# os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
+# os.environ["CUDA_VISIBLE_DEVICES"]="1"
 torch.multiprocessing.set_sharing_strategy('file_system')
 
 
@@ -112,7 +112,8 @@ finetune_dm = PtlsDataModule(
 )
 
 logger = pl.loggers.TensorBoardLogger(
-                save_dir='lightning_logs',
+                save_dir='.',
+                name='lightning_logs',
                 version='_bidir_RNN_emb_dropout_0.3_no_dropout_gru_head_drop_0.2_max&avg_pool_from_hidden'
 )
 
