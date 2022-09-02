@@ -1,0 +1,28 @@
+data_path: data/70
+split_only: true
+total_cpu_count: 16
+workers: 8
+
+environment:
+  work_dir: lightning_logs/test
+
+split:
+  fit_ids: true
+  train_id:
+    file_name: ${hydra:runtime.cwd}/${data_path}/train_target.csv
+  cv_split_count: 5
+  is_stratify: false
+  random_state: null
+
+target:
+  file_name: ${hydra:runtime.cwd}/${data_path}/train_target.csv
+  cols_id:
+    - client_id
+  cols_id_type:
+    - str
+  col_target: target_dist
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export CUDA_VISIBLE_DEVICES=0
 
-for INS in 21 31 51 71 101 131; do
+for INS in 31 51 71 101 131; do
     DATA_PATH="data/$((${INS}-1))"
 
     WORK_DIR="lightning_logs/loss_mse_logvar_in${INS}"
