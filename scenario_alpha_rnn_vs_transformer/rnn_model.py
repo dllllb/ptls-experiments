@@ -3,6 +3,7 @@ import numpy as np
 import random
 from functools import partial
 import torch
+import pickle
 import pytorch_lightning as pl
 import torchmetrics
 from ptls.frames.supervised import SequenceToTarget
@@ -15,52 +16,16 @@ from ptls.frames.supervised.seq_to_target_dataset import SeqToTargetIterableData
 from ptls.data_load import IterableChain
 from ptls.frames import PtlsDataModule
 
-from pyspark.sql import SparkSession
-import pyspark.sql.functions as F
-import pyspark.sql.types as T
-import pickle
-from pyspark.sql import Window
-
-
-SparkAppName = 'alpha_rnn_model'
-
-spark = SparkSession.builder\
-    .appName(SparkAppName)\
-    .master("local[*]")\
-    .config('spark.driver.memory', '64g')\
-    .config('spark.driver.maxResultSize', '16g')\
-    .getOrCreate()
-
 
 # os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
 # os.environ["CUDA_VISIBLE_DEVICES"]="1"
 torch.multiprocessing.set_sharing_strategy('file_system')
 
-
-train_data = spark.read.parquet("data/train_data")
-test_data = spark.read.parquet("data/test_data")
-feature_emb_dim = 16
-
-numeric_values={'pre_loans_next_pay_summ': 'identity',
-                'pre_loans5': 'identity',
-                'pre_loans530': 'identity',
-                'pre_loans3060': 'identity',
-                'pre_loans6090': 'identity',
-                'pre_loans90': 'identity'
-}
-
-embeddings={}
-for col in train_data.columns:
-    if col not in ['id'] + list(numeric_values.keys()):
-        distinct_in_col_train = train_data.select(F.col(col)).distinct()
-        max_train = distinct_in_col_train.select(F.max(F.col(col))).toPandas().to_numpy().squeeze().tolist()
-
-        distinct_in_col_test = test_data.select(F.col(col)).distinct()
-        max_test = distinct_in_col_test.select(F.max(F.col(col))).toPandas().to_numpy().squeeze().tolist()
-
-        in_dim = max(max_train, max_test) + 1
-        embeddings[col] = {'in': in_dim, 'out': feature_emb_dim}
-
+# load preprocessed data:
+with open('data/preproc_data', 'rb') as h:
+    preproc_data = pickle.load(h)
+    numeric_values = preproc_data['numeric_values']
+    embeddings = preproc_data['embeddings']
 
 
 trx_encoder_params = dict(

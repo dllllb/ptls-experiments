@@ -20,6 +20,31 @@ test_data = spark.read.parquet("data/test_data")
 test_target = spark.read.csv("data/test_target.csv", header=True)
 
 
+# preprocess data:
+feature_emb_dim = 16
+numeric_values={'pre_loans_next_pay_summ': 'identity',
+                'pre_loans5': 'identity',
+                'pre_loans530': 'identity',
+                'pre_loans3060': 'identity',
+                'pre_loans6090': 'identity',
+                'pre_loans90': 'identity'
+}
+embeddings={}
+for col in train_data.columns:
+    if col not in ['id'] + list(numeric_values.keys()):
+        distinct_in_col_train = train_data.select(F.col(col)).distinct()
+        max_train = distinct_in_col_train.select(F.max(F.col(col))).toPandas().to_numpy().squeeze().tolist()
+
+        distinct_in_col_test = test_data.select(F.col(col)).distinct()
+        max_test = distinct_in_col_test.select(F.max(F.col(col))).toPandas().to_numpy().squeeze().tolist()
+
+        in_dim = max(max_train, max_test) + 1
+        embeddings[col] = {'in': in_dim, 'out': feature_emb_dim}
+preproc_data = {'embeddings': embeddings, 'numeric_values': numeric_values}
+with open('data/preproc_data', 'wb') as h:
+    pickle.dump(preproc_data, h)
+
+
 min_1_cols = ['id', 'rn', 'enc_paym_24', 'enc_paym_20',
               'enc_paym_11', 'pre_loans90', 'pre_loans_outstanding']
 for column in train_data.columns:
