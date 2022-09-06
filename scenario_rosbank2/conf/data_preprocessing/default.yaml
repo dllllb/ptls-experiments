@@ -1,4 +1,4 @@
-n_folds: 10  # 0, 1-9
+n_folds: 6  # 0, 1-9
 salt: '42'
 
 data_path: ./data/

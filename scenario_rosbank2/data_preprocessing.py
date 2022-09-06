@@ -1,5 +1,5 @@
 import pickle
-
+import numpy as np
 from pathlib import Path
 import hydra
 import pyspark.sql.functions as F
@@ -58,11 +58,12 @@ def get_df_target(conf_pp):
 
 
 def split_target(conf_pp, df):
+    df = df.withColumn('seq_len', F.ceil(F.log(F.col('seq_len')) / np.log(4)).cast('string'))
     df = df.withColumn(
         'hash', F.hash(F.concat(F.col(conf_pp.col_client_id).cast('string'), F.lit(conf_pp.salt))) / 2 ** 32 + 0.5)
     df = df.withColumn(
-        'fold_id', F.row_number().over(Window.partitionBy(conf_pp.col_target).orderBy('hash')) % conf_pp.n_folds) \
-        .drop('hash')
+        'fold_id', F.row_number().over(Window.partitionBy(conf_pp.col_target, 'seq_len').orderBy('hash')) % conf_pp.n_folds) \
+        .drop('hash', 'seq_len')
     return df
 
 
@@ -128,10 +129,13 @@ def main(conf):
     conf_pp = conf.data_preprocessing
 
     df_target = get_df_target(conf_pp)
-    n_folds = conf_pp.n_folds
-    df_target = split_target(conf_pp, df_target)
-
     df_trx = get_df_trx(conf_pp)
+
+    n_folds = conf_pp.n_folds
+    df_target = df_target.join(
+        df_trx.groupby(conf_pp.col_client_id).count().withColumnRenamed('count', 'seq_len'),
+        on=conf_pp.col_client_id, how='inner')  # inner drops clients without transactions
+    df_target = split_target(conf_pp, df_target)
 
     df_target.persist()
 
