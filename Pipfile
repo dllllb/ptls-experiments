@@ -20,6 +20,7 @@ lightgbm = ">=2.3.1"
 xgboost = ">=0.90"
 ptls-validation = {git = "https://github.com/dllllb/ptls-validation.git", editable = true}
 pytorch-lifestream = {git = "https://github.com/dllllb/pytorch-lifestream.git", editable = true, ref = "v0.3.0"}
+hydra-optuna-sweeper = '>=1.2.0'
 
 [requires]
 python_version = "3.8"

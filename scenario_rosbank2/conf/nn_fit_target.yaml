@@ -2,6 +2,7 @@ defaults:
   - data_preprocessing: default
   - override hydra/sweeper: optuna
   - override hydra/sweeper/sampler: tpe
+  - _self_
 
 mode: valid
 

@@ -5,4 +5,6 @@ data_path: ./data/
 col_client_id: cl_id
 col_target: target_flag
 
+max_seq_len: 1200
+
 folds_path: ./data/folds/
