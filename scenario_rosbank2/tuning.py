@@ -67,17 +67,30 @@ def get_inference_data(conf, fold_id):
     train_files = parquet_file_scan(to_absolute_path(folds_path / get_file_name_train(fold_id)))
     test_files = parquet_file_scan(to_absolute_path(folds_path / get_file_name_test(fold_id)))
 
+    # train_ds = ParquetDataset(train_files)
+    # values = []
+    # for rec in train_ds:
+    #     values.append(rec['amount'])
+    # values = torch.cat(values, dim=0)
+    # bins = torch.quantile(values, torch.linspace(0.0, 1.0, 16))
+    #
+    # def make_bins(x, bins):
+    #     x['amount_bins'] = torch.bucketize(x['amount'], bins) + 1
+    #     return x
+
     train_ds = ParquetDataset(
         train_files,
         i_filters=[
             iterable_processing.TargetEmptyFilter(target_col=conf.data_preprocessing.col_target),
             iterable_processing.ISeqLenLimit(max_seq_len=conf.data_preprocessing.max_seq_len),
+            # lambda x: (make_bins(rec, bins) for rec in x),
         ],
     )
     test_ds = ParquetDataset(
         test_files,
         i_filters=[
             iterable_processing.ISeqLenLimit(max_seq_len=conf.data_preprocessing.max_seq_len),
+            # lambda x: (make_bins(rec, bins) for rec in x),
         ],
     )
     dl_params = dict(shuffle=False, collate_fn=collate_feature_dict, **conf.dataloader_inference)
@@ -287,3 +300,10 @@ def main(conf):
 
 if __name__ == '__main__':
     main()
+
+'''
+[2022-09-07 10:21:03,190][__main__][INFO] - test done, folds=[1, 2, 3, 4, 5], mean=0.8145, std=0.0076, mean_pm_std=[0.8069, 0.8220], confidence95=[0.8040, 0.8250], values=[0.8263, 0.8077, 0.8145, 0.8053, 0.8185]
+[2022-09-07 13:08:08,183][__main__][INFO] - test done, folds=[1, 2, 3, 4, 5], mean=0.8007, std=0.0136, mean_pm_std=[0.7871, 0.8143], confidence95=[0.7818, 0.8196], values=[0.8122, 0.7964, 0.7772, 0.8021, 0.8156]
+                                                        agg without amount    mean=0.7966, std=0.0040, mean_pm_std=[0.7925, 0.8006], confidence95=[0.7909, 0.8022],
+                                                          random linear       mean=0.8020, std=0.0146, mean_pm_std=[0.7874, 0.8166], confidence95=[0.7818, 0.8222]
+'''
