@@ -1,5 +1,5 @@
 # About the task
-Predict default of client using his credit history data (binary classification).
+[https://ods.ai/competitions/dl-fintech-bki](Predict default of client using his credit history data) (binary classification).
 
 All features are categorical, numerical features already discretized. The dataset is arranged in such a way that credits for the training sample are taken over a period of M months, and credits for the test sample are taken over the next K months.
 
