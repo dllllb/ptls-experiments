@@ -30,6 +30,7 @@ tensorboard --logdir lightning_logs/
  - [Retail](scenario_x5/README.md)
  - [Scoring](scenario_alpha_battle/README.md)
  - [Small demo dataset](scenario_gender/README.md)
+ - [Alpha BKI dataset](scenario_alpha_rnn_vs_transformer/README.md)
 
 # Final results
 ```
