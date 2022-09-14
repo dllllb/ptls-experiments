@@ -30,7 +30,6 @@ tensorboard --logdir lightning_logs/
  - [Retail](scenario_x5/README.md)
  - [Scoring](scenario_alpha_battle/README.md)
  - [Small demo dataset](scenario_gender/README.md)
- - [Alpha BKI dataset](scenario_alpha_rnn_vs_transformer/README.md)
 
 # Final results
 ```
@@ -145,6 +144,7 @@ Supervised finetuned encoder with MLP head evaluation:
 # Other experiments
 
 - [Data Fusion Contest 2022. 1-st place on the Matching Task](https://github.com/ivkireev86/datafusion-contest-2022)
+- [Alpha BKI dataset](scenario_alpha_rnn_vs_transformer/README.md)
 - [American Express - Default Prediction](https://www.kaggle.com/competitions/amex-default-prediction)
     - [Supervised training with RNN](https://www.kaggle.com/code/ivkireev/amex-ptls-baseline-supervised-neural-network)
     - [Supervised training with Transformer](https://www.kaggle.com/code/ivkireev/amex-transformer-network-train-with-ptls)
