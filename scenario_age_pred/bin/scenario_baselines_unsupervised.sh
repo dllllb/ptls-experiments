@@ -8,6 +8,9 @@ python -m ptls.pl_inference --config-dir conf --config-name random_params
 python -m ptls.pl_train_module --config-dir conf --config-name mles_params
 python -m ptls.pl_inference --config-dir conf --config-name mles_params
 
+python -m ptls.pl_train_module --config-dir conf --config-name mles_sup_params
+python -m ptls.pl_inference --config-dir conf --config-name mles_sup_params
+
 # Train the Contrastive Predictive Coding (CPC) model; inference
 python -m ptls.pl_train_module --config-dir conf --config-name cpc_params
 python -m ptls.pl_inference --config-dir conf --config-name cpc_params
@@ -49,3 +52,4 @@ rm results/scenario_age_pred_baselines_unsupervised.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
    --config-dir conf --config-name embeddings_validation_baselines_unsupervised +workers=10 +total_cpu_count=20
+less -S results/scenario_age_pred_baselines_unsupervised.txt
