@@ -22,44 +22,40 @@ from data_preprocessing import get_file_name_train, get_file_name_test
 logger = logging.getLogger(__name__)
 
 
-# def get_data_module(conf, fold_id):
-#     folds_path = Path(conf.data_preprocessing.folds_path)
-#     train_files = parquet_file_scan(to_absolute_path(folds_path / get_file_name_train(fold_id)))
-#     test_files = parquet_file_scan(to_absolute_path(folds_path / get_file_name_test(fold_id)))
-#
-#     train_ds = PersistDataset(ParquetDataset(
-#         train_files,
-#         i_filters=[
-#             iterable_processing.TargetEmptyFilter(target_col=conf.data_preprocessing.col_target),
-#             iterable_processing.ISeqLenLimit(max_seq_len=conf.data_module.max_seq_len),
-#         ],
-#     ))
-#     test_ds = PersistDataset(ParquetDataset(
-#         test_files,
-#         i_filters=[
-#             iterable_processing.ISeqLenLimit(max_seq_len=conf.data_module.max_seq_len),
-#         ],
-#     ))
-#
-#     if conf.data_module.augmentations is not None:
-#         train_ds = AugmentationDataset(
-#             train_ds,
-#             f_augmentations=instantiate(conf.data_module.augmentations),
-#         )
-#     datasets = dict(
-#         train_data=train_ds,
-#         test_data=test_ds,
-#     )
-#     datasets = {
-#         k: SeqToTargetDataset(v, target_col_name=conf.data_preprocessing.col_target, target_dtype='int')
-#         for k, v in datasets.items()
-#     }
-#
-#     data_module = PtlsDataModule(
-#         **datasets,
-#         **conf.data_module.dm_params,
-#     )
-#     return data_module
+def get_pretrain_data_module(conf, fold_id):
+    folds_path = Path(conf.data_preprocessing.folds_path)
+    train_files = parquet_file_scan(to_absolute_path(folds_path / get_file_name_train(fold_id)),
+                                    valid_rate=0.05, return_part='train')
+    valid_files = parquet_file_scan(to_absolute_path(folds_path / get_file_name_train(fold_id)),
+                                    valid_rate=0.05, return_part='valid')
+
+    train_ds = PersistDataset(ParquetDataset(
+        train_files,
+        i_filters=[
+            iterable_processing.SeqLenFilter(min_seq_len=conf.pretrain_data.min_seq_len)
+        ],
+    ))
+    valid_ds = PersistDataset(ParquetDataset(
+        valid_files,
+        i_filters=[
+            iterable_processing.SeqLenFilter(min_seq_len=conf.pretrain_data.min_seq_len)
+        ],
+    ))
+
+    if conf.pretrain_data.augmentations is not None:
+        train_ds = AugmentationDataset(
+            train_ds,
+            f_augmentations=instantiate(conf.pretrain_data.augmentations),
+        )
+
+    frame_dataset_partial = instantiate(conf.pretrain_data.frame_dataset_partial)
+
+    pretrain_data_module = PtlsDataModule(
+        train_data=frame_dataset_partial(data=train_ds),
+        valid_data=frame_dataset_partial(data=valid_ds),
+        **conf.pretrain_data_module,
+    )
+    return pretrain_data_module
 
 
 def get_inference_data(conf, fold_id):
@@ -99,54 +95,59 @@ def get_inference_data(conf, fold_id):
     return train_dl, test_dl
 
 
-# def get_pl_module(conf):
-#     return instantiate(conf.pl_module)
+def estimate_frame_seq_embeddings(conf, fold_id):
+    tb_logger = pl.loggers.TensorBoardLogger(
+        save_dir=to_absolute_path(conf.tb_save_dir),
+        name=f'{conf.mode}_fold={fold_id}',
+        version=None,
+        default_hp_metric=False,
+    )
 
+    pl_module = instantiate(conf.pl_module)
+    pretrain_data_module = get_pretrain_data_module(conf, fold_id)
 
-# def run_supervised_model(conf, fold_id):
-#     data_module = get_data_module(conf, fold_id)
-#     pl_module = get_pl_module(conf)
-#     trainer = pl.Trainer(
-#         gpus=1,
-#         limit_train_batches=conf.trainer.limit_train_batches,
-#         max_epochs=conf.trainer.max_epochs,
-#         enable_checkpointing=False,
-#         logger=pl.loggers.TensorBoardLogger(
-#             save_dir=to_absolute_path(conf.tb_save_dir),
-#             name=f'{conf.mode}_fold={fold_id}',
-#             version=None,
-#             default_hp_metric=False,
-#         ),
-#         callbacks=[
-#             pl.callbacks.LearningRateMonitor(),
-#         ],
-#     )
-#     trainer.fit(pl_module, data_module)
-#     logger.info(f'logged_metrics={trainer.logged_metrics}')
-#     train_auroc_t = trainer.logged_metrics['train_auroc'].item()
-#     train_auroc_v = trainer.logged_metrics['val_auroc'].item()
-#     test_metrics = trainer.test(pl_module, data_module, verbose=False)
-#     logger.info(f'logged_metrics={trainer.logged_metrics}')
-#     logger.info(f'test_metrics={test_metrics}')
-#     final_test_metric = test_metrics[0]['test_auroc']
-#
-#     if conf.mode == 'valid':
-#         trainer.logger.log_hyperparams(
-#             params=flat_conf(conf),
-#             metrics={
-#                 f'hp/auroc': final_test_metric,
-#                 f'hp/auroc_t': train_auroc_t,
-#                 f'hp/auroc_v': train_auroc_v,
-#             },
-#         )
-#
-#     logger.info(f'[{conf.mode}] on fold[{fold_id}] finished with {final_test_metric:.4f}')
-#     return final_test_metric
+    pretrain_trainer = pl.Trainer(
+        gpus=1,
+        logger=tb_logger,
+        callbacks=[
+            pl.callbacks.LearningRateMonitor(),
+        ],
+        **conf.pretrain_trainer,
+    )
+    logger.info('Pretrain start')
+    pretrain_trainer.fit(pl_module, pretrain_data_module)
+    logger.info('Pretrain done')
+
+    seq_encoder = pl_module.seq_encoder
+    seq_encoder.is_reduce_sequence = True
+    return estimate_embeddings_with_downstream(
+        model=seq_encoder,
+        tb_logger=tb_logger,
+        conf=conf,
+        fold_id=fold_id,
+        extra_metrics={'hp/recall_top_k': pretrain_trainer.logged_metrics['recall_top_k'].item()},
+    )
 
 
 def estimate_agg_embeddings(conf, fold_id):
     agg_model = instantiate(conf.agg_model)
-    inf_module = InferenceModule(agg_model, model_out_name='emb')
+    tb_logger = pl.loggers.TensorBoardLogger(
+        save_dir=to_absolute_path(conf.tb_save_dir),
+        name=f'{conf.mode}_fold={fold_id}',
+        version=None,
+        default_hp_metric=False,
+    )
+    return estimate_embeddings_with_downstream(
+        model=agg_model,
+        tb_logger=tb_logger,
+        conf=conf,
+        fold_id=fold_id,
+        extra_metrics={},
+    )
+
+
+def estimate_embeddings_with_downstream(model, tb_logger, conf, fold_id, extra_metrics):
+    inf_module = InferenceModule(model, model_out_name='emb')
 
     train_dl, test_dl = get_inference_data(conf, fold_id)
 
@@ -154,12 +155,7 @@ def estimate_agg_embeddings(conf, fold_id):
         gpus=1,
         max_epochs=-1,
         enable_progress_bar=True,
-        logger=pl.loggers.TensorBoardLogger(
-            save_dir=to_absolute_path(conf.tb_save_dir),
-            name=f'{conf.mode}_fold={fold_id}',
-            version=None,
-            default_hp_metric=False,
-        ),
+        logger=tb_logger,
     )
     df_train = p_trainer.predict(inf_module, train_dl)
     df_test = p_trainer.predict(inf_module, test_dl)
@@ -182,17 +178,18 @@ def estimate_agg_embeddings(conf, fold_id):
     y_predict = downstream_model.predict_proba(x_test)[:, 1]
     final_test_metric = roc_auc_score(y_test, y_predict)
 
-    if conf.mode == 'valid':
-        y_predict_train = downstream_model.predict_proba(x_train)[:, 1]
-        train_auroc_t = roc_auc_score(y_train, y_predict_train)
+    # if conf.mode == 'valid':
+    y_predict_train = downstream_model.predict_proba(x_train)[:, 1]
+    train_auroc_t = roc_auc_score(y_train, y_predict_train)
 
-        p_trainer.logger.log_hyperparams(
-            params=flat_conf(conf),
-            metrics={
-                f'hp/auroc': final_test_metric,
-                f'hp/auroc_t': train_auroc_t,
-            },
-        )
+    tb_logger.log_hyperparams(
+        params=flat_conf(conf),
+        metrics={
+            f'hp/auroc': final_test_metric,
+            f'hp/auroc_t': train_auroc_t,
+            **extra_metrics,
+        },
+    )
 
     logger.info(f'[{conf.mode}] on fold[{fold_id}] finished with {final_test_metric:.4f}')
     return final_test_metric
@@ -302,8 +299,35 @@ if __name__ == '__main__':
     main()
 
 '''
-[2022-09-07 10:21:03,190][__main__][INFO] - test done, folds=[1, 2, 3, 4, 5], mean=0.8145, std=0.0076, mean_pm_std=[0.8069, 0.8220], confidence95=[0.8040, 0.8250], values=[0.8263, 0.8077, 0.8145, 0.8053, 0.8185]
-[2022-09-07 13:08:08,183][__main__][INFO] - test done, folds=[1, 2, 3, 4, 5], mean=0.8007, std=0.0136, mean_pm_std=[0.7871, 0.8143], confidence95=[0.7818, 0.8196], values=[0.8122, 0.7964, 0.7772, 0.8021, 0.8156]
-                                                        agg without amount    mean=0.7966, std=0.0040, mean_pm_std=[0.7925, 0.8006], confidence95=[0.7909, 0.8022],
-                                                          random linear       mean=0.8020, std=0.0146, mean_pm_std=[0.7874, 0.8166], confidence95=[0.7818, 0.8222]
+agg_embeddings              mean=0.8145, std=0.0076, mean_pm_std=[0.8069, 0.8220], confidence95=[0.8040, 0.8250], values=[0.8263, 0.8077, 0.8145, 0.8053, 0.8185]
+random_trx_pool_embeddings  mean=0.8049, std=0.0104, mean_pm_std=[0.7945, 0.8153], confidence95=[0.7904, 0.8193], values=[0.8225, 0.8052, 0.7938, 0.7949, 0.8080]
+
+Lgbm:
+coles_base                  mean=0.8247, std=0.0103, mean_pm_std=[0.8143, 0.8350], confidence95=[0.8103, 0.8390], values=[0.8407, 0.8194, 0.8270, 0.8092, 0.8272]
+coles sup     w=1.0         mean=0.8215, std=0.0104, mean_pm_std=[0.8111, 0.8319], confidence95=[0.8071, 0.8359]
+coles sup     w=1.0 margin  mean=0.8276, std=0.0097, mean_pm_std=[0.8179, 0.8373], confidence95=[0.8141, 0.8411]
+
+
+linear                      mean=0.8098, std=0.0095, mean_pm_std=[0.8003, 0.8192], confidence95=[0.7966, 0.8229],
+
+hidden=512:
+coles_base                  mean=0.8092, std=0.0072, mean_pm_std=[0.8019, 0.8164], confidence95=[0.7991, 0.8192]
+coles_sup                   mean=0.8065, std=0.0092, mean_pm_std=[0.7973, 0.8157], confidence95=[0.7938, 0.8193]
+
+hidden=256:
+coles_base                  mean=0.8075, std=0.0073, mean_pm_std=[0.8002, 0.8148], confidence95=[0.7974, 0.8177]
+coles_sup                   mean=0.8061, std=0.0085, mean_pm_std=[0.7976, 0.8145], confidence95=[0.7943, 0.8178]
+
+hidden=128:
+coles_base                  mean=0.8056, std=0.0073, mean_pm_std=[0.7984, 0.8129], confidence95=[0.7956, 0.8157]   
+coles_sup                   mean=0.8060, std=0.0087, mean_pm_std=[0.7973, 0.8147], confidence95=[0.7939, 0.8181]
+
+hidden=64:
+coles_base                  mean=0.7981, std=0.0091, mean_pm_std=[0.7889, 0.8072], confidence95=[0.7854, 0.8107],
+coles_sup                   mean=0.7996, std=0.0113, mean_pm_std=[0.7883, 0.8109], confidence95=[0.7840, 0.8153]
+
+
+coles sup     w=1.0 with class center running average
+# попробовать вместе с class center running average
+
 '''

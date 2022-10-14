@@ -8,8 +8,8 @@ dataset:
     file_path:
       - data/train_trx.parquet
       - data/test_trx.parquet
-    valid_rate: 2
-    return_part: valid
+#    valid_rate: 2
+#    return_part: valid
   i_filters:
     - _target_: ptls.data_load.iterable_processing.FeatureFilter
       keep_feature_names: app_id

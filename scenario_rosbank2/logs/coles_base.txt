@@ -1,0 +1,40 @@
+[2022-09-13 09:52:30,054][torch.distributed.nn.jit.instantiator][INFO] - Created a temporary directory at /tmp/tmp_y11b1cd
+[2022-09-13 09:52:30,055][torch.distributed.nn.jit.instantiator][INFO] - Writing /tmp/tmp_y11b1cd/_remote_module_non_scriptable.py
+[2022-09-13 09:52:30,295][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 6690 records
+[2022-09-13 09:52:30,435][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 887 records
+[2022-09-13 09:52:30,448][__main__][INFO] - Pretrain start
+[2022-09-13 10:08:27,365][__main__][INFO] - Pretrain done
+[2022-09-13 10:08:30,280][__main__][INFO] - Prepared embeddings. X_train: (4162, 1024), X_test: (838, 1024). y_train: (4162,), y_test: (838,)
+[2022-09-13 10:08:34,324][__main__][INFO] - Downstream_model fitted
+[2022-09-13 10:08:34,389][__main__][INFO] - [test] on fold[1] finished with 0.8407
+[2022-09-13 10:08:34,636][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 6705 records
+[2022-09-13 10:08:34,662][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 881 records
+[2022-09-13 10:08:34,666][__main__][INFO] - Pretrain start
+[2022-09-13 10:24:40,832][__main__][INFO] - Pretrain done
+[2022-09-13 10:24:43,833][__main__][INFO] - Prepared embeddings. X_train: (4164, 1024), X_test: (836, 1024). y_train: (4164,), y_test: (836,)
+[2022-09-13 10:24:47,842][__main__][INFO] - Downstream_model fitted
+[2022-09-13 10:24:47,912][__main__][INFO] - [test] on fold[2] finished with 0.8194
+[2022-09-13 10:24:48,189][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 6707 records
+[2022-09-13 10:24:48,220][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 869 records
+[2022-09-13 10:24:48,224][__main__][INFO] - Pretrain start
+[2022-09-13 10:40:55,840][__main__][INFO] - Pretrain done
+[2022-09-13 10:40:58,858][__main__][INFO] - Prepared embeddings. X_train: (4165, 1024), X_test: (835, 1024). y_train: (4165,), y_test: (835,)
+[2022-09-13 10:41:02,576][__main__][INFO] - Downstream_model fitted
+[2022-09-13 10:41:02,638][__main__][INFO] - [test] on fold[3] finished with 0.8270
+[2022-09-13 10:41:02,911][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 6709 records
+[2022-09-13 10:41:02,940][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 878 records
+[2022-09-13 10:41:02,944][__main__][INFO] - Pretrain start
+[2022-09-13 10:57:15,764][__main__][INFO] - Pretrain done
+[2022-09-13 10:57:18,772][__main__][INFO] - Prepared embeddings. X_train: (4167, 1024), X_test: (833, 1024). y_train: (4167,), y_test: (833,)
+[2022-09-13 10:57:22,724][__main__][INFO] - Downstream_model fitted
+[2022-09-13 10:57:22,813][__main__][INFO] - [test] on fold[4] finished with 0.8092
+[2022-09-13 10:57:23,132][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 6662 records
+[2022-09-13 10:57:23,359][ptls.data_load.datasets.persist_dataset][INFO] - Loaded 911 records
+[2022-09-13 10:57:23,362][__main__][INFO] - Pretrain start
+[2022-09-13 11:13:34,871][__main__][INFO] - Pretrain done
+[2022-09-13 11:13:37,881][__main__][INFO] - Prepared embeddings. X_train: (4170, 1024), X_test: (830, 1024). y_train: (4170,), y_test: (830,)
+[2022-09-13 11:13:41,631][__main__][INFO] - Downstream_model fitted
+[2022-09-13 11:13:41,700][__main__][INFO] - [test] on fold[5] finished with 0.8272
+[2022-09-13 11:13:41,704][__main__][INFO] - test done, folds=[1, 2, 3, 4, 5], mean=0.8247, std=0.0103, mean_pm_std=[0.8143, 0.8350], confidence95=[0.8103, 0.8390], values=[0.8407, 0.8194, 0.8270, 0.8092, 0.8272]
+[2022-09-13 11:13:41,709][__main__][INFO] - Results are logged to tensorboard as test_mean/3
+[2022-09-13 11:13:41,710][__main__][INFO] - Output logged to "/home/kireev/pycharm-deploy/ptls-experiments/scenario_rosbank2/outputs/coles_base/2022-09-13/09-52-29"

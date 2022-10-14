@@ -1,5 +1,7 @@
 defaults:
   - data_preprocessing: default
+  - downstream_model: lgbm
+  - dataloader_inference: default
   - override hydra/sweeper: optuna
   - override hydra/sweeper/sampler: tpe
   - _self_
@@ -31,10 +33,6 @@ hydra:
       agg_model.is_used_std: choice(false, true)
 #      agg_model.use_topk_cnt: choice(0, 1, 2, 4, 8, 16)
 
-dataloader_inference:
-  batch_size: 512
-  num_workers: 4
-
 run_model_partial:
   _target_: __main__.estimate_agg_embeddings
   _partial_: true
@@ -57,28 +55,6 @@ agg_model:
   is_used_mean: true
   is_used_std: true
   use_topk_cnt: 0
-
-downstream_model:
-  _target_: lightgbm.LGBMClassifier
-  n_estimators: 500
-  boosting_type: gbdt
-  objective: binary
-  metric: auc
-  subsample: 0.5
-  subsample_freq: 1
-  learning_rate: 0.02
-  feature_fraction: 0.75
-  max_depth: 6
-  lambda_l1: 1
-  lambda_l2: 1
-  min_data_in_leaf: 50
-  random_state: 42
-  n_jobs: 8
-  reg_alpha: null
-  reg_lambda: null
-  colsample_bytree: null
-  min_child_samples: null
-
 
 #data_module:
 #  valid_size: 0.1

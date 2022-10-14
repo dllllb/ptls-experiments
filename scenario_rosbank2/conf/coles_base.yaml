@@ -1,0 +1,128 @@
+defaults:
+  - data_preprocessing: default
+  - downstream_model: lgbm
+  - dataloader_inference: default
+  - override hydra/sweeper: optuna
+  - override hydra/sweeper/sampler: tpe
+  - _self_
+
+mode: ???
+
+experiment_name: coles_base
+tb_save_dir: lightning_logs/${experiment_name}/
+
+hydra:
+  job:
+    chdir: true
+  run:
+    dir: outputs/${experiment_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${experiment_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweeper:
+    direction: maximize
+    study_name: ${experiment_name}
+    storage: null
+    n_trials: 20
+    n_jobs: 1
+    params:
+#      pl_module.optimizer_partial.lr: tag(log, interval(0.001, 0.020))  # adjusted at 5 epochs
+#      pl_module.lr_scheduler_partial.step_size: int(interval(1, 20))  # don't work at short distance
+#      pl_module.lr_scheduler_partial.step_size: choice(1)
+#      pl_module.lr_scheduler_partial.gamma: choice(0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.92, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99)
+#      pl_module.seq_encoder.trx_encoder.orthogonal_init: choice(true)  # false is better at 5 epochs
+#      pl_module.loss.margin: interval(0.3, 0.6)  # adjusted at 5 epochs
+#      pl_module.loss.sampling_strategy.neg_count: int(interval(3, 6))  # adjusted at 5 epochs
+#      pl_module.optimizer_partial.weight_decay: tag(log, interval(1e-9, 1e-1))  # dont influence
+#      pl_module.seq_encoder.trx_encoder.linear_projection_size: tag(log, int(interval(64, 512)))  # adjusted at 5 epochs, don't influence
+#      pl_module.seq_encoder.trx_encoder.embeddings_noise: tag(log, interval(1e-9, 1e-1))  # adjusted at 5 epochs, don't influence
+#      pl_module.seq_encoder.trx_encoder.emb_dropout: interval(1e-9, 0.7)
+      pl_module.seq_encoder.trx_encoder.spatial_dropout: interval(1e-9, 0.7)
+#      pretrain_data.min_seq_len: int(range(5, 100, step=5)) # adjusted at 5 epochs, don't influence
+#      pretrain_data.frame_dataset_partial.splitter.cnt_min: int(interval(5, 150))
+#      pretrain_trainer.max_steps: choice(1500, 3120)
+#      pl_module.seq_encoder.trx_encoder.use_batch_norm=false
+#      pl_module.seq_encoder.trx_encoder.use_batch_norm_with_lens=false
+
+run_model_partial:
+  _partial_: true
+  _target_: __main__.estimate_frame_seq_embeddings
+
+pretrain_trainer:
+  max_steps: 3120
+  enable_progress_bar: true
+
+pretrain_data:
+  min_seq_len: 25
+  augmentations: null
+  frame_dataset_partial:
+    _partial_: true
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 10
+      cnt_max: 150
+
+pretrain_data_module:
+  train_batch_size: 128
+  train_num_workers: 8
+  valid_batch_size: 256
+  valid_num_workers: 16
+  train_drop_last: true
+
+pl_module:
+  _target_: ptls.frames.coles.CoLESModule
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder:
+      _target_: ptls.nn.TrxEncoder
+      embeddings_noise: 0.0
+      emb_dropout: 0.0
+      spatial_dropout: 0.0
+      embeddings:
+        mcc:
+          in: 100
+          out: 24
+        channel_type:
+          in: 4
+          out: 4
+        currency:
+          in: 4
+          out: 4
+        trx_category:
+          in: 10
+          out: 4
+      numeric_values:
+        amount: log
+      use_batch_norm: true
+      use_batch_norm_with_lens: true
+      orthogonal_init: false
+      linear_projection_size: 0
+    type: lstm
+    hidden_size: 1024
+    bidir: false
+    trainable_starter: static
+  validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 4
+    metric: cosine
+  head:
+    _target_: ptls.nn.Head
+    use_norm_encoder: true
+    input_size: ${pl_module.seq_encoder.hidden_size}
+  loss:
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
+    margin: 0.5
+    sampling_strategy:
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
+      neg_count: 5
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.008
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 1
+    gamma: 0.99

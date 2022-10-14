@@ -43,6 +43,7 @@ class LocalDatasetConverter(DatasetConverter):
 
     def load_target(self):
         df_target = self.spark_read_file(self.path_to_file(self.FILE_NAME_TARGET))
+        df_target = df_target.withColumn('flag', F.col('flag').cast('int'))
         return df_target
 
     def run(self):

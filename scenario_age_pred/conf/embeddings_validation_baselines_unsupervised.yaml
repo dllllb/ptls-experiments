@@ -80,7 +80,7 @@ features:
       file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
     target_options: {}
   random_encoder: 
-    enabled: false
+    enabled: true
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/random_embeddings.pickle
     target_options: {}
@@ -100,27 +100,27 @@ features:
       file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
     target_options: {}
   sop_embeddings: 
-    enabled: false
+    enabled: true
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/sop_embeddings.pickle
     target_options: {}
   nsp_embeddings: 
-    enabled: false
+    enabled: true
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/nsp_embeddings.pickle
     target_options: {}
   rtd_embeddings: 
-    enabled: false
+    enabled: true
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/rtd_embeddings.pickle
     target_options: {}
   mles2_embeddings: 
-    enabled: false
+    enabled: true
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/mles2_embeddings.pickle
     target_options: {}
   barlow_twins_embeddings: 
-    enabled: false
+    enabled: true
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/barlow_twins_embeddings.pickle
     target_options: {}
