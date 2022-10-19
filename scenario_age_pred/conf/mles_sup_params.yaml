@@ -1,0 +1,92 @@
+defaults:
+  - dataset_unsupervised/parquet
+  - inference/default
+  - inference/seq_encoder/pretrained
+  - overrides pl_module/l_loss: centroid_softmax_memory
+  - _self_
+
+seed_everything: 42
+logger_name: mles_sup_model
+model_path: models/mles_sup_model.p
+embed_file_name: mles_sup_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.coles.ColesSupervisedDataset
+    cols_classes:
+      - target
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 25
+      cnt_max: 200
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.coles.ColesSupervisedDataset
+    cols_classes:
+      - target
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 25
+      cnt_max: 100
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 64
+  train_num_workers: 16
+  valid_batch_size: 512
+  valid_num_workers: 16
+
+trainer: 
+  gpus: 1
+  auto_select_gpus: false
+  max_epochs: 150
+  enable_checkpointing: false
+  deterministic: true
+
+pl_module:
+  _target_: ptls.frames.coles.ColesSupervisedModule
+  validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 4
+    metric: cosine
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder:
+      _target_: ptls.nn.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings:
+        trans_date:
+          in: 800
+          out: 16
+        small_group:
+          in: 250
+          out: 16
+      numeric_values: 
+        amount_rur: identity
+    type: gru
+    hidden_size: 800
+    bidir: false
+    trainable_starter: static
+  head:
+    _target_: ptls.nn.Head
+    use_norm_encoder: true
+  loss:
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
+    margin: 0.5
+    sampling_strategy:
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
+      neg_count: 5
+  contrastive_loss_w: 0.01
+  supervised_loss_w: 0.3
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.001
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 30
+    gamma: 0.9025

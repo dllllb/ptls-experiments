@@ -1,0 +1,105 @@
+defaults:
+  - data_preprocessing: default
+  - override hydra/sweeper: optuna
+  - override hydra/sweeper/sampler: tpe
+  - _self_
+
+mode: valid
+
+experiment_name: nn_fit_target
+tb_save_dir: lightning_logs/${experiment_name}/
+
+hydra:
+  job:
+    chdir: true
+  run:
+    dir: outputs/${experiment_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${experiment_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweeper:
+#    sampler:
+#      seed: 123
+    direction: maximize
+    study_name: ${experiment_name}
+    storage: null
+    n_trials: 50
+    n_jobs: 1
+    params:
+      pl_module.optimizer_partial.lr: tag(log, interval(0.001, 0.1))
+      pl_module.lr_scheduler_partial.gamma: interval(0.3, 0.9)
+      pl_module.weight_decay_trx_encoder: tag(log, interval(0.000001, 0.001))
+      pl_module.seq_encoder.hidden_size: tag(log, int(interval(16, 64)))
+      pl_module.seq_encoder.trx_encoder.embeddings_size: tag(log, int(interval(64, 190)))
+      pl_module.seq_encoder.trx_encoder.embeddings.mcc.in: tag(log, int(interval(1, 370)))
+      pl_module.seq_encoder.trx_encoder.embeddings.channel_type.in: int(interval(1, 8))
+      pl_module.seq_encoder.trx_encoder.embeddings.currency.in: tag(log, int(interval(1, 60)))
+      pl_module.seq_encoder.trx_encoder.embeddings.trx_category.in: int(interval(1, 12))
+
+data_module:
+  valid_size: 0.1
+  valid_split_random_state: 42
+  max_seq_len: 1200
+  dm_params:
+    train_batch_size: 32
+    valid_batch_size: 256
+    train_num_workers: 8
+    valid_num_workers: 8
+    train_drop_last: True
+  augmentations:
+      - _target_: ptls.data_load.augmentations.RandomSlice
+        min_len: 250
+        max_len: 350
+        rate_for_min: 0.9
+      - _target_: ptls.data_load.augmentations.DropoutTrx
+        trx_dropout: 0.01
+
+trainer:
+  limit_train_batches: null
+  max_epochs: 10
+
+pl_module:
+  _target_: __main__.SequenceToTargetEx
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder:
+      _target_: __main__.BlockTrxEncoder
+      use_batch_norm_with_lens: true  # or not?
+      embeddings_size: 72 # 64
+      embeddings:
+        mcc:
+          in: 370 # 90  # 370
+        channel_type:
+          in: 8 # 6  # 8
+        currency:
+          in: 60 # 6  # 60
+        trx_category:
+          in: 12 # 8  # 12
+      numeric_values:
+        amount: log
+    hidden_size: 25
+    type: gru
+    bidir: false
+    trainable_starter: static
+  head:  # add ResNetBlocks
+    _target_: ptls.nn.Head
+    input_size: ${pl_module.seq_encoder.hidden_size}
+    use_batch_norm: true
+    objective: classification
+    num_classes: 1
+  loss:
+    _target_: ptls.loss.BCELoss
+  metric_list:
+    auroc:
+      _target_: torchmetrics.AUROC
+      num_classes: 2
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.003 #  0.0096
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 1
+    gamma: 0.8 # 0.44
+  weight_decay_trx_encoder: 0.0  # 0.0004 # 0.0

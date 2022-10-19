@@ -1,0 +1,34 @@
+[2022-09-07 08:12:03,388][__main__][INFO] - Start
+[2022-09-07 08:12:10,183][__main__][INFO] - Loaded 490513 records from "train.csv"
+[2022-09-07 08:12:10,376][__main__][INFO] - Loaded 518376 records from "test.csv"
+[2022-09-07 08:12:28,482][__main__][INFO] - Preprocessor[0].category_dictionary_sizes={'mcc': 384, 'channel_type': 8, 'currency': 67, 'trx_category': 12}
+[2022-09-07 08:12:28,578][__main__][INFO] - df_train_data_0.parquet        DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:12:28,630][__main__][INFO] - df_test_data_0.parquet         DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:12:28,900][__main__][INFO] - df_train_data_0.parquet         5217 unlabeled 1864 - 0 class 2308 - 1 class
+[2022-09-07 08:12:29,033][__main__][INFO] - df_test_data_0.parquet             0 unlabeled  369 - 0 class  459 - 1 class
+[2022-09-07 08:12:37,583][__main__][INFO] - Preprocessor[1].category_dictionary_sizes={'mcc': 372, 'channel_type': 8, 'currency': 68, 'trx_category': 12}
+[2022-09-07 08:12:37,635][__main__][INFO] - df_train_data_1.parquet        DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:12:37,685][__main__][INFO] - df_test_data_1.parquet         DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:12:37,825][__main__][INFO] - df_train_data_1.parquet         5217 unlabeled 1858 - 0 class 2304 - 1 class
+[2022-09-07 08:12:37,951][__main__][INFO] - df_test_data_1.parquet             0 unlabeled  375 - 0 class  463 - 1 class
+[2022-09-07 08:12:48,129][__main__][INFO] - Preprocessor[2].category_dictionary_sizes={'mcc': 382, 'channel_type': 8, 'currency': 68, 'trx_category': 12}
+[2022-09-07 08:12:48,190][__main__][INFO] - df_train_data_2.parquet        DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:12:48,243][__main__][INFO] - df_test_data_2.parquet         DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:12:48,393][__main__][INFO] - df_train_data_2.parquet         5217 unlabeled 1859 - 0 class 2305 - 1 class
+[2022-09-07 08:12:48,517][__main__][INFO] - df_test_data_2.parquet             0 unlabeled  374 - 0 class  462 - 1 class
+[2022-09-07 08:12:59,021][__main__][INFO] - Preprocessor[3].category_dictionary_sizes={'mcc': 381, 'channel_type': 8, 'currency': 68, 'trx_category': 12}
+[2022-09-07 08:12:59,072][__main__][INFO] - df_train_data_3.parquet        DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:12:59,118][__main__][INFO] - df_test_data_3.parquet         DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:12:59,242][__main__][INFO] - df_train_data_3.parquet         5217 unlabeled 1860 - 0 class 2305 - 1 class
+[2022-09-07 08:12:59,356][__main__][INFO] - df_test_data_3.parquet             0 unlabeled  373 - 0 class  462 - 1 class
+[2022-09-07 08:13:07,314][__main__][INFO] - Preprocessor[4].category_dictionary_sizes={'mcc': 381, 'channel_type': 8, 'currency': 69, 'trx_category': 12}
+[2022-09-07 08:13:07,361][__main__][INFO] - df_train_data_4.parquet        DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:13:07,404][__main__][INFO] - df_test_data_4.parquet         DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:13:07,520][__main__][INFO] - df_train_data_4.parquet         5217 unlabeled 1861 - 0 class 2306 - 1 class
+[2022-09-07 08:13:07,634][__main__][INFO] - df_test_data_4.parquet             0 unlabeled  372 - 0 class  461 - 1 class
+[2022-09-07 08:13:15,685][__main__][INFO] - Preprocessor[5].category_dictionary_sizes={'mcc': 384, 'channel_type': 8, 'currency': 68, 'trx_category': 12}
+[2022-09-07 08:13:15,732][__main__][INFO] - df_train_data_5.parquet        DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:13:15,775][__main__][INFO] - df_test_data_5.parquet         DataFrame[cl_id: string, mcc: array<int>, channel_type: array<int>, currency: array<int>, amount: array<float>, trx_category: array<int>, event_time: array<bigint>, target_flag: int]
+[2022-09-07 08:13:15,923][__main__][INFO] - df_train_data_5.parquet         5217 unlabeled 1863 - 0 class 2307 - 1 class
+[2022-09-07 08:13:16,035][__main__][INFO] - df_test_data_5.parquet             0 unlabeled  370 - 0 class  460 - 1 class
+[2022-09-07 08:13:16,035][__main__][INFO] - Done

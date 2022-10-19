@@ -1,0 +1,153 @@
+defaults:
+  - data_preprocessing: default
+  - downstream_model: lgbm
+  - dataloader_inference: default
+  - override hydra/sweeper: optuna
+  - override hydra/sweeper/sampler: tpe
+  - _self_
+
+mode: ???
+
+experiment_name: random_trx_pool_embeddings
+tb_save_dir: lightning_logs/${experiment_name}/
+
+hydra:
+  job:
+    chdir: true
+  run:
+    dir: outputs/${experiment_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${experiment_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweeper:
+    direction: maximize
+    study_name: ${experiment_name}
+    storage: null
+    n_trials: 100
+    n_jobs: 1
+    params:
+      agg_model._args_.0.embeddings.mcc.in: tag(log, int(interval(2, 370)))
+      agg_model._args_.0.embeddings.channel_type.in: int(interval(2, 8))
+      agg_model._args_.0.embeddings.currency.in: tag(log, int(interval(2, 70)))
+      agg_model._args_.0.embeddings.trx_category.in: int(interval(2, 12))
+#      agg_model._args_.0.embeddings.amount_bins.in: choice(0, 18)
+#      agg_model._args_.0.numeric_values.amount: choice(none, log)
+
+      agg_model._args_.0.embeddings.mcc.out: tag(log, int(interval(2, 512)))
+      agg_model._args_.0.embeddings.channel_type.out: tag(log, int(interval(2, 256)))
+      agg_model._args_.0.embeddings.currency.out: tag(log, int(interval(2, 256)))
+      agg_model._args_.0.embeddings.trx_category.out: tag(log, int(interval(2, 256)))
+#      agg_model._args_.0.embeddings.amount_bins.out: tag(log, int(interval(2, 256)))
+
+      agg_model._args_.0.linear_projection_size: tag(log, int(interval(64, 4096)))
+
+#      agg_model._args_.1.use_std: choice(false, true)
+#      agg_model._args_.1.use_min: choice(false, true)
+#      agg_model._args_.1.use_max: choice(false, true)
+
+run_model_partial:
+  _target_: __main__.estimate_agg_embeddings
+  _partial_: true
+
+agg_model:
+  _target_: torch.nn.Sequential
+  _args_:
+    - _target_: ptls.nn.TrxEncoder
+      embeddings:
+        mcc:
+          in: 241
+          out: 66
+        channel_type:
+          in: 5
+          out: 204
+        currency:
+          in: 61
+          out: 102
+        trx_category:
+          in: 12
+          out: 86
+        amount_bins:
+          in: 0  # 18
+          out: 48
+      numeric_values:
+        amount: log
+      orthogonal_init: true
+      linear_projection_size: 1024
+    - _target_: models.GlobalPoolingHead
+      use_mean: true
+      use_std: true
+      use_min: true
+      use_max: true
+
+#data_module:
+#  valid_size: 0.1
+#  valid_split_random_state: 42
+#  max_seq_len: 1200
+#  dm_params:
+#    train_batch_size: 32
+#    valid_batch_size: 256
+#    train_num_workers: 8
+#    valid_num_workers: 8
+#    train_drop_last: True
+#  augmentations:
+#      - _target_: ptls.data_load.augmentations.RandomSlice
+#        min_len: 250
+#        max_len: 350
+#        rate_for_min: 0.9
+#      - _target_: ptls.data_load.augmentations.DropoutTrx
+#        trx_dropout: 0.01
+#
+#trainer:
+#  limit_train_batches: null
+#  max_epochs: 10
+
+#pl_module:
+#  _target_: __main__.SequenceToTargetEx
+#  seq_encoder:
+#    _target_: ptls.nn.RnnSeqEncoder
+#    trx_encoder:
+#      _target_: ptls.nn.TrxEncoder
+#      use_batch_norm_with_lens: true  # or not?
+#      norm_embeddings: false
+#      embeddings_noise: 0.0003
+#      embeddings:
+#        mcc:
+#          in: 90  # 370
+#          out: 12
+#        channel_type:
+#          in: 6  # 8
+#          out: 12
+#        currency:
+#          in: 6  # 60
+#          out: 30
+#        trx_category:
+#          in: 8  # 12
+#          out: 30
+#      numeric_values:
+#        amount: log
+#    hidden_size: 25
+#    type: gru
+#    bidir: false
+#    trainable_starter: static
+#  head:  # add ResNetBlocks
+#    _target_: ptls.nn.Head
+#    input_size: ${pl_module.seq_encoder.hidden_size}
+#    use_batch_norm: true
+#    objective: classification
+#    num_classes: 1
+#  loss:
+#    _target_: ptls.loss.BCELoss
+#  metric_list:
+#    auroc:
+#      _target_: torchmetrics.AUROC
+#      num_classes: 2
+#  optimizer_partial:
+#    _partial_: true
+#    _target_: torch.optim.Adam
+#    lr: 0.0096
+#    weight_decay: 0.0
+#  lr_scheduler_partial:
+#    _partial_: true
+#    _target_: torch.optim.lr_scheduler.StepLR
+#    step_size: 1
+#    gamma: 0.44
+#  weight_decay_trx_encoder: 0.0

@@ -9,7 +9,12 @@ train:
     i_filters:
       - _target_: ptls.data_load.iterable_processing.SeqLenFilter
         min_seq_len: 30
-      - _target_: ptls.data_load.iterable_processing.FeatureFilter
+#      - _target_: ptls.data_load.iterable_processing.FeatureFilter
+#      - _target_: ptls.data_load.iterable_processing.feature_type_cast.FeatureTypeCast
+#        feature_types:
+#          flag:
+#            _target_: builtins.float
+#            _partial_: true
       - _target_: ptls.data_load.iterable_processing.IterableShuffle
         buffer_size: 10000
     data_files:
@@ -20,8 +25,13 @@ train:
 
 valid:
   _target_: ptls.data_load.datasets.parquet_dataset.ParquetDataset
-  i_filters:
-    - _target_: ptls.data_load.iterable_processing.FeatureFilter
+#  i_filters:
+#    - _target_: ptls.data_load.iterable_processing.FeatureFilter
+#    - _target_: ptls.data_load.iterable_processing.feature_type_cast.FeatureTypeCast
+#      feature_types:
+#        flag:
+#          _target_: builtins.float
+#          _partial_: true
   data_files:
     _target_: ptls.data_load.datasets.parquet_file_scan
     file_path: data/train_trx.parquet

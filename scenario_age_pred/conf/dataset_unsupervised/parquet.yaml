@@ -10,7 +10,7 @@ train:
       i_filters:
         - _target_: ptls.data_load.iterable_processing.SeqLenFilter
           min_seq_len: 25
-        - _target_: ptls.data_load.iterable_processing.FeatureFilter
+#        - _target_: ptls.data_load.iterable_processing.FeatureFilter
       data_files:
         _target_: ptls.data_load.datasets.parquet_file_scan
         file_path: data/train_trx_file.parquet
@@ -21,8 +21,8 @@ valid:
   _target_: ptls.data_load.datasets.MemoryMapDataset
   data:
     _target_: ptls.data_load.datasets.parquet_dataset.ParquetDataset
-    i_filters:
-      - _target_: ptls.data_load.iterable_processing.FeatureFilter
+#    i_filters:
+#      - _target_: ptls.data_load.iterable_processing.FeatureFilter
     data_files:
       _target_: ptls.data_load.datasets.parquet_file_scan
       file_path: data/train_trx_file.parquet

@@ -1,0 +1,20 @@
+[2022-09-07 10:20:49,453][torch.distributed.nn.jit.instantiator][INFO] - Created a temporary directory at /tmp/tmpdk9kjxmv
+[2022-09-07 10:20:49,454][torch.distributed.nn.jit.instantiator][INFO] - Writing /tmp/tmpdk9kjxmv/_remote_module_non_scriptable.py
+[2022-09-07 10:20:52,850][__main__][INFO] - Prepared embeddings. X_train: (4162, 773), X_test: (838, 773). y_train: (4162,), y_test: (838,)
+[2022-09-07 10:20:54,238][__main__][INFO] - Downstream_model fitted
+[2022-09-07 10:20:54,248][__main__][INFO] - [test] on fold[1] finished with 0.8263
+[2022-09-07 10:20:55,045][__main__][INFO] - Prepared embeddings. X_train: (4164, 773), X_test: (836, 773). y_train: (4164,), y_test: (836,)
+[2022-09-07 10:20:56,395][__main__][INFO] - Downstream_model fitted
+[2022-09-07 10:20:56,405][__main__][INFO] - [test] on fold[2] finished with 0.8077
+[2022-09-07 10:20:57,212][__main__][INFO] - Prepared embeddings. X_train: (4165, 773), X_test: (835, 773). y_train: (4165,), y_test: (835,)
+[2022-09-07 10:20:58,577][__main__][INFO] - Downstream_model fitted
+[2022-09-07 10:20:58,586][__main__][INFO] - [test] on fold[3] finished with 0.8145
+[2022-09-07 10:20:59,393][__main__][INFO] - Prepared embeddings. X_train: (4167, 773), X_test: (833, 773). y_train: (4167,), y_test: (833,)
+[2022-09-07 10:21:00,916][__main__][INFO] - Downstream_model fitted
+[2022-09-07 10:21:00,927][__main__][INFO] - [test] on fold[4] finished with 0.8053
+[2022-09-07 10:21:01,735][__main__][INFO] - Prepared embeddings. X_train: (4170, 773), X_test: (830, 773). y_train: (4170,), y_test: (830,)
+[2022-09-07 10:21:03,178][__main__][INFO] - Downstream_model fitted
+[2022-09-07 10:21:03,188][__main__][INFO] - [test] on fold[5] finished with 0.8185
+[2022-09-07 10:21:03,190][__main__][INFO] - test done, folds=[1, 2, 3, 4, 5], mean=0.8145, std=0.0076, mean_pm_std=[0.8069, 0.8220], confidence95=[0.8040, 0.8250], values=[0.8263, 0.8077, 0.8145, 0.8053, 0.8185]
+[2022-09-07 10:21:03,197][__main__][INFO] - Results are logged to tensorboard as test_mean/1
+[2022-09-07 10:21:03,198][__main__][INFO] - Output logged to "/home/kireev/pycharm-deploy/ptls-experiments/scenario_rosbank2/outputs/agg_embeddings/2022-09-07/10-20-49"

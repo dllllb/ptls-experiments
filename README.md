@@ -125,7 +125,7 @@ Supervised finetuned encoder with MLP head evaluation:
         nsp_finetuning   |    0.806 \pm 0.010    |
         rtd_finetuning   |    0.791 \pm 0.016    |
         target_scores    |    0.818 \pm 0.005    |
-        
+
     Assessment (bowl2019) accuracy:
         barlow_twins     |    0.561 \pm 0.007    |    
         cpc_finetuning   |    0.594 \pm 0.002    |    

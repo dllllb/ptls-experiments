@@ -1,0 +1,20 @@
+[2022-09-09 11:59:15,994][torch.distributed.nn.jit.instantiator][INFO] - Created a temporary directory at /tmp/tmp66kmrnpi
+[2022-09-09 11:59:15,994][torch.distributed.nn.jit.instantiator][INFO] - Writing /tmp/tmp66kmrnpi/_remote_module_non_scriptable.py
+[2022-09-09 11:59:20,257][__main__][INFO] - Prepared embeddings. X_train: (4162, 4096), X_test: (838, 4096). y_train: (4162,), y_test: (838,)
+[2022-09-09 11:59:36,618][__main__][INFO] - Downstream_model fitted
+[2022-09-09 11:59:36,673][__main__][INFO] - [test] on fold[1] finished with 0.8225
+[2022-09-09 11:59:38,468][__main__][INFO] - Prepared embeddings. X_train: (4164, 4096), X_test: (836, 4096). y_train: (4164,), y_test: (836,)
+[2022-09-09 11:59:55,250][__main__][INFO] - Downstream_model fitted
+[2022-09-09 11:59:55,306][__main__][INFO] - [test] on fold[2] finished with 0.8052
+[2022-09-09 11:59:57,141][__main__][INFO] - Prepared embeddings. X_train: (4165, 4096), X_test: (835, 4096). y_train: (4165,), y_test: (835,)
+[2022-09-09 12:00:13,698][__main__][INFO] - Downstream_model fitted
+[2022-09-09 12:00:13,755][__main__][INFO] - [test] on fold[3] finished with 0.7938
+[2022-09-09 12:00:15,618][__main__][INFO] - Prepared embeddings. X_train: (4167, 4096), X_test: (833, 4096). y_train: (4167,), y_test: (833,)
+[2022-09-09 12:00:31,974][__main__][INFO] - Downstream_model fitted
+[2022-09-09 12:00:32,029][__main__][INFO] - [test] on fold[4] finished with 0.7949
+[2022-09-09 12:00:34,118][__main__][INFO] - Prepared embeddings. X_train: (4170, 4096), X_test: (830, 4096). y_train: (4170,), y_test: (830,)
+[2022-09-09 12:00:50,593][__main__][INFO] - Downstream_model fitted
+[2022-09-09 12:00:50,640][__main__][INFO] - [test] on fold[5] finished with 0.8080
+[2022-09-09 12:00:50,643][__main__][INFO] - test done, folds=[1, 2, 3, 4, 5], mean=0.8049, std=0.0104, mean_pm_std=[0.7945, 0.8153], confidence95=[0.7904, 0.8193], values=[0.8225, 0.8052, 0.7938, 0.7949, 0.8080]
+[2022-09-09 12:00:50,652][__main__][INFO] - Results are logged to tensorboard as test_mean/4
+[2022-09-09 12:00:50,653][__main__][INFO] - Output logged to "/home/kireev/pycharm-deploy/ptls-experiments/scenario_rosbank2/outputs/random_trx_pool_embeddings/2022-09-09/11-59-15"

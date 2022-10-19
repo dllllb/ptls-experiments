@@ -89,7 +89,12 @@ features:
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
     target_options: {}
-  cpc_embeddings: 
+  mles_sup_embeddings:
+    enabled: true
+    read_params:
+      file_name: ${hydra:runtime.cwd}/data/mles_sup_embeddings.pickle
+    target_options: {}
+  cpc_embeddings:
     enabled: true
     read_params: 
       file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
@@ -131,3 +136,5 @@ report:
         - lgbm
         - baseline
       split_columns: true
+auto_features:
+  - ${hydra:runtime.cwd}/data/mles_sup_embeddings_*.pickle

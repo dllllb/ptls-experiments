@@ -1,0 +1,4 @@
+_target_: ptls.frames.coles.losses.CentroidSoftmaxMemoryLoss
+class_num: 4
+temperature: 10
+alpha: 0.99
