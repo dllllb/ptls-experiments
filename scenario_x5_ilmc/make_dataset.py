@@ -112,8 +112,7 @@ def main(conf: DictConfig):
     data[FVAL_COL] = data["ppu"] * data[FNUM_COL]
 
     vc = data.groupby(by=FCAT_COL)[FVAL_COL].sum().sort_values(ascending=False) / data[FVAL_COL].sum()
-    drop_cats = set(vc.index[conf.ncats:])
-    data.drop(index=data[data[FCAT_COL].isin(drop_cats)].index, inplace=True)
+    data.drop(index=data[data[FCAT_COL].isin(set(vc.index[conf.ncats:]))].index, inplace=True)
     data[FCAT_COL] = encode_col(data[FCAT_COL])
     pc = int(100 * vc.cumsum(0)[conf.ncats])
     logger.info(f"Max.category after limiting: {vc.shape[0]} ==> {conf.ncats} (sum.value = {pc}%).")

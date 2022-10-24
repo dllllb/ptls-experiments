@@ -24,7 +24,7 @@ class ChunkedDataset:
 
         df = pd.read_csv(os.path.join(conf.work_dir, f"version_{fold_id}/prediction.csv"))
         self.ids = df["seq_id"].values
-        self.data = torch.from_numpy(df.values[:, 1:]).float().to(self.device)
+        self.data = torch.from_numpy(df.values[:, 1:].astype(np.float32)).float().to(self.device)
 
         self.chunk_size = conf.monte_carlo.chunk
         self.n_chunks, rest = divmod(len(self.ids), self.chunk_size)
