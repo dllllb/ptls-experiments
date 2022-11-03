@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-INS=111
+INS=71
 export CUDA_VISIBLE_DEVICES=0
 
 for HID in 128 256 512; do
