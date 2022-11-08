@@ -1,14 +1,15 @@
 ulimit -n 32000
 
 tuning_set=\
-"400 4 8 0.00005 512 128 4 64000"
-device=1
+"400 4 8 0.00005 512 64 4 64000"
+export device=0
 
 while IFS=' ' read -r hidden_size n_heads n_layers max_lr max_len batch_size accumulate_grad_batches max_steps
 do 
     export logger_name="$hidden_size-$n_heads-$n_layers-$max_lr-$max_len-$batch_size-$accumulate_grad_batches-$max_steps"
     python -m ptls.pl_train_module \
         logger_name=${logger_name} \
+        trainer.gpus=${device} \
         pl_module.hidden_size=${hidden_size} \
         pl_module.max_lr=${max_lr} \
         pl_module.seq_encoder.num_attention_heads=${n_heads} \
