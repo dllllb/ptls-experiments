@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - dataset_unsupervised/parquet
+  - dataset_unsupervised/memory_parquet
   - inference/default
   - inference/seq_encoder/pretrained
 
@@ -14,12 +14,12 @@ data_module:
   train_data:
     _target_: ptls.frames.bert.MLMNSPDataset
     max_len: 512
-    min_len: 256
+    min_len: 128
     data: ${dataset_unsupervised.train}
   valid_data:
     _target_: ptls.frames.bert.MLMNSPDataset
     max_len: 512
-    min_len: 256
+    min_len: 128
     data: ${dataset_unsupervised.train}
   train_batch_size: 128
   train_num_workers: 8
@@ -27,7 +27,7 @@ data_module:
   valid_num_workers: 8
 
 trainer:
-  gpus: 1
+  gpus: [0]
   auto_select_gpus: false
   max_steps: 64000
   deterministic: false
@@ -35,7 +35,7 @@ trainer:
   accumulate_grad_batches: 2
   limit_val_batches: 1000
   val_check_interval: 4000
-  enable_progress_bar: false
+  enable_progress_bar: true
 
 pl_module:
   _target_: ptls.frames.bert.MLMNSPModule
