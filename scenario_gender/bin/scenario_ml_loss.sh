@@ -101,7 +101,6 @@ python -m ptls.pl_train_module --config-dir conf --config-name mles_params
     logger_name=${SC_SUFFIX} \ 
     params.train.loss='SoftmaxLoss' \ 
     params.train.matrix_masker="MatrixMasker" \ 
-    params.train.split_count=5 \ 
     params.train.eps=0.000001 \ 
     params.train.temperature=0.05 \ 
     model_path='${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p' \ 
