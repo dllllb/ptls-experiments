@@ -17,14 +17,13 @@ logger = logging.getLogger(__name__)
 
 
 class ChunkedDataset:
-    def __init__(self, conf, fold_id=0, q=0.995):
-        self.device = torch.device(conf.device)
+    def __init__(self, conf, fold_id=0, q=0.999):
         self.k = conf.pl_module.seq_encoder.trx_encoder.embeddings.category["in"] - 1
         self.q = q
 
         df = pd.read_csv(os.path.join(conf.work_dir, f"version_{fold_id}/prediction.csv"))
         self.ids = df["seq_id"].values
-        self.data = torch.from_numpy(df.values[:, 1:].astype(np.float32)).float().to(self.device)
+        self.data = torch.tensor(df.values[:, 1:].astype(np.float32), dtype=torch.float32, device=torch.device(conf.device))
 
         self.chunk_size = conf.monte_carlo.chunk
         self.n_chunks, rest = divmod(len(self.ids), self.chunk_size)

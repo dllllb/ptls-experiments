@@ -7,7 +7,6 @@ import numpy as np
 import operator
 import os
 import pandas as pd
-import sys
 from omegaconf import DictConfig
 
 numexpr_max_threads = int(os.environ.get("NUMEXPR_MAX_THREADS", 0))
@@ -24,32 +23,27 @@ pd.set_option("display.max_colwidth", 24)
 pd.set_option("display.width", None)
 logger = logging.getLogger(__name__)
 
-DATE_COL = "date"
+DATE_COL = "transaction_datetime"
 FCAT_COL = "category"
 FNUM_COL = "purchasequantity"
-FVAL_COL = "purchaseamount"
+FVAL_COL = "trn_val"
 EVENT_TIME = "event_time"
 SEQ_LEN = "seq_len"
-TARGET_BIN = "target_bin"
 TARGET_DIST = "target_dist"
-TARGET_VAR = "target_var"
 TARGET_LOGVAR = "target_logvar"
+TARGET_VAR = "target_var"
+TARGET_SUM = "target_sum"
 
 
 @functools.lru_cache(maxsize=None)
 def str_to_number(date, denom=86400):
-    ts = datetime.datetime.strptime(date, "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc).timestamp()
+    ts = datetime.datetime.strptime(date.split()[0], "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc).timestamp()
     return float(ts / denom)
-
-
-@functools.lru_cache(maxsize=None)
-def str_to_datetime(date, utc=False):
-    return pd.to_datetime(date, format="%Y-%m-%d", utc=utc)
 
 
 def encode_col(col):
     vc = col.value_counts()
-    return col.map({k: i + 1 for i, k in enumerate(vc.index)}), vc.shape[0]
+    return col.map({k: i + 1 for i, k in enumerate(vc.index)})
 
 
 def collapse_seq(df, pairs):
@@ -87,45 +81,25 @@ def chain_seq(group, n_cats, n_steps=12):
             g[SEQ_LEN].sum(), dist.tolist(), target)
 
 
-def forward_window(group, event_time, target, dt):
-    if (group[event_time].iloc[-1] - group[event_time].iloc[0]).days < dt:
-        return pd.Series(data=None, dtype=np.float64, index=group.index)
-    ser = group[[event_time, target]].iloc[::-1].rolling(window=f"{1 + dt}D", on=event_time)[target].sum().iloc[::-1]
-    end_t = group[event_time].iloc[-1] - pd.Timedelta(days=dt)
-    return ser.subtract(group[target]).where(group[event_time] <= end_t, None)
-
-
-def make_sample(inp_file, col_id, chunk):
-    import gzip
-    out_file = inp_file.rsplit(".", 2)[0] + "_sample.csv.gz"
-    assert os.path.exists(inp_file) and not os.path.exists(out_file), "check i/o files existence"
-    uids = set()
-    with gzip.open(inp_file, "rt") as fin, gzip.open(out_file, "wt") as fout:
-        header = next(fin)
-        uid_index = header.strip().split(",").index(col_id)
-        fout.write(header)
-        for line in fin:
-            uid = line.strip("\n").split(",")[uid_index]
-            if len(uids) < chunk:
-                uids.add(uid)
-            if uid in uids:
-                fout.write(line)
-
-
 @hydra.main(version_base=None)
 def main(conf: DictConfig):
     col_id = conf.data_module.setup.col_id
-    if conf.monte_carlo.agg_time is None:
-        make_sample(conf.raw_data, col_id, conf.monte_carlo.chunk)
-        sys.exit(0)
-
     target_file = os.path.join(conf.data_path, "train_target.csv")
     assert os.path.exists(conf.raw_data) and not os.path.exists(target_file), "check i/o files existence"
     os.makedirs(os.path.join(conf.data_path, "train"), exist_ok=True)
 
-    data = pd.read_csv(conf.raw_data, usecols=[col_id, DATE_COL, FCAT_COL, FNUM_COL, FVAL_COL]).dropna()
+    AUXCOL = ["product_id", "transaction_id", "purchase_sum", "trn_sum_from_iss", "trn_sum_from_red"]
+    aux_data = pd.read_csv(conf.aux_data, usecols=["product_id", "level_4"]).dropna()
+    data = pd.read_csv(conf.raw_data, usecols=AUXCOL+[col_id, DATE_COL, "product_quantity"])
+    data = data.merge(aux_data, on="product_id")
+    data.rename(columns={"product_quantity": FNUM_COL, "level_4": FCAT_COL}, inplace=True)
     logger.info(f"Total {data.shape[0]} rows loaded.")
 
+    data["purchase_sum"] = data["purchase_sum"].apply(np.round)
+    data[FVAL_COL] = (data["trn_sum_from_iss"].fillna(0) + data["trn_sum_from_red"].fillna(0)).apply(np.round)
+    data = data.merge(data.groupby(by="transaction_id")[FVAL_COL].sum(), on="transaction_id", suffixes=[None, "_sum"])
+    data = data[(data["trn_val_sum"] - 1 <= data["purchase_sum"]) & (data["purchase_sum"] <= data["trn_val_sum"] + 1)]
+    data.drop(columns=AUXCOL+["trn_val_sum"], inplace=True)
     data.drop(index=data[(data[FNUM_COL] <= 0) | (data[FVAL_COL] <= 0)].index, inplace=True)
     logger.info(f"Total {data.shape[0]} rows after dropping neg.purchases.")
 
@@ -138,10 +112,10 @@ def main(conf: DictConfig):
     data[FVAL_COL] = data["ppu"] * data[FNUM_COL]
 
     vc = data.groupby(by=FCAT_COL)[FVAL_COL].sum().sort_values(ascending=False) / data[FVAL_COL].sum()
-    drop_cats = set(vc[vc.cumsum(0) > conf.fsum].index) if conf.fsum <= 1 else set(vc.index[int(conf.fsum):])
-    data.drop(index=data[data[FCAT_COL].isin(drop_cats)].index, inplace=True)
-    data[FCAT_COL], MAX_CAT = encode_col(data[FCAT_COL])
-    logger.info(f"Max.category after limiting: {vc.shape[0]} ==> {MAX_CAT}.")
+    data.drop(index=data[data[FCAT_COL].isin(set(vc.index[conf.ncats:]))].index, inplace=True)
+    data[FCAT_COL] = encode_col(data[FCAT_COL])
+    pc = int(100 * vc.cumsum(0)[conf.ncats])
+    logger.info(f"Max.category after limiting: {vc.shape[0]} ==> {conf.ncats} (sum.value = {pc}%).")
 
     ppu = data[[FCAT_COL, "ppu"]].groupby(by=FCAT_COL).first().reset_index()
     ppu.to_csv(os.path.join(conf.data_path, "train_cvdict.csv"), header=True, index=False)
@@ -158,7 +132,7 @@ def main(conf: DictConfig):
     data[SEQ_LEN] = data[FCAT_COL].apply(len)
     logger.info(f"Seqs collapsed within time window = {conf.monte_carlo.agg_time} (days).")
 
-    data = data.groupby(by=col_id, as_index=True).apply(chain_seq, n_cats=MAX_CAT, n_steps=conf.monte_carlo.steps)\
+    data = data.groupby(by=col_id, as_index=True).apply(chain_seq, n_cats=conf.ncats, n_steps=conf.monte_carlo.steps)\
         .transform({
             EVENT_TIME: operator.itemgetter(0),
             FCAT_COL: operator.itemgetter(1),
@@ -174,13 +148,15 @@ def main(conf: DictConfig):
         logger.info(f"Target distribution limited by {max_tval} within {conf.qlim} quantile.")
 
     data[TARGET_LOGVAR] = np.log1p(data[TARGET_VAR])
-    data[TARGET_BIN] = pd.qcut(data[TARGET_VAR], q=conf.qbin, labels=False)
+    data[TARGET_SUM] = data[TARGET_DIST].apply(np.sum)
     logger.info(f"Whole dataset {data.shape} constructed.")
 
-    q_vals = [0.01, 0.1, 0.3, 0.5, 0.7, 0.9, 0.99, 1]
+    q_vals = [0.01, 0.1, 0.3, 0.5, 0.7, 0.9, 0.99, 0.995, 1]
     q_tab = pd.concat([
         data[SEQ_LEN].quantile(q_vals),
-        data[TARGET_VAR].quantile(q_vals)
+        data[TARGET_SUM].quantile(q_vals),
+        data[TARGET_VAR].quantile(q_vals),
+        data[TARGET_LOGVAR].quantile(q_vals)
         ], axis=1)
     logger.info("Quantiles calculated:\n" + repr(q_tab))
     data.drop(columns=[SEQ_LEN], inplace=True)
@@ -189,30 +165,11 @@ def main(conf: DictConfig):
     logger.info(f"Dataset total memory usage (MB): {mem_total}.")
     logger.info(f"Dataset sample:\n" + repr(data.head(10)))
 
-    if conf.test_fraction == 0:
-        out_file = os.path.join(conf.data_path, f"train/{data.shape[0]}.parquet")
-        data.to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
-        logger.info(f"Whole dataset {data.shape} saved to [{out_file}].")
-    else:
-        train_mask = np.random.rand(data.shape[0])
-        train_mask = train_mask > np.percentile(train_mask, 100 * conf.test_fraction)
+    out_file = os.path.join(conf.data_path, f"train/{data.shape[0]}.parquet")
+    data.to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
+    logger.info(f"Whole dataset {data.shape} saved to [{out_file}].")
 
-        train_shape = (train_mask.sum(), data.shape[1])
-        out_file = os.path.join(conf.data_path, f"train/{train_shape[0]}.parquet")
-        data[train_mask].to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
-        logger.info(f"Train dataset {train_shape} saved to [{out_file}].")
-
-        os.makedirs(os.path.join(conf.data_path, "test"), exist_ok=True)
-        test_shape = (data.shape[0] - train_mask.sum(), data.shape[1])
-        out_file = os.path.join(conf.data_path, f"test/{test_shape[0]}.parquet")
-        data[~train_mask].to_parquet(out_file, index=False, engine="pyarrow", partition_cols=None)
-        data[~train_mask][col_id].to_csv(
-            os.path.join(conf.data_path, "test_ids.csv"),
-            header=True, index=False
-        )
-        logger.info(f"Test dataset {test_shape} saved to [{out_file}].")
-
-    target_cols = [col_id, TARGET_VAR, TARGET_LOGVAR, TARGET_BIN, TARGET_DIST]
+    target_cols = [col_id, TARGET_VAR, TARGET_LOGVAR, TARGET_SUM, TARGET_DIST]
     data[target_cols].to_csv(target_file, header=True, index=False)
     logger.info(f"Whole target data ({data.shape[0]}, {len(target_cols)}) saved to [{target_file}].")
 

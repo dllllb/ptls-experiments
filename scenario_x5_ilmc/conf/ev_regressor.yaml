@@ -17,9 +17,9 @@ split:
 target:
   file_name: ${hydra:runtime.cwd}/${data_path}/train_target.csv
   cols_id:
-    - id
+    - client_id
   cols_id_type:
-    - int
+    - str
   col_target: target_dist
 
 hydra:

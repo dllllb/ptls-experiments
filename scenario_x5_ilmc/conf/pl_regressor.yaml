@@ -1,15 +1,14 @@
 ckpt: null
-data_path: data/70
+data_path: data/${ncats}
 device: cuda
-fsum: 70
-qbin: 33
+ncats: 70
 qlim: 0.995
-raw_data: data/transactions.csv.gz
-test_fraction: 0
+aux_data: data/products.csv
+raw_data: data/purchases.csv
 work_dir: lightning_logs/test
 
 monte_carlo:
-  agg_time: null
+  agg_time: 3
   benchmark:
     col: target_var
     dir: lightning_logs/benchmark
@@ -25,8 +24,8 @@ data_module:
   setup:
     dataset_files:
       train_data_path: ${hydra:runtime.cwd}/${data_path}/train
-    col_id: id
-    col_id_dtype: int
+    col_id: client_id
+    col_id_dtype: str
     col_target: target_dist
     split_by: embeddings_validation
     fold_info: ${hydra:runtime.cwd}/${work_dir}/folds/folds.json
@@ -36,8 +35,8 @@ data_module:
       -
         - RandomSlice
         -
-          min_len: 400
-          max_len: 800
+          min_len: 50
+          max_len: 150
       -
         - DropoutTrx
         -
@@ -49,7 +48,7 @@ data_module:
       -
         - SeqLenLimit
         -
-          max_seq_len: 800
+          max_seq_len: 150
           strategy: tail
     num_workers: 16
     batch_size: 512
@@ -81,7 +80,7 @@ pl_module:
       embeddings_noise: 0.003
       embeddings:
         category:
-          in: 111
+          in: 71
           out: 64
       numeric_values:
         purchasequantity: identity
