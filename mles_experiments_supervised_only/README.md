@@ -1,3 +1,5 @@
+Проводится эксперимент по анализу влияния объёма данных. Производится два вида претрейна: только на размеченных данных(supervised) и на всех данных (размеченные и неразмеченные) (supervised + unsup). Сравнение проводится на даунстрим задаче. В директории приведены два вида конфигов для датасета Gender. parquet_all обучается на всех данных, parquet_sup только на размеченных.
+
                            |     mean \pm std      |
     Gender auroc:
         supervised         |    0.879 \pm 0.005    |
@@ -24,13 +26,7 @@
         supervised + unsup |           -           |
     
     Scoring (alpha battle) auroc:
-        baseline         |    0.7792 \pm 0.0006  |
-        random_encoder   |    0.6456 \pm 0.0009  |
-        barlow_twins     |    0.7878 \pm 0.0009  |
-        cpc              |    0.7919 \pm 0.0004  |
-        mles             |    0.7921 \pm 0.0003  |
-        nsp              |    0.7655 \pm 0.0006  |
-        rtd              |    0.7910 \pm 0.0006  |
-        sop              |    0.7238 \pm 0.0010  |
+        supervised         |    0.604 \pm 0.005    |
+        supervised + unsup |    0.601 \pm 0.005    |
 
 
