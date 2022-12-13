@@ -1,0 +1,6 @@
+loss:
+  _target_: ptls.frames.coles.losses.SoftmaxPairwiseLoss
+  pair_selector:
+    _target_: ptls.frames.coles.sampling_strategies.PairwiseMatrixSelector
+  eps: 0.000001
+  temperature: 0.05
