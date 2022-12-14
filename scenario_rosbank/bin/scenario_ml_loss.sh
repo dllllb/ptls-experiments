@@ -106,6 +106,21 @@ python -m ptls.pl_inference \
     output.path="${hydra:runtime.cwd}/data/emb_mles__$SC_SUFFIX" \
     --config-dir conf --config-name mles_params
 
+# SoftmaxLoss
+export SC_SUFFIX="loss_softmaxloss"
+python -m ptls.pl_train_module --config-dir conf --config-name mles_params
+    logger_name=${SC_SUFFIX} \ 
+    params.train.loss='SoftmaxLoss' \ 
+    params.train.matrix_masker="MatrixMasker" \ 
+    params.train.eps=0.000001 \ 
+    params.train.temperature=0.05 \ 
+    model_path='${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p' \ 
+    --config-dir conf --config-name mles_params        
+python -m ptls.pl_inference --config-dir conf --config-name mles_params +output.path=['${hydra:runtime.cwd}/data/softmax_loss.pickle']
+    model_path='${hydra:runtime.cwd}/../../artifacts/scenario_gender/mles__$SC_SUFFIX.p' \ 
+    output.path='${hydra:runtime.cwd}/data/emb__$SC_SUFFIX' \ 
+    --config-dir conf --config-name mles_params 
+    
 # Compare
 rm results/scenario_rosbank__loss.txt
 # rm -r conf/embeddings_validation.work/

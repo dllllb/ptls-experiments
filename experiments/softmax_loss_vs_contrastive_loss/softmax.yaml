@@ -1,0 +1,6 @@
+loss:
+  _target_: ptls.frames.coles.losses.SoftmaxLoss
+  masker:
+    _target_: ptls.frames.coles.sampling_strategies.MatrixMasker
+  eps: 0.000001
+  temperature: 0.05
