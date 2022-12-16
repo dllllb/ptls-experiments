@@ -1,0 +1,92 @@
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
+  - inference/default
+  - inference/seq_encoder/pretrained
+
+seed_everything: 42
+logger_name: cpc_arange_model
+model_path: models/cpc_arange_model.p
+embed_file_name: cpc_arange_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.cpc.CpcDataset
+    min_len: 1000
+    max_len: 1200
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.cpc.CpcDataset
+    min_len: 1000
+    max_len: 1200
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 64
+  train_num_workers: 8
+  valid_batch_size: 64
+  valid_num_workers: 16
+
+trainer: 
+  gpus: 1
+  auto_select_gpus: false
+  max_epochs: 25
+  enable_checkpointing: false
+  deterministic: true
+
+pl_module:
+  _target_: ptls.frames.cpc.CpcModule
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder:
+      _target_: ptls.nn.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        mcc: 
+          in: 100
+          out: 16
+        channel_type: 
+          in: 4
+          out: 2
+        currency: 
+          in: 4
+          out: 2
+        trx_category: 
+          in: 10
+          out: 2
+        feature_1:
+          in: 100
+          out: 18
+        feature_2:
+          in: 100
+          out: 24
+        # feature_3:
+        #   in: 100
+        #   out: 24
+        # feature_4:
+        #   in: 100
+        #   out: 24
+        # feature_5:
+        #   in: 100
+        #   out: 24
+        # arange:
+        #   in: 100
+        #   out: 18
+      numeric_values: 
+        amount: identity
+    type: gru
+    hidden_size: 1024
+    bidir: false
+    trainable_starter: static
+  n_forward_steps: 6
+  n_negatives: 40
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.001
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 5
+    gamma: 0.5

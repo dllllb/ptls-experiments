@@ -1,0 +1,146 @@
+conf_path: conf/embeddings_validation_baselines_unsupervised.yaml
+environment: 
+  work_dir: embeddings_validation.work
+target: 
+  file_name: ${hydra:runtime.cwd}/data/train.csv
+  cols_id: 
+    - cl_id
+  cols_id_type: 
+    - int
+  col_target: target_flag
+  drop_duplicated_ids: true
+split: 
+  fit_ids: true
+  train_id: 
+    file_name: ${hydra:runtime.cwd}/data/train.csv
+    drop_duplicated_ids: true
+  test_id: 
+    file_name: ${hydra:runtime.cwd}/data/test_ids.csv
+  cv_split_count: 5
+  is_stratify: true
+  random_state: 42
+models: 
+  linear: 
+    enabled: false
+    model:
+      _target_: sklearn.linear_model.LogisticRegression
+    cpu_count: 1
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+
+  lgbm: 
+    enabled: true
+    model:
+      _target_: lightgbm.LGBMClassifier
+      n_estimators: 500
+      boosting_type: gbdt
+      objective: binary
+      metric: auc
+      subsample: 0.5
+      subsample_freq: 1
+      learning_rate: 0.02
+      feature_fraction: 0.75
+      max_depth: 6
+      lambda_l1: 1
+      lambda_l2: 1
+      min_data_in_leaf: 50
+      random_state: 42
+      n_jobs: 8
+      reg_alpha: null
+      reg_lambda: null
+      colsample_bytree: null
+      min_child_samples: null
+    cpu_count: 8
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+  xgb: 
+    enabled: false
+    model:
+      _target_: xgboost.XGBClassifier
+      n_jobs: 4
+      seed: 42
+      n_estimators: 300
+    cpu_count: 4
+    preprocessing: 
+      - _target_: sklearn.preprocessing.MaxAbsScaler
+metrics: 
+  auroc: 
+    enabled: true
+    score_func: sklearn.metrics.roc_auc_score
+    scorer_params: 
+      needs_proba: true
+  accuracy: 
+    enabled: true
+    score_func: sklearn.metrics.accuracy_score
+    scorer_params: 
+      needs_proba: false
+report_file: ${hydra:runtime.cwd}/results/scenario_random_features.txt
+features: 
+  baseline: 
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/agg_feat_embed.pickle
+    target_options: {}
+  random_encoder: 
+    enabled: true 
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/random_embeddings.pickle
+    target_options: {}
+  mles_embeddings: 
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/mles_embeddings.pickle
+    target_options: {}
+  mles_with_random_embeddings: 
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/mles_with_random_embeddings.pickle
+    target_options: {}
+  cpc_embeddings: 
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/cpc_embeddings.pickle
+    target_options: {}
+  cpc_arange_embeddings: 
+    enabled: true
+    read_params: 
+      file_name: ${hydra:runtime.cwd}/data/cpc_arange_embeddings.pickle
+    target_options: {}
+  # nsp_embeddings: 
+  #   enabled: true
+  #   read_params: 
+  #     file_name: ${hydra:runtime.cwd}/data/nsp_embeddings.pickle
+  #   target_options: {}
+  # rtd_embeddings: 
+  #   enabled: true
+  #   read_params: 
+  #     file_name: ${hydra:runtime.cwd}/data/rtd_embeddings.pickle
+  #   target_options: {}
+  # mles2_embeddings: 
+  #   enabled: true
+  #   read_params: 
+  #     file_name: ${hydra:runtime.cwd}/data/mles2_embeddings.pickle
+  #   target_options: {}
+  # barlow_twins_embeddings: 
+  #   enabled: true
+  #   read_params: 
+  #     file_name: ${hydra:runtime.cwd}/data/barlow_twins_embeddings.pickle
+  #   target_options: {}
+external_scores: {}
+report: 
+  is_check_train: false
+  error_handling: fail
+  print_all_metrics: false
+  metrics: 
+    auroc: 
+      float_format: "{:.3f}"
+      baseline_key: 
+        - lgbm
+        - baseline
+      split_columns: true
+    accuracy: 
+      float_format: "{:.3f}"
+      baseline_key: 
+        - lgbm
+        - baseline
+      split_columns: true
