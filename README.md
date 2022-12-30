@@ -144,10 +144,13 @@ Supervised finetuned encoder with MLP head evaluation:
 # Other experiments
 
 - [Data Fusion Contest 2022. 1-st place on the Matching Task](https://github.com/ivkireev86/datafusion-contest-2022)
-- [Alpha BKI dataset](scenario_alpha_rnn_vs_transformer/README.md)
+- [Alpha BKI dataset](experiments/scenario_alpha_rnn_vs_transformer/README.md)
 - [American Express - Default Prediction](https://www.kaggle.com/competitions/amex-default-prediction)
     - [Supervised training with RNN](https://www.kaggle.com/code/ivkireev/amex-ptls-baseline-supervised-neural-network)
     - [Supervised training with Transformer](https://www.kaggle.com/code/ivkireev/amex-transformer-network-train-with-ptls)
     - [CoLES Embedding preparation](https://www.kaggle.com/code/ivkireev/amex-contrastive-embeddings-with-ptls-coles)
     - [CoLES Embedding usage as extra features for catboost](https://www.kaggle.com/code/ivkireev/catboost-classifier-with-coles-embeddings)
+- [Softmax loss](experiments/softmax_loss_vs_contrastive_loss/readme.md) - try CoLES with Softmax loss.
+- [Random features](experiments/random_features/readme.md) - how CoLES works with slowly changing features which helps to distinguish clients.
+- [Small prretrain](experiments/mles_experiments_supervised_only/README.md) - check the CoLES quality depends on prertain size.
 
