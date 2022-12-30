@@ -5,9 +5,9 @@ defaults:
   - inference/seq_encoder/pretrained_ckpt
 
 seed_everything: 42
-logger_name: mles_model
-model_path: models/mles_model.p
-embed_file_name: mles_embeddings
+logger_name: mles_l_model
+model_path: models/mles_l_model.p
+embed_file_name: mles_l_embeddings
 
 data_module:
   _target_: ptls.frames.PtlsDataModule
@@ -61,6 +61,7 @@ pl_module:
           out: 16
       numeric_values: 
         amount_rur: identity
+      linear_projection_size: 800
     type: gru
     hidden_size: 800
     bidir: false
@@ -79,6 +80,7 @@ pl_module:
     _target_: torch.optim.Adam
     lr: 0.001
     weight_decay: 0.0
+  optimizer_trx_weight_decay: 0.0001
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR

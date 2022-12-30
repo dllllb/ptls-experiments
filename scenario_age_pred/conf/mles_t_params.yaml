@@ -5,9 +5,9 @@ defaults:
   - inference/seq_encoder/pretrained_ckpt
 
 seed_everything: 42
-logger_name: mles_model
-model_path: models/mles_model.p
-embed_file_name: mles_embeddings
+logger_name: mles_t_model
+model_path: models/mles_t_model.p
+embed_file_name: mles_t_embeddings
 
 data_module:
   _target_: ptls.frames.PtlsDataModule
@@ -35,7 +35,7 @@ data_module:
 trainer:
   gpus: 1
   auto_select_gpus: false
-  max_epochs: 300
+  max_epochs: 600
   enable_checkpointing: false
   deterministic: true
   checkpoints_every_n_val_epochs: 10
@@ -47,7 +47,7 @@ pl_module:
     K: 4
     metric: cosine
   seq_encoder:
-    _target_: ptls.nn.RnnSeqEncoder
+    _target_: ptls.nn.TransformerSeqEncoder
     trx_encoder:
       _target_: ptls.nn.TrxEncoder
       norm_embeddings: false
@@ -61,10 +61,20 @@ pl_module:
           out: 16
       numeric_values: 
         amount_rur: identity
-    type: gru
-    hidden_size: 800
-    bidir: false
-    trainable_starter: static
+      linear_projection_size: 800
+    input_size: 800
+    starter: randn
+    shared_layers: false
+    n_heads: 8
+    dim_hidden: 1024
+    dropout: 0.1
+    n_layers: 8
+    use_positional_encoding: true
+    use_start_random_shift: true
+    max_seq_len: 2000
+    use_after_mask: false
+    use_src_key_padding_mask: true
+    use_norm_layer: true
   head:
     _target_: ptls.nn.Head
     use_norm_encoder: true
@@ -77,8 +87,9 @@ pl_module:
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
-    lr: 0.001
+    lr: 0.0001
     weight_decay: 0.0
+  optimizer_trx_weight_decay: 0.0001
   lr_scheduler_partial:
     _partial_: true
     _target_: torch.optim.lr_scheduler.StepLR

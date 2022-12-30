@@ -8,6 +8,9 @@ python -m ptls.pl_inference --config-dir conf --config-name random_params
 python -m ptls.pl_train_module --config-dir conf --config-name mles_params
 python -m ptls.pl_inference --config-dir conf --config-name mles_params
 
+python -m ptls.pl_train_module --config-dir conf --config-name mles_l_params
+python -m ptls.pl_train_module --config-dir conf --config-name mles_t_params
+
 python -m ptls.pl_train_module --config-dir conf --config-name mles_sup_params
 python -m ptls.pl_inference --config-dir conf --config-name mles_sup_params
 
