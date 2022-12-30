@@ -1,0 +1,31 @@
+data_train: "data/train.csv"
+data_test: "data/test.csv"
+train_out: "data/train.csv"
+test_out: "data/test.csv"
+
+add_random_features: True
+add_arange_features: True #arange in 784
+cycled_arange: False
+
+user_id_col: "cl_id"
+date_col: "TRDATETIME"
+datetime_format: "%d%b%y:%H:%M:%S"
+
+random_features:
+  feature_1:
+    min: 1
+    max: 100
+  feature_2:
+    min: 1
+    max: 100
+  feature_3:
+    min: 1
+    max: 100
+  feature_4:
+    min: 1
+    max: 100
+  feature_5:
+    min: 1
+    max: 100
+    
+seed: 42
