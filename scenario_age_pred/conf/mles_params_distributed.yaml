@@ -1,0 +1,105 @@
+defaults:
+  - _self_
+  - inference/default
+  - inference/seq_encoder/pretrained
+
+seed_everything: 42
+logger_name: mlesrnn_dp
+model_path: models/mlesrnn_dp_model.p
+embed_file_name: mlesrnn_dp_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 25
+      cnt_max: 200
+    data: 
+      _target_: ptls.data_load.datasets.MemoryMapDataset
+      data:
+        _target_: ptls.data_load.datasets.parquet_dataset.ParquetDataset
+        data_files:
+          _target_: ptls.data_load.datasets.parquet_file_scan
+          file_path: data/train_trx_file.parquet
+          valid_rate: 0.05
+          return_part: train
+  valid_data:
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 25
+      cnt_max: 100
+    data: 
+      _target_: ptls.data_load.datasets.MemoryMapDataset
+      data:
+        _target_: ptls.data_load.datasets.parquet_dataset.ParquetDataset
+        data_files:
+          _target_: ptls.data_load.datasets.parquet_file_scan
+          file_path: data/train_trx_file.parquet
+          valid_rate: 0.05
+          return_part: valid
+  train_batch_size: 256
+  train_num_workers: 2
+  valid_batch_size: 256
+  valid_num_workers: 2
+
+trainer: 
+  devices: 2
+  auto_select_gpus: false
+  max_epochs: 60
+  enable_checkpointing: false
+  enable_progress_bar: true
+  deterministic: false
+  accelerator: gpu
+  replace_sampler_ddp: true
+  strategy: ddp
+
+
+pl_module:
+  _target_: ptls.frames.coles.CoLESModule
+  validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 4
+    metric: cosine
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder:
+      _target_: ptls.nn.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings:
+        trans_date:
+          in: 800
+          out: 16
+        small_group:
+          in: 250
+          out: 16
+      numeric_values: 
+        amount_rur: identity
+    type: gru
+    hidden_size: 800
+    bidir: false
+    trainable_starter: static
+  head:
+    _target_: ptls.nn.Head
+    use_norm_encoder: true
+  loss:
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
+    margin: 0.5
+    sampling_strategy:
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
+      neg_count: 5
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.001
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 30
+    gamma: 0.9025
