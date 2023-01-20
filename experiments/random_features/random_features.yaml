@@ -4,9 +4,9 @@ train_out: "data/train.csv"
 test_out: "data/test.csv"
 
 add_random_features: True
-full_random_features: True 
-add_arange_features: True #arange in 784
-cycled_arange: False
+full_random_features: True # True - each rows is random integer number; False - random integer for every user_id; 
+add_arange_features: True 
+cycled_arange: False # True - arange from 1 to 100 then again (arange(len(user_rows))%100); False - arange from 1 to len(user_rows)
 
 user_id_col: "cl_id"
 date_col: "TRDATETIME"
