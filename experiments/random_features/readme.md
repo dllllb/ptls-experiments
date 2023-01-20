@@ -170,3 +170,95 @@ In this experiment hidden size of coles and cpc models was increased to test  it
 |  hidden size x8             |  0.658 ± 0.013 |  0.693 ± 0.008  |
 |  hidden size x10            |  0.652 ± 0.004 |  0.704 ± 0.010  |
 
+
+## Full random features experiment 
+
+Full random features were added to datasets (each row is random integer).
+
+## Rosbank dataset results 
+
+
+## AUCROC 
+
+| method                      | Coles          | CPC             | 
+| --------------------------- | -------------- | --------------- |
+|  no random                  |  0.844 ± 0.003 |  0.797 ± 0.002  |
+|  1 random feature           |  0.842 ± 0.006 |  0.805 ± 0.004  |
+|  2 random features          |  0.840 ± 0.003 |  0.804 ± 0.003  |
+|  3 random features          |  0.832 ± 0.005 |  0.805 ± 0.004  |
+|  5 random features          |  0.832 ± 0.005 |  0.802 ± 0.005  |
+|  7 random features          |  0.842 ± 0.007 |  0.799 ± 0.005  |
+|  10 random features         |  0.834 ± 0.006 |  0.792 ± 0.003  |
+|  12 random features         |  0.829 ± 0.005 |  0.789 ± 0.005  |
+|  15 random features         |  0.826 ± 0.006 |  0.788 ± 0.010  |
+|  20 random features         |  0.828 ± 0.005 |  0.772 ± 0.008  |
+
+
+## Accuracy 
+
+| method                      | Coles          | CPC             | 
+| --------------------------- | -------------- | --------------- |
+|  no random                  |  0.770 ± 0.008 |  0.734 ± 0.006  |
+|  1 random feature           |  0.758 ± 0.011 |  0.747 ± 0.006  |
+|  2 random features          |  0.764 ± 0.012 |  0.764 ± 0.012  |
+|  3 random features          |  0.748 ± 0.007 |  0.748 ± 0.007  |
+|  5 random features          |  0.744 ± 0.013 |  0.744 ± 0.013  |
+|  7 random features          |  0.769 ± 0.006 |  0.769 ± 0.006  |
+|  10 random features         |  0.762 ± 0.006 |  0.762 ± 0.006  |
+|  12 random features         |  0.758 ± 0.015 |  0.758 ± 0.015  |
+|  15 random features         |  0.745 ± 0.009 |  0.745 ± 0.009  |
+|  20 random features         |  0.746 ± 0.011 |  0.746 ± 0.011  |
+
+
+## Gender dataset results 
+
+
+## AUCROC 
+
+| method                      | Coles          | CPC             | 
+| --------------------------- | -------------- | --------------- |
+|  no random                  |  0.882 ± 0.003 |  0.853 ± 0.003  |
+|  1 random feature           |  0.879 ± 0.003 |  0.855 ± 0.002  |
+|  2 random features          |  0.875 ± 0.002 |  0.861 ± 0.002  |
+|  3 random features          |  0.876 ± 0.002 |  0.852 ± 0.002  |
+|  5 random features          |  0.871 ± 0.004 |  0.837 ± 0.003  |
+|  7 random features          |  0.871 ± 0.004 |  0.820 ± 0.005  |
+|  10 random features         |  0.863 ± 0.002 |  0.815 ± 0.002  |
+|  12 random features         |  0.871 ± 0.003 |  0.788 ± 0.004  |
+|  15 random features         |  0.864 ± 0.004 |  0.801 ± 0.006  |
+|  20 random features         |  0.867 ± 0.003 |  0.760 ± 0.003  |
+
+
+## Accuracy 
+
+| method                      | Coles          | CPC             | 
+| --------------------------- | -------------- | --------------- |
+|  no random                  |  0.795 ± 0.003 |  0.769 ± 0.006  |
+|  1 random feature           |  0.789 ± 0.006 |  0.775 ± 0.005  |
+|  2 random features          |  0.788 ± 0.011 |  0.774 ± 0.005  |
+|  3 random features          |  0.793 ± 0.004 |  0.771 ± 0.005  |
+|  5 random features          |  0.785 ± 0.005 |  0.752 ± 0.006  |
+|  7 random features          |  0.793 ± 0.007 |  0.740 ± 0.006  |
+|  10 random features         |  0.779 ± 0.006 |  0.729 ± 0.005  |
+|  12 random features         |  0.791 ± 0.006 |  0.702 ± 0.004  |
+|  15 random features         |  0.773 ± 0.008 |  0.729 ± 0.012  |
+|  20 random features         |  0.780 ± 0.007 |  0.694 ± 0.006  |
+
+
+## Age pred dataset results 
+
+
+## Accuracy 
+
+| method                      | Coles          | CPC             | 
+| --------------------------- | -------------- | --------------- |
+|  no random                  |  0.632 ± 0.002 |  0.595 ± 0.003  |
+|  1 random feature           |  0.638 ± 0.003 |  0.602 ± 0.007  |
+|  2 random features          |  0.631 ± 0.006 |  0.601 ± 0.006  |
+|  3 random features          |  0.645 ± 0.004 |  0.602 ± 0.002  |
+|  5 random features          |  0.638 ± 0.005 |  0.609 ± 0.005  |
+|  7 random features          |  0.646 ± 0.002 |  0.597 ± 0.003  |
+|  10 random features         |  0.636 ± 0.002 |  0.589 ± 0.007  |
+|  12 random features         |  0.628 ± 0.004 |  0.594 ± 0.003  |
+|  15 random features         |  0.632 ± 0.004 |  0.580 ± 0.001  |
+|  20 random features         |  0.633 ± 0.004 |  0.568 ± 0.003  |
