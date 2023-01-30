@@ -55,6 +55,7 @@ mean from test, std from valid
         cpc_embeddings   |    0.602 \pm 0.004    |
         mles2_embeddings |    0.643 \pm 0.003    |
         mles_embeddings  |    0.640 \pm 0.004    |
+        mles_longformer  |    0.630 \pm 0.003    |
         nsp_embeddings   |    0.621 \pm 0.005    |
         random_encoder   |    0.375 \pm 0.003    |
         rtd_embeddings   |    0.631 \pm 0.006    |
@@ -100,7 +101,9 @@ mean from test, std from valid
         nsp              |    0.7655 \pm 0.0006  |
         rtd              |    0.7910 \pm 0.0006  |
         sop              |    0.7238 \pm 0.0010  |
-
+        mlmnsp           |    0.7591 \pm 0.0044  |
+        tabformer        |    0.7862 \pm 0.0042  |
+        gpt              |    0.7737 \pm 0.0032  |
 
 Supervised finetuned encoder with MLP head evaluation:
                          |     mean \pm std      |

@@ -1,0 +1,93 @@
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
+  - inference/default
+  - inference/seq_encoder/pretrained
+
+seed_everything: 42
+logger_name: mles_model
+model_path: models/mles_model.p
+embed_file_name: mles_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 25
+      cnt_max: 200
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 5
+      cnt_min: 25
+      cnt_max: 100
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 64
+  train_num_workers: 16
+  valid_batch_size: 512
+  valid_num_workers: 16
+
+trainer: 
+  gpus: 1
+  max_epochs: 60
+  deterministic: false
+  checkpoints_every_n_val_epochs: 8
+  accumulate_grad_batches: 2
+  enable_progress_bar: true
+
+pl_module:
+  _target_: ptls.frames.coles.CoLESModule
+  validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 4
+    metric: cosine
+  seq_encoder:
+    _target_: ptls.nn.LongformerSeqEncoder
+    trx_encoder:
+      _target_: ptls.nn.TrxEncoder
+      linear_projection_size: ${pl_module.seq_encoder.input_size}
+      orthogonal_init: true
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings:
+        trans_date:
+          in: 800
+          out: 16
+        small_group:
+          in: 250
+          out: 32
+      numeric_values: 
+        amount_rur: identity
+    input_size: 400
+    num_attention_heads: 4
+    intermediate_size: 2048
+    num_hidden_layers: 8
+    attention_window: 16
+    max_position_embeddings: 2000
+    use_positional_encoding: true
+    use_start_random_shift: true
+    add_cls_output: false
+  head:
+    _target_: ptls.nn.Head
+    use_norm_encoder: true
+  loss:
+    _target_: ptls.frames.coles.losses.ContrastiveLoss
+    margin: 0.5
+    sampling_strategy:
+      _target_: ptls.frames.coles.sampling_strategies.HardNegativePairSelector
+      neg_count: 5
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.Adam
+    lr: 0.0001
+    weight_decay: 0.0
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: transformers.get_linear_schedule_with_warmup
+    num_warmup_steps: 20
+    num_training_steps: ${trainer.max_epochs}

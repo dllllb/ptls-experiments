@@ -1,0 +1,119 @@
+defaults:
+  - _self_
+  - dataset_unsupervised/memory_parquet_numbins
+  - inference/default
+  - inference/seq_encoder/pretrained
+
+seed_everything: 42
+logger_name: gpt_model
+model_path: models/gpt_model.p
+embed_file_name: gpt_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.gpt.GptDataset
+    max_len: 512
+    min_len: 128
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.gpt.GptDataset
+    max_len: 512
+    min_len: 128
+    data: ${dataset_unsupervised.train}
+  train_batch_size: 56
+  train_num_workers: 4
+  valid_batch_size: 56
+  valid_num_workers: 4
+
+trainer:
+  devices: 8
+  num_nodes: 1
+  auto_select_gpus: false
+  max_steps: 64000
+  deterministic: false
+  checkpoints_every_n_val_epochs: 1
+  accumulate_grad_batches: 1
+  limit_val_batches: 1000
+  val_check_interval: 4000
+  enable_progress_bar: true
+  accelerator: gpu
+  replace_sampler_ddp: true
+  strategy: ddp
+
+pl_module:
+  _target_: ptls.frames.gpt.GptPretrainModule
+  total_steps: ${trainer.max_steps}
+  max_lr: 0.00005
+  norm_predict: false
+  seed_seq_len: 16
+  head_hidden_size: 64
+  seq_encoder:
+    _target_: ptls.nn.GptEncoder
+    n_embd: 768
+    n_layer: 12
+    n_head: 12
+    n_inner: 2048
+    n_positions: 2048
+    use_positional_encoding: true
+    use_start_random_shift: true
+    is_reduce_sequence: false
+  trx_encoder: 
+    _target_: ptls.nn.TrxEncoder
+    linear_projection_size: ${pl_module.seq_encoder.n_embd}
+    orthogonal_init: true
+    norm_embeddings: false
+    spatial_dropout: 0.1
+    embeddings_noise: 0.003
+    embeddings: 
+      currency: 
+        in: 13
+        out: 4
+      operation_kind: 
+        in: 9
+        out: 4
+      card_type: 
+        in: 177
+        out: 0
+      operation_type: 
+        in: 24
+        out: 8
+      operation_type_group: 
+        in: 6
+        out: 32
+      ecommerce_flag: 
+        in: 5
+        out: 2
+      payment_system: 
+        in: 9
+        out: 4
+      income_flag: 
+        in: 5
+        out: 2
+      mcc: 
+        in: 110
+        out: 48
+      country: 
+        in: 26
+        out: 0
+      city: 
+        in: 163
+        out: 0
+      mcc_category: 
+        in: 30
+        out: 24
+      day_of_week: 
+        in: 9
+        out: 2
+      hour: 
+        in: 25
+        out: 4
+      weekofyear: 
+        in: 55
+        out: 4
+      amnt: 
+        in: 8
+        out: 8
+      hour_diff: 
+        in: 7
+        out: 2

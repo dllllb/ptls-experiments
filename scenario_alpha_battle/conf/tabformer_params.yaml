@@ -1,0 +1,116 @@
+defaults:
+  - _self_
+  - dataset_unsupervised/memory_parquet_numbins
+  - inference/default_numbins
+  - inference/seq_encoder/pretrained
+
+seed_everything: 42
+logger_name: tabformer_model
+model_path: models/tabformer_model.p
+embed_file_name: tabformer_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.tabformer.TabformerDataset
+    max_len: 512
+    min_len: 128
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.tabformer.TabformerDataset
+    max_len: 512
+    min_len: 128
+    data: ${dataset_unsupervised.train}
+  train_batch_size: 128
+  train_num_workers: 8
+  valid_batch_size: 128
+  valid_num_workers: 8
+
+trainer:
+  gpus: [1]
+  auto_select_gpus: false
+  max_steps: 64000
+  deterministic: false
+  checkpoints_every_n_val_epochs: 1
+  accumulate_grad_batches: 2
+  limit_val_batches: 1000
+  val_check_interval: 4000
+  enable_progress_bar: true
+
+pl_module:
+  _target_: ptls.frames.tabformer.TabformerPretrainModule
+  total_steps: ${trainer.max_steps}
+  max_lr: 0.00005
+  norm_predict: false
+  feature_encoder: 
+    _target_: ptls.nn.TabFormerFeatureEncoder
+    n_cols: 15
+    emb_dim: 32
+    transf_feedforward_dim: 64
+    n_heads: 8
+    n_layers: 1
+    out_hidden: ${pl_module.seq_encoder.input_size}
+  seq_encoder:
+    _target_: ptls.nn.LongformerEncoder
+    input_size: 480
+    num_attention_heads: 4
+    intermediate_size: 2048
+    num_hidden_layers: 8
+    attention_window: 16
+    max_position_embeddings: 2000
+    use_positional_encoding: true
+    use_start_random_shift: true
+    is_reduce_sequence: false
+    add_cls_output: false
+  trx_encoder: 
+    _target_: ptls.nn.TrxEncoder
+    orthogonal_init: true
+    norm_embeddings: false
+    spatial_dropout: 0.1
+    embeddings_noise: 0.001
+    embeddings: 
+      currency: 
+        in: 12
+        out: ${pl_module.feature_encoder.emb_dim}
+      operation_kind: 
+        in: 8
+        out: ${pl_module.feature_encoder.emb_dim}
+      card_type: 
+        in: 176
+        out: ${pl_module.feature_encoder.emb_dim}
+      operation_type: 
+        in: 23
+        out: ${pl_module.feature_encoder.emb_dim}
+      operation_type_group: 
+        in: 5
+        out: ${pl_module.feature_encoder.emb_dim}
+      ecommerce_flag: 
+        in: 4
+        out: ${pl_module.feature_encoder.emb_dim}
+      payment_system: 
+        in: 8
+        out: ${pl_module.feature_encoder.emb_dim}
+      income_flag: 
+        in: 4
+        out: ${pl_module.feature_encoder.emb_dim}
+      mcc: 
+        in: 109
+        out: ${pl_module.feature_encoder.emb_dim}
+      mcc_category: 
+        in: 29
+        out: ${pl_module.feature_encoder.emb_dim}
+      day_of_week: 
+        in: 8
+        out: ${pl_module.feature_encoder.emb_dim}
+      hour: 
+        in: 25
+        out: ${pl_module.feature_encoder.emb_dim}
+      weekofyear: 
+        in: 54
+        out: ${pl_module.feature_encoder.emb_dim}
+      amnt: 
+        in: 8
+        out: ${pl_module.feature_encoder.emb_dim}
+      hour_diff: 
+        in: 7
+        out: ${pl_module.feature_encoder.emb_dim}
