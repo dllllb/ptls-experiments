@@ -1,8 +1,8 @@
 # mles
-checkpoints_folder="lightning_logs/mles_model/version_0/checkpoints/*.ckpt"
-output_file_prefix="mles__"
+checkpoints_folder="lightning_logs/mles_model/version_3/checkpoints/*.ckpt"
+output_file_prefix="mles_orig5__"
 conf_file="mles_params"
-batch_size=800
+batch_size=1000
 
 for model_file in $(ls -vr $checkpoints_folder)
 do
@@ -19,7 +19,7 @@ do
   output_file=$(echo $output_file_prefix$epoch_num)
 
 #  if [ $epoch_num = "005" ]; then
-  if [ -f "$output_file.pickle" ]; then
+  if [ -f "data/$output_file.pickle" ]; then
     echo "--------: $output_file exists"
   else
       echo "--------: Run inference for $output_file"
@@ -28,9 +28,9 @@ do
 #  fi
 done
 
-rm results/epochs_mles.txt
+rm results/epochs_mles_softmax.txt
 # rm -r conf/embeddings_validation.work/
 python -m embeddings_validation \
     --config-dir conf --config-name embeddings_validation_short +workers=10 +total_cpu_count=20 \
-    +report_file="../results/epochs_mles.txt" \
-    +auto_features=["../data/mles__???.pickle"]
+    +report_file="results/epochs_mles_softmax.txt" \
+    +auto_features=["data/mles_orig5__???.pickle"]
