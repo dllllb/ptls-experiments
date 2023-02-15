@@ -108,8 +108,7 @@ pl_module:
   head:
     _target_: ptls.nn.L2NormEncoder
   loss:
-    # _target_: ptls.frames.coles.losses.SoftmaxPairwiseLoss
-    _target_: softmax_loss.SoftmaxLoss3
+    _target_: ptls.frames.coles.losses.SoftmaxLoss
   optimizer_partial:
     _partial_: true
     _target_: torch.optim.Adam
