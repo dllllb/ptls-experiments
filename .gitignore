@@ -12,6 +12,7 @@ deb.env
 .DS_Store
 lightning_logs
 */conf/embeddings_validation*.work
+*/embeddings_validation*.work
 .coverage
 dist
 build
