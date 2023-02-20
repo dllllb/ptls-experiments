@@ -1,15 +1,38 @@
 # SoftmaxLoss 
 
-Faster training. Can be trained  with high batch sizes. Worse validation results. Need more epochs achieve best results (more than contrastive loss). 
-
-# SoftmaxPairwiseLoss
-
-High cost of time and memory. High batch size causes CUDA OOM. Better validation results (very close to contrastive loss results), but worse test results.  
+Faster training (up to 25% faster) with the same GPU RAM consumption. 
+Can be trained  with high batch sizes. Better result at large dataser.
+Need more epochs achieve best results (more than contrastive loss). 
 
 # Results 
 
 Both losses were tested on public datasets, here's results comparsion.
-## Best results
+
+## Alpha_battle results (auroc)
+
+On best validation epoch:
+
+| loss             | hidden 1024            | hidden 2048                | hidden size x2 improvement |
+| ---------------- | ---------------------- | -------------------------- | ------------------ |
+| contrastive      | 0.7933 (on 25th epoch) | 0.7938 (on 23th epoch)     | 0.0005 improvement |
+| softmax          | 0.7955 (on  9th epoch) | **0.7986** (on 10th epoch) | **0.0031** improvement |
+
+On fixed epoch:
+
+| loss             | epoch | hidden 1024 | hidden 2048 |
+| ---------------- | ----- | ----------- | ----------- |
+| contrastive      |  10   | 0.7925      | 0.7928      |
+| contrastive      |  20   | 0.7933      | 0.7938      |
+| softmax          |  10   | 0.7955      | 0.7986      |
+| softmax          |  20   | 0.7953      | 0.7995      |
+
+
+Softmax loss advantages:
+- better results on downstream task
+- best result acheaved 2 times faster by epoch count and up to 25% faster by epoch time 
+
+
+## Best results on other datasets
 The best results on test data for different datasets. 
 
 #### AUCROC  
@@ -34,13 +57,7 @@ The best results on test data for different datasets.
 
 #### SoftmaxLoss: 
 ##### temperature: 0.05 
-##### eps: 1e-6  
 
-
-  
-#### SoftmaxPairwiseLoss:
-##### temperature: 0.05
-##### eps: 1e-6
 
 ## Temperature comparsion
 
@@ -71,6 +88,8 @@ Softmaxloss was tested on gender and rosbank datasets with different values of t
 Batch size comparsion experiments were done on rosbank dataset (split_count parameter equals 5 and temperature equals 0.05).
 
 #### AUCROC
+
+CUDA OOM was at old SoftmaxLoss realisation
 
 | loss\batch_size   |  64           | 128           | 256           | 512            | 1024          |  150           | 96            |
 | ---               | ---           | ---           | ---           | ---            | ---           | ---            | ---           |
@@ -112,11 +131,3 @@ Tested on gender dataset. Temperature parameter for SoftmaxLoss equals 0.05.
 | 7              | 0.784 ± 0.005 | 0.787 ± 0.005 |   
 | 9              | 0.784 ± 0.006 | 0.792 ± 0.004 |
 
-
-## Time to train comparsion 
-
-Tested on gender dataset:
-
-| epoch time\loss| softmax_pairwise | softmax_5_splits | softmax_2_splits  | contrastive |
-| ---            | ---              | ---              | ---               | ---         |
-| seconds        |  \~60            | \~11             | \~5               |  \~13       |
