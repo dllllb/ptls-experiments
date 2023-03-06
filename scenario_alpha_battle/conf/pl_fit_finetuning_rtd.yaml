@@ -1,0 +1,33 @@
+defaults:
+  - _self_
+  - data_module_supervised/default@data_module
+  - pl_module/defaults
+
+seed_everything: 42
+logger_name: rtd_finetuning
+pretrained_encoder_path: models/rtd_model.p
+fold_list:
+  _target_: embeddings_validation.get_fold_list
+  config_path: conf/embeddings_validation_baselines_supervised.yaml
+fold_id: _
+
+embedding_validation_results: 
+  model_name: nn
+  feature_name: rtd_finetuning
+  output_path: ${hydra:runtime.cwd}/results/rtd_finetuning_results.json
+
+trainer:
+  gpus: 1
+  auto_select_gpus: false
+  max_epochs: 8
+  log_every_n_steps: 10
+  enable_checkpointing: true
+  deterministic: true
+
+pl_module:
+  seq_encoder:
+    _target_: torch.load
+    f: ${pretrained_encoder_path}
+  pretrained_lr: 0.0001
+  head:
+    input_size: 1024

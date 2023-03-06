@@ -1,0 +1,91 @@
+defaults:
+  - _self_
+  - data_module_supervised/default@data_module
+  - pl_module/defaults
+
+seed_everything: 42
+logger_name: target_scores
+fold_list:
+  _target_: embeddings_validation.get_fold_list
+  config_path: conf/embeddings_validation_baselines_supervised.yaml
+fold_id: _
+
+embedding_validation_results:
+  model_name: nn
+  feature_name: target_scores
+  output_path: ${hydra:runtime.cwd}/results/fit_target_results.json
+
+trainer: 
+  gpus: 1
+  auto_select_gpus: false
+  max_epochs: 10
+  enable_checkpointing: true
+  deterministic: true
+
+pl_module:
+  seq_encoder:
+    _target_: ptls.nn.RnnSeqEncoder
+    trx_encoder: 
+      _target_: ptls.nn.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        currency: 
+          in: 13
+          out: 2
+        operation_kind: 
+          in: 9
+          out: 2
+        card_type: 
+          in: 177
+          out: 0
+        operation_type: 
+          in: 24
+          out: 4
+        operation_type_group: 
+          in: 6
+          out: 32
+        ecommerce_flag: 
+          in: 5
+          out: 1
+        payment_system: 
+          in: 9
+          out: 4
+        income_flag: 
+          in: 5
+          out: 1
+        mcc: 
+          in: 110
+          out: 32
+        country: 
+          in: 26
+          out: 0
+        city: 
+          in: 163
+          out: 0
+        mcc_category: 
+          in: 30
+          out: 16
+        day_of_week: 
+          in: 9
+          out: 2
+        hour: 
+          in: 25
+          out: 4
+        weekofyear: 
+          in: 55
+          out: 4
+      numeric_values: 
+        amnt: identity
+        hour_diff: log
+    hidden_size: 64
+    type: gru
+    bidir: false
+    trainable_starter: static
+  head:
+    input_size: ${pl_module.seq_encoder.hidden_size}
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.StepLR
+    step_size: 1
+    gamma: 0.9
