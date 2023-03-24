@@ -1,9 +1,6 @@
 # agg feature encoder
 python -m ptls.pl_inference --config-dir conf --config-name agg_features_params
 
-# Random encoder
-python -m ptls.pl_inference --config-dir conf --config-name random_params
-
 # # Train the MeLES encoder and take embeddings; inference
 python -m ptls.pl_train_module --config-dir conf --config-name coles_agg_params
 python -m ptls.pl_inference --config-dir conf --config-name coles_agg_params

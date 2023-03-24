@@ -1,4 +1,4 @@
-# Random and arange features experiment
+# Coles with arrange feaures concatenation 
 
 In this experiment coles was concatenated with aggregate features on public datasets. Also coles was trained with decorrelation loss (VICReg Loss). Experiments were made on rosbank, gender and age_prediction datasets. 
 
