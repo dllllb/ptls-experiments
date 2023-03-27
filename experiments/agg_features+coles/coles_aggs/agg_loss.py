@@ -9,7 +9,12 @@ class AggLoss(nn.Module):
         self.cov_coeff = cov_coeff
 
     def forward(self, coles_out, agg_out):
-        x = coles_out - coles_out.mean(dim=0)
+        split_count = len(coles_out)/len(agg_out)
+        coles_indx = [i*split_count for i in range(len(agg_out))]
+
+        x = coles_out[coles_indx] - coles_out[coles_indx].mean(dim=0)
+
+        y = agg_out - agg_out.mean(dim=0)
         y = F.normalize(agg_out, dim=0)
         
         std_x = torch.sqrt(x.var(dim=0) + 0.0001)
@@ -17,11 +22,9 @@ class AggLoss(nn.Module):
 
         std_loss = torch.mean(F.relu(1 - std_x)) / 2 + torch.mean(F.relu(1 - std_y)) / 2
 
-        cov_x = (x.T @ x) / (len(x) - 1)
-        cov_y = (y.T @ y) / (len(y) - 1)
+        cov = (x.T @ y) / (len(x) - 1)
 
-        cov_loss = cov_x.pow_(2).sum().div(x.size()[1]) 
-        + cov_y.pow_(2).sum().div(y.size()[1])
+        cov_loss = cov.pow_(2).sum().div(x.size()[1]) 
 
         loss = (
             self.std_coeff * std_loss
