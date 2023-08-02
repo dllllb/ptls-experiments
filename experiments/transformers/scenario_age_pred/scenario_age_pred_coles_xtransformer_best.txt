@@ -1,0 +1,20 @@
+------------------------------------------------------------------------------------------------------------------------
+Vector testing report
+Params:
+
+Collected 5 files with 0 errors
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "accuracy"
+split_name                               scores_valid                                                                                                                                                                                             
+                                                 mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                           
+lgbm       coles_xtransformer_embeddings        0.637 0.006   0.631   0.643 0.005  [0.629 0.642 0.637 0.635 0.639]    1.000     0.500    0.000     0.500   0.000      0.007    -0.007     0.007      0.000         1.110       -1.110        1.110
+split_name                               scores_test                                                                                                                                                                                             
+                                                mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                          
+lgbm       coles_xtransformer_embeddings       0.643 0.005   0.638   0.648 0.004  [0.642 0.639 0.640 0.643 0.650]    1.000     0.500    0.000     0.500   0.000      0.006    -0.006     0.006      0.000         0.944       -0.944        0.944
+
+------------------------------------------------------------------------------------------------------------------------
+End of report.     Current time: 2023-07-18 20:14:05
+------------------------------------------------------------------------------------------------------------------------
