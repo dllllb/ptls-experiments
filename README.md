@@ -59,6 +59,7 @@ Unsupervised learned embeddings with LightGBM model downstream evaluations:
 |        rtd_embeddings   |    0.631 $\pm$ 0.006    |
 |        sop_embeddings   |    0.512 $\pm$ 0.002    |
 |        barlow_twins     |    0.634 $\pm$ 0.003    |
+|        coles_transformer|    0.646 $\pm$ 0.003    |
 |    **Churn (rosbank)**  |  **AUROC**              |
 |        baseline         |    0.827  $\pm$ 0.010   |
 |        cpc_embeddings   |    0.792  $\pm$ 0.015   |
@@ -98,6 +99,7 @@ Unsupervised learned embeddings with LightGBM model downstream evaluations:
 |        mlmnsp           |    0.7591 $\pm$ 0.0044  |
 |        tabformer        |    0.7862 $\pm$ 0.0042  |
 |        gpt              |    0.7737 $\pm$ 0.0032  |
+|   coles_transformer     |    0.7951 $\pm$ 0.0007  |
 
 Supervised finetuned encoder with MLP head evaluation:
 |                         |     mean $\pm$ std      |
