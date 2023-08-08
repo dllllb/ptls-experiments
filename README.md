@@ -99,7 +99,7 @@ Unsupervised learned embeddings with LightGBM model downstream evaluations:
 |        mlmnsp           |    0.7591 $\pm$ 0.0044  |
 |        tabformer        |    0.7862 $\pm$ 0.0042  |
 |        gpt              |    0.7737 $\pm$ 0.0032  |
-|   coles_transformer     |    0.7951 $\pm$ 0.0007  |
+|   coles_transformer     |    0.7968 $\pm$ 0.0007  |
 
 Supervised finetuned encoder with MLP head evaluation:
 |                         |     mean $\pm$ std      |
