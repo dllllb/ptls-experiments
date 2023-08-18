@@ -15,4 +15,4 @@ Using warmap allowed to increase accuracy by 0.03.
 
 # Using warmup
 
-To use warmup you should coles_module_warmup instead of coles_module
+To use warmup you should use coles_module_warmup instead of coles_module
