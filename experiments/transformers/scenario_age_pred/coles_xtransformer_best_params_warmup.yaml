@@ -41,7 +41,8 @@ trainer:
   precision: bf16
 
 pl_module:
-  _target_: ptls.frames.coles.CoLESModule
+  _target_: ptls.frames.coles.CoLESModuleWarmup
+  #_target_: ptls.frames.coles.CoLESModule
   validation_metric:
     _target_: ptls.frames.coles.metric.BatchRecallTopK
     K: 4
@@ -86,3 +87,5 @@ pl_module:
     _target_: torch.optim.lr_scheduler.CosineAnnealingWarmRestarts
     T_0: 1
     T_mult: 2
+  warmup_steps: 300 #used only with warmup
+  initial_lr: ${pl_module.optimizer_partial.lr} #used only with warmup

@@ -1,6 +1,6 @@
 # Transformers
 
-scenario_age_pred - the smallest dataset in this repo. 
+scenario_age_pred - small dataset in this repo. 
 It has been shown that transformers can be used even with small datasets. Studies have been conducted with various parameters, such as split count, loss, lr_scheduler, regularizators.
 
 # Results
@@ -15,4 +15,4 @@ Using warmap allowed to increase accuracy by 0.03.
 
 # Using warmup
 
-To use warmup you should replace abs_module at ptls.frames by abs_module_warmup, and replace coles_module at ptls.frames.coles. 
+To use warmup you should coles_module_warmup instead of coles_module
