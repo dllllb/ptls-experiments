@@ -1,0 +1,91 @@
+defaults:
+  - _self_
+  - dataset_unsupervised/parquet
+  - inference/default
+  - inference/seq_encoder/pretrained
+
+seed_everything: 42
+logger_name: coles_xtransformer_1
+model_path: models/coles_xtransformer_1.p
+embed_file_name: coles_xtransformer_1_embeddings
+
+data_module:
+  _target_: ptls.frames.PtlsDataModule
+  train_data:
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 7
+      cnt_min: 25
+      cnt_max: 200
+    data: ${dataset_unsupervised.train}
+  valid_data:
+    _target_: ptls.frames.coles.ColesDataset
+    splitter:
+      _target_: ptls.frames.coles.split_strategy.SampleSlices
+      split_count: 7
+      cnt_min: 25
+      cnt_max: 200
+    data: ${dataset_unsupervised.valid}
+  train_batch_size: 128
+  train_num_workers: 16
+  valid_batch_size: 128
+  valid_num_workers: 16
+
+trainer: 
+  gpus: 1
+  auto_select_gpus: false
+  max_epochs: 60
+  enable_checkpointing: false
+  deterministic: true
+  precision: bf16
+
+pl_module:
+  _target_: ptls.frames.coles.CoLESModuleWarmup
+  #_target_: ptls.frames.coles.CoLESModule
+  validation_metric:
+    _target_: ptls.frames.coles.metric.BatchRecallTopK
+    K: 4
+    metric: cosine
+  seq_encoder:
+    _target_: ptls.nn.XTransformerSeqEncoder
+    trx_encoder: 
+      _target_: ptls.nn.TrxEncoder
+      norm_embeddings: false
+      embeddings_noise: 0.003
+      embeddings: 
+        trans_date:
+          in: 800
+          out: 16
+        small_group:
+          in: 250
+          out: 16
+      numeric_values: 
+        amount_rur: identity
+    max_seq_len: 4096
+    attn_layers:
+      _target_: x_transformers.Encoder
+      dim: 512
+      depth: 8
+      dynamic_pos_bias: true
+      dynamic_pos_bias_log_distance: false
+      attn_dropout: 0.2
+      ff_dropout: 0.2
+      sandwich_norm: true
+  head:
+    _target_: ptls.nn.Head
+    use_norm_encoder: true
+  loss:
+    _target_: ptls.frames.coles.losses.SoftmaxLoss
+  optimizer_partial:
+    _partial_: true
+    _target_: torch.optim.AdamW
+    lr: 0.001
+    weight_decay: 1e-4
+  lr_scheduler_partial:
+    _partial_: true
+    _target_: torch.optim.lr_scheduler.CosineAnnealingWarmRestarts
+    T_0: 1
+    T_mult: 2
+  warmup_steps: 300 #used only with warmup
+  initial_lr: ${pl_module.optimizer_partial.lr} #used only with warmup
