@@ -1,0 +1,39 @@
+------------------------------------------------------------------------------------------------------------------------
+Vector testing report
+Params:
+
+Collected 15 files with 0 errors
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "auroc"
+                                               scores_valid                                                                                                                                                                                             
+                                                       mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                                 
+lgbm       baseline                                   0.806 0.012   0.793   0.818 0.010  [0.817 0.794 0.814 0.807 0.798]    1.000     0.500    0.000     0.500   0.000      0.015    -0.015     0.015      0.000         1.821       -1.821        1.821
+           embeddings_untrained_coles                 0.819 0.010   0.809   0.829 0.008  [0.827 0.807 0.825 0.818 0.818]    1.635     0.677    2.289     0.974   0.013      0.013    -0.000     0.026      1.623         1.635       -0.012        3.257
+           embeddings_untrained_coles_and_aggs        0.820 0.008   0.811   0.828 0.007  [0.824 0.808 0.825 0.822 0.818]    2.167     0.764    2.535     0.983   0.014      0.013     0.001     0.026      1.711         1.557        0.155        3.268
+                                               scores_test                                                                                                                                                                                             
+                                                      mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                                
+lgbm       baseline                                  0.826 0.005   0.821   0.832 0.004  [0.821 0.829 0.828 0.823 0.831]    1.000     0.500    0.000     0.500   0.000      0.006    -0.006     0.006      0.000         0.761       -0.761        0.761
+           embeddings_untrained_coles                0.843 0.004   0.840   0.847 0.003  [0.841 0.843 0.848 0.845 0.841]    2.219     0.770    7.306     1.000   0.017      0.005     0.012     0.022      2.053         0.648        1.405        2.701
+           embeddings_untrained_coles_and_aggs       0.845 0.008   0.837   0.853 0.006  [0.836 0.843 0.854 0.847 0.845]    0.453     0.231    5.378     1.000   0.019      0.008     0.011     0.027      2.247         0.964        1.283        3.210
+
+------------------------------------------------------------------------------------------------------------------------
+Metric: "accuracy"
+                                               scores_valid                                                                                                                                                                                             
+                                                       mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                                 
+lgbm       baseline                                   0.734 0.022   0.712   0.756 0.018  [0.747 0.710 0.753 0.736 0.722]    1.000     0.500    0.000     0.500   0.000      0.026    -0.026     0.026      0.000         3.515       -3.515        3.515
+           embeddings_untrained_coles                 0.747 0.012   0.735   0.759 0.010  [0.751 0.733 0.751 0.741 0.758]    3.367     0.867    1.481     0.912   0.013      0.021    -0.007     0.034      1.818         2.831       -1.013        4.648
+           embeddings_untrained_coles_and_aggs        0.741 0.009   0.732   0.750 0.007  [0.748 0.732 0.749 0.740 0.737]    6.101     0.946    0.886     0.799   0.008      0.020    -0.012     0.027      1.030         2.682       -1.652        3.712
+                                               scores_test                                                                                                                                                                                             
+                                                      mean  t_pm t_int_l t_int_h   std                           values t_f_stat t_f_alpha t_t_stat t_t_alpha t_delta t_delta_pm t_delta_l t_delta_h t_delta_pp t_delta_pm_pp t_delta_l_pp t_delta_h_pp
+model_name feature_name                                                                                                                                                                                                                                
+lgbm       baseline                                  0.747 0.005   0.742   0.752 0.004  [0.742 0.750 0.752 0.744 0.746]    1.000     0.500    0.000     0.500   0.000      0.006    -0.006     0.006      0.000         0.810       -0.810        0.810
+           embeddings_untrained_coles                0.773 0.011   0.762   0.785 0.009  [0.778 0.762 0.772 0.786 0.768]    0.202     0.075    5.834     1.000   0.026      0.010     0.016     0.037      3.535         1.397        2.138        4.932
+           embeddings_untrained_coles_and_aggs       0.772 0.018   0.754   0.790 0.014  [0.768 0.760 0.796 0.764 0.772]    0.086     0.018    3.823     0.997   0.025      0.015     0.010     0.040      3.374         2.035        1.339        5.410
+
+------------------------------------------------------------------------------------------------------------------------
+End of report.     Current time: 2023-10-07 23:17:37
+------------------------------------------------------------------------------------------------------------------------
