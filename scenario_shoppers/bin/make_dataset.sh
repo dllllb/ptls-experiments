@@ -2,9 +2,8 @@
 
 if [ ! -f data/transactions.csv.gz ]; then
     mkdir -p data
-    curl -OL https://storage.yandexcloud.net/ptls-datasets/acquire-valued-shoppers.zip
-    unzip -j acquire-valued-shoppers.zip "[ost]*.csv.gz" -d data
-    rm -f acquire-valued-shoppers.zip
+
+    curl -OL --output-dir data 'https://huggingface.co/datasets/dllllb/acquire-valued-shoppers/resolve/main/transactions.csv.gz?download=true'
 fi
 
 python3 make_dataset.py --config-dir conf --config-name pl_regressor \
