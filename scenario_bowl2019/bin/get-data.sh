@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 mkdir data
+cd data
 
-wget https://getfile.dokpub.com/yandex/get/https://yadi.sk/d/31erlljbW6Px9A -O data-science-bowl-2019.zip
-unzip -j data-science-bowl-2019.zip -d data
-mv data-science-bowl-2019.zip data/
+curl -OL 'https://huggingface.co/datasets/dllllb/datascience-bowl2019/resolve/main/train_labels.csv.gz?download=true'
+curl -OL 'https://huggingface.co/datasets/dllllb/datascience-bowl2019/resolve/main/train.csv.gz?download=true'
+curl -OL 'https://huggingface.co/datasets/dllllb/datascience-bowl2019/resolve/main/test.csv.gz?download=true'
+
+gunzip -f *.csv.gz

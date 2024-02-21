@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 mkdir data
+cd data
 
-curl -OL https://storage.yandexcloud.net/ptls-datasets/age-prediction-nti-sbebank-2019.zip
-unzip -j age-prediction-nti-sbebank-2019.zip 'data/*.csv' -d data
-mv age-prediction-nti-sbebank-2019.zip data/
+curl -OL 'https://huggingface.co/datasets/dllllb/age-group-prediction/resolve/main/transactions_train.csv.gz?download=true'
+curl -OL 'https://huggingface.co/datasets/dllllb/age-group-prediction/resolve/main/transactions_test.csv.gz?download=true'
+curl -OL 'https://huggingface.co/datasets/dllllb/age-group-prediction/resolve/main/train_target.csv?download=true'
+
+gunzip -f *.csv.gz

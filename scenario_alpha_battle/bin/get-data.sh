@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
-# the same as get_data2.sh
-mkdir data
+git clone --depth 1 https://huggingface.co/datasets/dllllb/alfa-scoring-trx data
 
-curl -OL https://storage.yandexcloud.net/ptls-datasets/alfabattle2b-boosters.pro.zip
+gunzip -f data/*.csv.gz
 
-unzip alfabattle2b-boosters.pro.zip -d data/
-mv alfabattle2b-boosters.pro.zip data/
-
-mv data/train_transactions_contest data/train_transactions_contest.parquet
-mv data/test_transactions_contest data/test_transactions_contest.parquet
+mv data/train_transactions data/train_transactions_contest.parquet
+mv data/test_transactions data/test_transactions_contest.parquet
