@@ -31,6 +31,11 @@ tensorboard --logdir lightning_logs/
  - [Scoring](scenario_alpha_battle/README.md)
  - [Small demo dataset](scenario_gender/README.md)
 
+# Notebooks
+
+Full scenarious are console scripts configured by hydra yaml configs.
+If you like jupyter notebooks you can see an example for AgePred dataset in [AgePred notebooks](scenario_age_pred/notebooks/)
+
 # Results
 
 All results are stored in `*/results` folder.
