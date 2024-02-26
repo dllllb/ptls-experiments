@@ -19,5 +19,5 @@ build
 outputs
 .p
 
-*.log
+# *.log
 *.code-workspace
