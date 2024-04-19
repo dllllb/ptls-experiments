@@ -152,4 +152,5 @@ Supervised finetuned encoder with MLP head evaluation:
 - [Softmax loss](experiments/softmax_loss_vs_contrastive_loss/readme.md) - try CoLES with Softmax loss.
 - [Random features](experiments/random_features/readme.md) - how CoLES works with slowly changing features which helps to distinguish clients.
 - [Small prretrain](experiments/mles_experiments_supervised_only/README.md) - check the CoLES quality depends on prertain size.
+- [COTIC](https://github.com/VladislavZh/COTIC) - `pytorch-lifestream` is used in experiment for Continuous-time convolutions model of event sequences.
 
