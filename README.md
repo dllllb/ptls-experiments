@@ -142,6 +142,8 @@ Supervised finetuned encoder with MLP head evaluation:
 
 # Other experiments
 
+- [Data Fusion Contest 2024, 2-st place on the Churn Task] (https://github.com/warofgam/Sber-AI-Lab---datafusion) (in Russian) 
+- [Data Fusion Contest 2024, Ivan Alexandrov] (https://github.com/Ivanich-spb/datafusion_2024_churn) (in Russian)
 - [Data Fusion Contest 2022. 1-st place on the Matching Task](https://github.com/ivkireev86/datafusion-contest-2022)
 - [Alpha BKI dataset](experiments/scenario_alpha_rnn_vs_transformer/README.md)
 - [American Express - Default Prediction](https://www.kaggle.com/competitions/amex-default-prediction)
