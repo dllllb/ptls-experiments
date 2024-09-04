@@ -31,6 +31,8 @@ tensorboard --logdir lightning_logs/
  - [Scoring](scenario_alpha_battle/README.md)
  - [Small demo dataset](scenario_gender/README.md)
 
+See also [additional list of experiments](#other-experiments)
+
 # Notebooks
 
 Full scenarious are console scripts configured by hydra yaml configs.
@@ -154,5 +156,6 @@ Supervised finetuned encoder with MLP head evaluation:
 - [Softmax loss](experiments/softmax_loss_vs_contrastive_loss/readme.md) - try CoLES with Softmax loss.
 - [Random features](experiments/random_features/readme.md) - how CoLES works with slowly changing features which helps to distinguish clients.
 - [Small prretrain](experiments/mles_experiments_supervised_only/README.md) - check the CoLES quality depends on prertain size.
+- [ILMC for aggregate values estimation](scenario_shoppers/README.md) - Imitation Learning Monte-Carlo for CLTV on Acquire Valued Shoppers Challenge dataset
 - [COTIC](https://github.com/VladislavZh/COTIC) - `pytorch-lifestream` is used in experiment for Continuous-time convolutions model of event sequences.
 
